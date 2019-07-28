@@ -1,0 +1,884 @@
+<!--
+	作者：Sariay
+	时间：2018-09-25
+	描述：There may be a bug, but don't worry, QiLing(器灵) says that it can work normally!
+-->
+<!DOCTYPE html>
+<html class="html-loading">
+		
+
+<head><meta name="generator" content="Hexo 3.9.0">
+	<meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <title>
+    
+      pandas方法 | Zhang-Blog
+    
+  </title>
+  <meta name="author" content="Zhangxy">
+  <meta name="keywords" content>
+  <meta name="description" content>
+	<!-- favicon -->
+  <link rel="shortcut icon" href="/img/favicon.ico">
+
+  <!-- css -->
+  <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/Annie.css">
+  
+  <!-- jquery -->
+	<script src="/js/jquery.min.js"></script>
+
+  <!-- leancloud -->
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+<script src="/js/leancloud.js"></script>
+</head>
+	<body>
+		<!-- Preloader -->
+
+	<div id="preloader">
+		<div class="pre-container">
+			
+				<div class="spinner">
+					<div class="double-bounce1"></div>
+					<div class="double-bounce2"></div>
+				</div>
+						
+		</div>
+	</div>
+
+
+<!-- header -->
+<header class="fixbackground" data-img-mode="normal" data-normal-src="/img/1.jpg" data-random-max="110" data-random-src="https://sariay.github.io/Random-img/">
+	<div class="mask">
+		<!-- Logo and navigation -->
+		<div class="h-header">
+			<div id="logo">
+				<a href="/">
+						
+						<img src="/img/logo.png" alt="Logo">
+					
+				</a>
+			</div>
+			
+			<div id="navigation-show">
+				<ul>
+	
+		<li class="menu-home">
+			<a href="/" class="menu-item-home">主页</a>
+		</li>
+	
+		<li class="menu-archive">
+			<a href="/archives" class="menu-item-archive">归档</a>
+		</li>
+	
+		<li class="menu-categories">
+			<a href="/categories" class="menu-item-categories">分类</a>
+		</li>
+	
+		<li class="menu-tags">
+			<a href="/tags" class="menu-item-tags">标签</a>
+		</li>
+	
+		<li class="menu-about">
+			<a href="/about" class="menu-item-about">关于</a>
+		</li>
+	
+		<li class="menu-gallery">
+			<a href="/gallery" class="menu-item-gallery">相册</a>
+		</li>
+	
+
+	
+</ul>
+			</div>				
+		</div>
+
+		<!-- motto -->
+		<div class="h-body">	
+			
+				<p class="motto"></p>
+			
+		</div>
+		
+		<!-- others: such as time... -->			
+		<div class="h-footer">
+			<a href="javascript:;" id="read-more"><i class="fa fa-angle-double-down" aria-hidden="true"></i>
+			</a>
+
+			
+				<!-- 
+	This is only a demo, please go to "https://time.is" to set your city time! 
+-->
+<style type="text/css">
+	.header-date {
+		font-size: 1.6rem;
+		color: #fff;
+		position: absolute;
+		bottom: 5px;
+		right: 1rem;
+		writing-mode: tb-rl;
+	}	
+	
+	.header-date a {
+		border-bottom: none;
+	}
+
+	@media only screen and (max-width: 768 ) {
+		.header-date {
+			font-size: 1rem;
+		}			
+	}
+</style>
+<div class="header-date">
+	<a href="https://time.is/Beijing" id="time_is_link" rel="nofollow" ></a>
+	<span id="Beijing_z43d"></span>
+</div>
+<script src="//widget.time.is/zh.js"></script>
+<script>
+	time_is_widget.init({
+		Beijing_z43d:{
+			template:"DATE", 
+			date_format:"year年 monthname dnum日"
+		}
+	});
+</script>
+			
+		</div>
+	</div>
+</header>
+
+<div id="navigation-hide">
+	<!-- Progress bar -->
+	<div id="progress-bar"></div>
+
+	<!-- Progress percent -->
+	<div id="progress-percentage"><h1>0.0%</h1></div>
+
+	<div class="toc-switch"><span class="switch-button">目录</span></div>
+
+	<!-- Page title -->
+	<p>
+		
+			当前文章&nbsp;:&nbsp;《pandas方法》
+		
+	</p>
+
+	<!-- Nav trigger for navigation-H-->
+	<a class="nav-trigger"><span></span></a>
+</div>
+
+<!-- Navigation in div(id="navigation-H") -->
+<nav class="nav-container" id="cd-nav">
+	<div class="nav-header">
+		<h3>Navigation</h3>
+		<a href="javascript:;" class="nav-close"></a>
+	</div>
+	<div class="nav-body">
+		<ul>
+	
+		<li class="menu-home">
+			<a href="/" class="menu-item-home">主页</a>
+		</li>
+	
+		<li class="menu-archive">
+			<a href="/archives" class="menu-item-archive">归档</a>
+		</li>
+	
+		<li class="menu-categories">
+			<a href="/categories" class="menu-item-categories">分类</a>
+		</li>
+	
+		<li class="menu-tags">
+			<a href="/tags" class="menu-item-tags">标签</a>
+		</li>
+	
+		<li class="menu-about">
+			<a href="/about" class="menu-item-about">关于</a>
+		</li>
+	
+		<li class="menu-gallery">
+			<a href="/gallery" class="menu-item-gallery">相册</a>
+		</li>
+	
+
+	
+</ul>
+	</div>
+	<div class="nav-footer">
+		<ul>
+	
+		<li>
+			<a href="http://github.com/" target="_blank">
+				<i class="fa fa-github"></i>
+			</a>
+		</li>
+	
+		<li>
+			<a href="http://github.com/" target="_blank">
+				<i class="fa fa-weibo"></i>
+			</a>
+		</li>
+	
+		<li>
+			<a href="http://github.com/" target="_blank">
+				<i class="fa fa-pinterest"></i>
+			</a>
+		</li>
+	
+		<li>
+			<a href="http://github.com/" target="_blank">
+				<i class="fa fa-instagram"></i>
+			</a>
+		</li>
+	
+		<li>
+			<a href="http://github.com/" target="_blank">
+				<i class="fa fa-twitter"></i>
+			</a>
+		</li>
+	
+		<li>
+			<a href="/atom.xml" target="_blank">
+				<i class="fa fa-rss"></i>
+			</a>
+		</li>
+			
+</ul>
+
+	</div>
+</nav>
+			
+		<!--main-->
+		<main>
+			<!--
+	时间：2018-11-17
+	描述：
+		插件名称：katelog.min.js
+		插件作者：KELEN
+		插件来源: https://github.com/KELEN/katelog
+-->
+
+	
+		<div class="layout-toc">
+			<div id="layout-toc">
+				<div class="k-catelog-list" id="catelog-list" data-title="文章目录"></div>
+			</div>
+		</div>
+
+		
+		<script src="/plugin/toc/katelog.min.js"></script>
+
+		
+	 
+
+<div class="layout-post">
+	<div id="layout-post">
+	<div class="article-title">
+		<i class="fa fa-paper-plane-o" aria-hidden="true"></i>
+		
+	<a href="/2019/03/28/pandas方法/" itemprop="url">
+		pandas方法
+	</a>
+
+	</div>
+
+	<div class="article-meta">
+		<span>
+			<i class="fa fa-calendar"></i>
+			
+
+
+	发布于
+
+	<a href="/2019/03/28/pandas方法/" itemprop="url">
+		<time datetime="2019-03-28T11:13:34.000Z" itemprop="datePublished">
+	  		2019-03-28
+	  </time>
+	</a>
+	&nbsp;
+
+
+
+
+
+			
+
+
+
+
+	更新于
+
+	<a href="/2019/03/28/pandas方法/" itemprop="url">
+		<time datetime="2019-03-28T11:13:34.000Z" itemprop="dateUpdated">
+	  		2019-07-28
+	  </time>
+	</a> 
+
+
+
+		</span>
+		<span>
+			<i class="fa fa-tags"></i>
+					
+		</span>
+		
+		
+
+
+
+	</div>
+
+	<div class="article-content" id="article-content">
+		<h4 id="导入pandas库，一般都会用到numpy库"><a href="#导入pandas库，一般都会用到numpy库" class="headerlink" title="导入pandas库，一般都会用到numpy库"></a>导入pandas库，一般都会用到<code>numpy</code>库</h4><h2 id="使用iloc按位置区域提取数据"><a href="#使用iloc按位置区域提取数据" class="headerlink" title="使用iloc按位置区域提取数据"></a>使用iloc按位置区域提取数据</h2><p><code>df_inner.iloc[:3,:2</code>] #冒号前后的数字不再是索引的标签名称，而是数据所在的位置，从0开始，前三行，前两列。</p>
+<h2 id="适应iloc按位置单独提起数据"><a href="#适应iloc按位置单独提起数据" class="headerlink" title="适应iloc按位置单独提起数据"></a>适应iloc按位置单独提起数据</h2><p><code>df_inner.iloc[[0,2,5],[4,5]]</code> #提取第0、2、5行，4、5列</p>
+<h2 id="导入CSV等文件："><a href="#导入CSV等文件：" class="headerlink" title="导入CSV等文件："></a>导入CSV等文件：</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">f = pd.DataFrame(pd.read_csv(‘name.csv’,header=<span class="number">1</span>)) </span><br><span class="line"></span><br><span class="line">df = pd.DataFrame(pd.read_excel(‘name.xlsx’))</span><br></pre></td></tr></table></figure>
+
+<h2 id="维度查看："><a href="#维度查看：" class="headerlink" title="维度查看："></a>维度查看：</h2><h5 id="df-shape"><a href="#df-shape" class="headerlink" title="df.shape"></a><code>df.shape</code></h5><h2 id="数据表基本信息（维度、列名称、数据格式、所占空间等）："><a href="#数据表基本信息（维度、列名称、数据格式、所占空间等）：" class="headerlink" title="数据表基本信息（维度、列名称、数据格式、所占空间等）："></a>数据表基本信息（维度、列名称、数据格式、所占空间等）：</h2><h5 id="df-info"><a href="#df-info" class="headerlink" title="df.info()"></a><code>df.info()</code></h5><h2 id="每一列数据的格式："><a href="#每一列数据的格式：" class="headerlink" title="每一列数据的格式："></a>每一列数据的格式：</h2><h5 id="df-dtypes"><a href="#df-dtypes" class="headerlink" title="df.dtypes"></a><code>df.dtypes</code></h5><h2 id="某一列格式："><a href="#某一列格式：" class="headerlink" title="某一列格式："></a>某一列格式：</h2><h5 id="df-‘B’-dtype"><a href="#df-‘B’-dtype" class="headerlink" title="df[‘B’].dtype"></a><code>df[‘B’].dtype</code></h5><h2 id="空值："><a href="#空值：" class="headerlink" title="空值："></a>空值：</h2><h5 id="df-isnull"><a href="#df-isnull" class="headerlink" title="df.isnull()"></a><code>df.isnull()</code></h5><h2 id="查看某一列空值："><a href="#查看某一列空值：" class="headerlink" title="查看某一列空值："></a>查看某一列空值：</h2><h5 id="df-isnull-1"><a href="#df-isnull-1" class="headerlink" title="df.isnull()"></a><code>df.isnull()</code></h5><h2 id="查看某一列的唯一值："><a href="#查看某一列的唯一值：" class="headerlink" title="查看某一列的唯一值："></a>查看某一列的唯一值：</h2><h5 id="df-‘B’-unique"><a href="#df-‘B’-unique" class="headerlink" title="df[‘B’].unique()"></a><code>df[‘B’].unique()</code></h5><h2 id="查看数据表的值："><a href="#查看数据表的值：" class="headerlink" title="查看数据表的值："></a>查看数据表的值：</h2><h5 id="df-values"><a href="#df-values" class="headerlink" title="df.values"></a><code>df.values</code></h5><h2 id="查看列名称："><a href="#查看列名称：" class="headerlink" title="查看列名称："></a>查看列名称：</h2><h5 id="df-columns"><a href="#df-columns" class="headerlink" title="df.columns"></a><code>df.columns</code></h5><h2 id="1查看前10行数据、后10行数据："><a href="#1查看前10行数据、后10行数据：" class="headerlink" title="1查看前10行数据、后10行数据："></a>1查看前10行数据、后10行数据：</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">df.head() <span class="comment">#默认前10行数据 </span></span><br><span class="line"></span><br><span class="line">df.tail() <span class="comment">#默认后10 行数据</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="用数字0填充空值："><a href="#用数字0填充空值：" class="headerlink" title="用数字0填充空值："></a>用数字0填充空值：</h2><h5 id="df-fillna-value-0"><a href="#df-fillna-value-0" class="headerlink" title="df.fillna(value=0)"></a><code>df.fillna(value=0)</code></h5><h2 id="使用列prince的均值对NA进行填充："><a href="#使用列prince的均值对NA进行填充：" class="headerlink" title="使用列prince的均值对NA进行填充："></a>使用列prince的均值对NA进行填充：</h2><h5 id="df-‘prince’-fillna-df-‘prince’-mean"><a href="#df-‘prince’-fillna-df-‘prince’-mean" class="headerlink" title="df[‘prince’].fillna(df[‘prince’].mean())"></a><code>df[‘prince’].fillna(df[‘prince’].mean())</code></h5><h2 id="清楚city字段的字符空格："><a href="#清楚city字段的字符空格：" class="headerlink" title="清楚city字段的字符空格："></a>清楚city字段的字符空格：</h2><h5 id="df-‘city’-df-‘city’-map-str-strip"><a href="#df-‘city’-df-‘city’-map-str-strip" class="headerlink" title="df[‘city’]=df[‘city’].map(str.strip)"></a><code>df[‘city’]=df[‘city’].map(str.strip)</code></h5><h2 id="大小写转换："><a href="#大小写转换：" class="headerlink" title="大小写转换："></a>大小写转换：</h2><h5 id="df-‘city’-df-‘city’-str-lower"><a href="#df-‘city’-df-‘city’-str-lower" class="headerlink" title="df[‘city’]=df[‘city’].str.lower()"></a><code>df[‘city’]=df[‘city’].str.lower()</code></h5><h2 id="更改数据格式："><a href="#更改数据格式：" class="headerlink" title="更改数据格式："></a>更改数据格式：</h2><h5 id="df-‘price’-astype-‘int’"><a href="#df-‘price’-astype-‘int’" class="headerlink" title="df[‘price’].astype(‘int’)"></a><code>df[‘price’].astype(‘int’)</code></h5><h2 id="更改列名称："><a href="#更改列名称：" class="headerlink" title="更改列名称："></a>更改列名称：</h2><h5 id="df-rename-columns-‘category’-‘category-size’"><a href="#df-rename-columns-‘category’-‘category-size’" class="headerlink" title="df.rename(columns={‘category’: ‘category-size’})"></a><code>df.rename(columns={‘category’: ‘category-size’})</code></h5><h2 id="删除后出现的重复值："><a href="#删除后出现的重复值：" class="headerlink" title="删除后出现的重复值："></a>删除后出现的重复值：</h2><h5 id="df-‘city’-drop-duplicates"><a href="#df-‘city’-drop-duplicates" class="headerlink" title="df[‘city’].drop_duplicates()"></a><code>df[‘city’].drop_duplicates()</code></h5><h2 id="删除先出现的重复值："><a href="#删除先出现的重复值：" class="headerlink" title="删除先出现的重复值："></a>删除先出现的重复值：</h2><h5 id="df-‘city’-drop-duplicates-keep-’last’"><a href="#df-‘city’-drop-duplicates-keep-’last’" class="headerlink" title="df[‘city’].drop_duplicates(keep=’last’)"></a><code>df[‘city’].drop_duplicates(keep=’last’)</code></h5><h2 id="数据替换："><a href="#数据替换：" class="headerlink" title="数据替换："></a>数据替换：</h2><h5 id="df-‘city’-replace-‘sh’-‘shanghai’"><a href="#df-‘city’-replace-‘sh’-‘shanghai’" class="headerlink" title="df[‘city’].replace(‘sh’, ‘shanghai’)"></a><code>df[‘city’].replace(‘sh’, ‘shanghai’)</code></h5><h2 id="使用“与”进行筛选"><a href="#使用“与”进行筛选" class="headerlink" title="使用“与”进行筛选"></a>使用“与”进行筛选</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df_inner.loc[(df_inner[‘age’] &gt; <span class="number">25</span>) &amp; (df_inner[‘city’] == ‘beijing’), [‘id’,’city’,’age’,’category’,’gender’]]</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用“或”进行筛选"><a href="#使用“或”进行筛选" class="headerlink" title="使用“或”进行筛选"></a>使用“或”进行筛选</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df_inner.loc[(df_inner[‘age’] &gt; 25) | (df_inner[‘city’] == ‘beijing’), [‘id’,’city’,’age’,’category’,’gender’]].sort([‘age’])</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用“非”条件进行筛选"><a href="#使用“非”条件进行筛选" class="headerlink" title="使用“非”条件进行筛选"></a>使用“非”条件进行筛选</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df_inner.loc[(df_inner[‘city’] != ‘beijing’), [‘id’,’city’,’age’,’category’,’gender’]].sort([‘id’])</span><br></pre></td></tr></table></figure>
+
+	
+	</div>
+	
+	<div id="current-post-cover" data-scr="/img/cart_cover.jpg"></div>
+
+	<!-- relate post, comment...-->
+	<div class="investment-container">
+		<div class="investment-header">
+			<div class="investment-title-1">
+				<div class="on">相关文章</div>
+				<div>评论</div>
+				<div>分享</div>
+			</div>
+			<div class="investment-title-2">	            
+				
+	<span>
+		<a href="javascript: window.scrollTo(0, 0);">返回顶部</a>
+		
+			<a href="/2019/05/11/部署爬虫与Django/" title="部署爬虫与Django" rel="prev">
+				&laquo;上一篇
+			</a>
+		
+		
+			<a href="/2019/03/18/Redis-0/" title="Redis" rel="next">
+				下一篇&raquo;
+			</a>
+			
+	</span>
+
+
+      		
+			</div>	
+		</div>
+		
+		<div class="investment-content">
+			<div class="investment-content-list">
+				
+
+<div class="relate-post">
+	
+		<ul>
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2019/07/28/linux基础操作/" title="linux基础操作">
+								linux基础操作			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								七月 28日, 2019				
+							</p>
+							<p class="relate-post-content">
+								建立文件夹1234567mkdir      #建立单目录mkdir -p    #建立多层目录eg：mkdir -p  123/456/789     #在Desktop中创建123文件夹，在123中创建456文件夹，在456中创建...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2019/07/28/linux基础操作/" title="linux基础操作">				
+								
+								<img class="lazy" src="/img/placeholder.jpg" data-src="/img/cart_cover.jpg" alt="linux基础操作"/>
+							</a>
+						</div>
+					</li>											
+			
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2019/05/11/部署爬虫与Django/" title="部署爬虫与Django">
+								部署爬虫与Django			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								五月 11日, 2019				
+							</p>
+							<p class="relate-post-content">
+								1.编写爬虫2.部署环境pip install scrapydpip install scrapyd-client启动scrapyd的服务：cmd:&gt;scrapyd（必须处于开启状态）在爬虫根目录执行：scrapyd-deplo...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2019/05/11/部署爬虫与Django/" title="部署爬虫与Django">				
+								
+								<img class="lazy" src="/img/placeholder.jpg" data-src="/img/cart_cover.jpg" alt="部署爬虫与Django"/>
+							</a>
+						</div>
+					</li>											
+			
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2019/03/18/Redis-0/" title="Redis">
+								Redis			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								三月 18日, 2019				
+							</p>
+							<p class="relate-post-content">
+								redis输出的持久化redis的五种数据类型redis的优势redis的事务redis的读写性能redis的密码redis、mongo、mysql、oracle的区别redis中字符串类型的值，最大容纳量是多少Redis基础知识：R...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2019/03/18/Redis-0/" title="Redis">				
+								
+								<img class="lazy" src="/img/placeholder.jpg" data-src="/img/cart_cover.jpg" alt="Redis"/>
+							</a>
+						</div>
+					</li>											
+			
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2019/02/28/numpy方法/" title="numpy方法">
+								numpy方法			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								二月 28日, 2019				
+							</p>
+							<p class="relate-post-content">
+								1.NumPy　　NumPy是高性能科学计算和数据分析的基础包。部分功能如下：
+ndarray, 具有矢量算术运算和复杂广播能力的快速且节省空间的多维数组。用于对整组数据进行快速运算的标准数学函数（无需编写循环）。用于读写磁盘数据的工...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2019/02/28/numpy方法/" title="numpy方法">				
+								
+								<img class="lazy" src="/img/placeholder.jpg" data-src="/img/cart_cover.jpg" alt="numpy方法"/>
+							</a>
+						</div>
+					</li>											
+			
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2019/01/22/部署分布式爬虫/" title="部署分布式爬虫">
+								部署分布式爬虫			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								一月 22日, 2019				
+							</p>
+							<p class="relate-post-content">
+								pip install gerapy配置环境变量：C:\Users\Administrator\AppData\Roaming\Python\Python36\Scripts
+gerapy init  初始化工作目录cd gerapy...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2019/01/22/部署分布式爬虫/" title="部署分布式爬虫">				
+								
+								<img class="lazy" src="/img/placeholder.jpg" data-src="/img/cart_cover.jpg" alt="部署分布式爬虫"/>
+							</a>
+						</div>
+					</li>											
+			
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2019/01/20/FTP和SFTP/" title="FTP和SFTP">
+								FTP和SFTP			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								一月 20日, 2019				
+							</p>
+							<p class="relate-post-content">
+								FTP、SFTP
+TSL、SSL
+正常模式：需要用户名密码交互，会有权限
+
+FTP:文件传输协议（英文：File Transfer Protocol，缩写：FTP）是用于在网络上进行文件传输的一套标准协议，使用客户/服务器模式。它属于...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2019/01/20/FTP和SFTP/" title="FTP和SFTP">				
+								
+								<img class="lazy" src="/img/placeholder.jpg" data-src="/img/cart_cover.jpg" alt="FTP和SFTP"/>
+							</a>
+						</div>
+					</li>											
+			
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2018/07/28/Linux775权限/" title="Linux775权限">
+								Linux775权限			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								七月 28日, 2018				
+							</p>
+							<p class="relate-post-content">
+								Linux权限：775
+rw-    r–    r–
+
+
+文件所有者，文件所属组，其他用户
+ 
+
+
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2018/07/28/Linux775权限/" title="Linux775权限">				
+								
+								<img class="lazy" src="/img/placeholder.jpg" data-src="/img/cart_cover.jpg" alt="Linux775权限"/>
+							</a>
+						</div>
+					</li>											
+			
+			
+		</ul>
+	
+</div>	
+			</div>
+			<div class="investment-content-list">
+				<div class="layout-comment">
+
+	
+
+		
+
+			<!-- I don't know !!!-->
+			<div>Please check the comment setting in config.yml of hexo-theme-Annie!</div>
+			
+		
+		
+	
+
+</div>
+			</div>
+			<div class="investment-content-list">
+				<div class="layout-share">
+	
+	
+
+		
+			
+			<!-- socialShare share -->
+			<div class="social-share"></div>
+
+<!--  css & js -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+			
+		
+		
+	
+</div>
+
+
+			</div>
+		</div>	
+	</div>
+	</div>
+</div>
+
+
+
+	<!-- leancloud -->
+	<!--
+	时间：2018-11-27
+	描述：
+		文章访问量：visitors
+		文章喜欢量：likes	
+		文章排行榜：topNPost
+		其他得说明：
+			01-Cookie相关的函数 
+				https://blog.csdn.net/somehow1002/article/details/78511541（Author：somehow1002）
+			02-visitors相关的函数 
+				https://blog.csdn.net/u013553529/article/details/63357382（Author：爱博客大伯）
+				https://notes.doublemine.me/2015-10-21-为NexT主题添加文章阅读量统计功能.html（Author：夏末）
+			03-topNPost相关的函数
+				https://hoxis.github.io/hexo-next-read-rank.html（Author：hoxis）
+			04-likes相关的函数，
+				参考了01 & 02进行简单的设计与实现
+-->
+
+
+	
+
+
+<!-- show math formula -->
+
+
+
+	 
+	<script src="/plugin/clipboard/clipboard.js"></script>
+	<script>
+		// Copy code !
+	    function codePreprocessing() {
+	        $("#article-content .highlight").each(function() {
+
+	            $(this).wrap('<div id="post-code"></div>');
+
+	        })
+
+	        $("#article-content #post-code").each(function() {
+
+	            $(this).prepend('<nav class="copy-nav"><span><i class="code-language"></i></span></nav>');
+
+	        })
+
+	        $("#article-content .copy-nav").each(function() {
+	            var temp = $(this).next().attr('class'),
+	                language = ((temp.length > 9) && (temp != null)) ? temp.substr(10) : "none"; //why 9? Need to check language?
+
+	            $(this).find('.code-language').text(language);
+
+	            $(this).append('<span class="copy-btn"><i class="fa fa-copy" aria-hidden="true"></i></span>');
+
+	        });
+	    }
+
+		function codeCopy() {
+		    $('#article-content #post-code').each(function(i) {
+		        var codeCopyId = 'codeCopy-' + i;
+
+		        var codeNode = $(this).find('.code'),
+		            copyButton = $(this).find('.copy-btn');
+
+		        codeNode.attr('id', codeCopyId);
+		        copyButton.attr('data-clipboard-target-id', codeCopyId);
+		    })
+
+		    
+			var clipboard = new ClipboardJS('.copy-btn', {
+					target: function(trigger) {
+						return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+					}
+		      	});
+
+			//pure js
+			function showTooltip(elem, msg) {		   
+				elem.setAttribute('aria-label', msg);
+				elem.setAttribute('class', 'copy-btn copy-status');
+				setTimeout(function() {
+					elem.setAttribute('class', 'copy-btn');
+				}, 2000);
+			}
+
+			clipboard.on('success', function(e) {
+			    e.clearSelection();
+			    console.info('Action:', e.action);		   
+			    console.info('Trigger:', e.trigger);
+			    showTooltip(e.trigger, 'Copied!');
+			    
+			});
+			clipboard.on('error', function(e) {
+			    console.error('Action:', e.action);
+			    console.error('Trigger:', e.trigger);
+			});
+		
+
+		}
+
+		if ($('.layout-post').length) {
+		    codePreprocessing();
+		    codeCopy();
+		} 
+	</script>
+
+
+
+
+
+<link rel="stylesheet" href="/plugin/fancybox/jquery.fancybox.css">
+<script src="/plugin/fancybox/jquery.fancybox.js"></script>
+
+<script type="text/javascript">
+	var titleID = $('.article-title a'),
+		imageID = $('.article-content img'),
+		videoID = $('.article-content video');
+
+	var postTitle = titleID.text() ? titleID.text() : "No post title!";
+
+	imageID.each(function() {
+		var imgPath = $(this).attr('src'),
+			imgTitle = $(this).attr('alt') ? $(this).attr('alt') : "No image description!";
+
+		//给每个匹配的<img>元素打包, 即添加父元素<a>
+		$(this).wrap('<a data-fancybox="gallery" data-caption=" 《 ' + postTitle + ' 》 ' + imgTitle + ' "  href=" ' + imgPath + ' "> </a>');
+	});
+
+	videoID.each(function() {
+		var videoPath = $(this).attr('src');
+
+		//给每个匹配的<img>元素打包, 即添加父元素<a>
+		$(this).wrap('<a data-fancybox href=" ' + videoPath + ' "> </a>');
+	});
+	//TODO：支持html5 video
+
+	if($('#layout-post').length) {
+		$('[data-fancybox="gallery"]').fancybox({
+			loop: true,
+			buttons: [
+				"zoom",
+				"share",
+				"slideShow",
+				"fullScreen",
+				//"download",
+				"thumbs",
+				"close"
+			],
+			protect: false
+		});
+	}
+</script>
+		</main>
+
+		<!--footer-->
+		<footer>
+	<div class="social">
+		<ul>
+	
+		<li>
+			<a href="http://github.com/" target="_blank">
+				<i class="fa fa-github"></i>
+			</a>
+		</li>
+	
+		<li>
+			<a href="http://github.com/" target="_blank">
+				<i class="fa fa-weibo"></i>
+			</a>
+		</li>
+	
+		<li>
+			<a href="http://github.com/" target="_blank">
+				<i class="fa fa-pinterest"></i>
+			</a>
+		</li>
+	
+		<li>
+			<a href="http://github.com/" target="_blank">
+				<i class="fa fa-instagram"></i>
+			</a>
+		</li>
+	
+		<li>
+			<a href="http://github.com/" target="_blank">
+				<i class="fa fa-twitter"></i>
+			</a>
+		</li>
+	
+		<li>
+			<a href="/atom.xml" target="_blank">
+				<i class="fa fa-rss"></i>
+			</a>
+		</li>
+			
+</ul>
+
+	</div>
+		
+	<div class="copyright">
+		<p>
+			 
+				&copy;2017 - 2019, content by Zhangxy. All Rights Reserved.
+			
+			
+			
+
+	<!-- busuanzi -->
+	<!-- busuanzi -->
+
+		
+	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+	
+
+		<span id="busuanzi_container_page_pv">
+	  		本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+		</span>
+
+	
+
+
+
+
+		</p>
+		<p>
+			<a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> Theme <a href="https://github.com/Sariay/hexo-theme-Annie" title="Annie" target="_blank" rel="noopener">Annie</a> by Sariay.
+			<a href="javascript:zh_tran('s');" class="zh_click" id="zh_click_s">简体</a> 
+			<a href="javascript:zh_tran('t');" class="zh_click" id="zh_click_t">繁體</a>				
+		</p>
+	</div>		
+</footer>
+		
+	<!-- set '1' to show motto in all pages! -->
+
+	<script src="/plugin/motto/motto.js"></script>
+	
+	<script type="text/javascript">
+		$(".motto").html( getMingYanContent() );
+	</script>	
+
+
+
+
+
+<!-- love effect -->
+
+	<script src="/plugin/love/love.js"></script>
+
+
+<!-- back to top -->
+
+	
+	<div id="totop">
+  		<a href="javascript:;"  name="TOTOP" class="fa fa-arrow-up" ></a>
+	</div>
+
+
+
+
+<!-- site analysis -->
+
+
+	<!-- site-analysis -->
+	
+	
+	
+	
+	
+ 
+
+<script src="/plugin/vibrant/vibrant.js"></script>
+<script src="/plugin/chinese/chinese.js"></script>
+<script src="/plugin/imgLazyLoader/yall.min.js"></script>
+<script src="/plugin/imgResize/jquery.resizeimagetoparent.min.js"></script>
+<script src="/plugin/nicescroll/jquery.nicescroll.js"></script>
+<script src="/js/resizediv.js"></script>
+<script src="/js/main.js"></script>
+	</body>	
+</html>
