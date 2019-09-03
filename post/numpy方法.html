@@ -1,0 +1,1677 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
+  <meta name="baidu-site-verification" content="p7Pz3jlx4t">
+  <meta name="google-site-verification" content="19ixTFj-X-rXuvZFvR1PMkqSHMXZ5GjN7nhYdYYFm-c">
+  <meta name="msvalidate.01" content="7E2AEE3378AC93764DEAB411177A21A1">
+  <meta name="360-site-verification" content="5c7e8a1fdbf35ed6003c48733208f705">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- if page has tags, then add tags to keyword -->
+  
+  
+  <meta name="keywords" content="张兴亚的博客,张兴亚的小站,机器学习,Python,">
+  <!-- page.description has higher priority -->
+  <meta name="description" content="numpy的一些常见方法">
+  <link rel="shortcut icon" href="/img/icon.png">
+  <title>
+    
+    numpy方法 | 极客兔兔
+    
+  </title>
+
+  <link rel="canonical" href="/post/numpy方法.html">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/markdown.css">
+  <!-- Pygments Highlight CSS -->
+  <link rel="stylesheet" href="/css/highlight.css">
+  <link rel="stylesheet" href="/css/geektutu.css">
+  <!-- global function -->
+  <script>
+    window.globalAddScript = function (url, onload, onerror) {
+      var s = document.createElement('script');
+      s.src = url;
+      onload && (s.onload = onload);
+      onerror && (s.onerror = onerror);
+      document.body.appendChild(s);
+    }
+    window.globalAddCss = function (url) {
+      var s = document.createElement('link');
+      s.rel = 'stylesheet';
+      s.href = url;
+      document.body.appendChild(s);
+    }
+    window.getPosition = function (ele) {
+      var x = 0, y = 0;
+      while (ele) {
+        x += (ele.offsetLeft - ele.scrollLeft + ele.clientLeft);
+        y += (ele.offsetTop - ele.scrollTop + ele.clientTop);
+        ele = ele.offsetParent;
+      }
+      return { x: x, y: y };
+    }
+    window.getDom = function (str) { return document.querySelector(str) }
+  </script>
+  <!-- google ad -->
+  
+  <script>
+    window.addEventListener('load', function () {
+      globalAddScript("https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js", "", function (e) {
+        if (window.localStorage.getItem('gkt_marker')) {
+          var rec = document.querySelector('.gkt-rec-links');
+          rec && (rec.style.display = 'none');
+        }
+      });
+    });
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-939225546",
+      enable_page_level_ads: true
+    });
+  </script>
+  
+</head>
+
+<body>
+    <header class="gkt-header col-xs-12 padding-0">
+    <div id="gkt-nav" class="gkt-header-container">
+        <a href="/" class="gkt-header-title float-left">
+            <img class="float-left" src="/img/icon.png" alt="">
+            <span>张兴亚的技术博客</span>
+        </a>
+        <nav class="gkt-header-nav text-right">
+            <ul>
+                <li><a class="hidden-xs" href="/">主页</a></li>
+                <li><a href="/series/">专题</a></li>
+                <li><a href="/archives/">归档</a></li>
+                <li><a href="/post/link.html">友链</a></li>
+                <li><a href="/post/about.html">留言</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div id="gkt-cate-nav" class="gkt-header-container hidden-xs">
+        
+        <nav class="gkt-header-nav float-left">
+            <ul>
+                
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/django自定义过滤器.html">Django</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/Linux775权限.html">Linux</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/FTP和SFTP.html">传输协议</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/部署分布式爬虫.html">爬虫</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left active">
+                    <a class="float-left" href="/post/numpy方法.html">机器学习</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/Redis-0.html">数据库</a>
+                    
+                </li>
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+<div style="height: 44px"></div>
+<div class="hidden-xs" style="height: 44px"></div>
+<script>
+    (function () {
+        window.addEventListener('scroll', function () {
+            if (window.innerWidth < 768) {
+                return;
+            }
+            var nav = document.querySelector('#gkt-nav');
+            var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            scrollTop > 50 && (nav.classList.add('hide'));
+            scrollTop <= 50 && (nav.classList.remove('hide'));
+        });
+        var cateNavs = document.querySelectorAll('#gkt-cate-nav>nav>ul>li');
+        [].slice.call(cateNavs).forEach(function (item) {
+            var sub = item.querySelector('.gkt-sub-cate');
+            if (!sub) return;
+            item.addEventListener('mouseenter', function (e) { sub.style.display = 'block'; }, false);
+            item.addEventListener('mouseleave', function (e) { sub.style.display = 'none'; }, false);
+        })
+    })();
+</script>
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Main Content -->
+<main class="col-xs-12 padding-0 markdown-it">
+    <!-- Post Container -->
+    
+    <!-- Post Content -->
+<div class="float-left post-container box-shadow">
+    <div class="u-arrow-wrapper hidden-xs">
+        
+        <a class="float-left" href="/post/部署分布式爬虫.html"><i class="u-arrow-left"></i></a>
+        
+        
+        <a class="float-right" href="/post/Redis-0.html"><i class="u-arrow-right"></i></a>
+        
+    </div>
+    <article class="col-xs-12">
+        <h1> numpy方法 </h1>
+
+        
+
+        
+        <div class="hidden-lg hidden-md series_links">
+            <p> <strong> 机器学习系列文章链接：</strong></p>
+            <ul>
+                
+                <li>
+                    <a href="/post/numpy方法.html">numpy方法</a>
+                    <span class="post-item-date">(Feb 28, 2019)</span>
+                </li>
+                
+                <li>
+                    <a href="/post/pandas方法.html">pandas方法</a>
+                    <span class="post-item-date">(Mar 28, 2019)</span>
+                </li>
+                
+            </ul>
+        </div>
+        
+        
+        
+        <h3 id="1-NumPy"><a href="#1-NumPy" class="headerlink" title="1.NumPy"></a>1.NumPy</h3><p>　　NumPy是高性能科学计算和数据分析的基础包。部分功能如下：</p>
+<p>ndarray, 具有矢量算术运算和复杂广播能力的快速且节省空间的多维数组。<br>用于对整组数据进行快速运算的标准数学函数（无需编写循环）。<br>用于读写磁盘数据的工具以及用于操作内存映射文件的工具。<br>线性代数、随机数生成以及傅里叶变换功能。<br>用于集成C、C++、Fortran等语言编写的代码的工具。<br>　　首先要导入numpy库：import numpy as np</p>
+<table>
+<thead>
+<tr>
+<th>生成函数</th>
+<th align="center">作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td align="center">np.array( x)</td>
+</tr>
+<tr>
+<td>np.array( x, dtype)</td>
+<td align="center">将输入数据转化为一个类型为type的ndarray</td>
+</tr>
+<tr>
+<td></td>
+<td align="center">np.asarray( array )</td>
+</tr>
+<tr>
+<td>np.ones( N )</td>
+<td align="center">生成一个N长度的一维全一ndarray</td>
+</tr>
+<tr>
+<td>np.ones( N, dtype)</td>
+<td align="center">生成一个N长度类型是dtype的一维全一ndarray</td>
+</tr>
+<tr>
+<td>np.ones_like( ndarray )</td>
+<td align="center">生成一个形状与参数相同的全一ndarray</td>
+</tr>
+<tr>
+<td>np.zeros( N)</td>
+<td align="center">生成一个N长度的一维全零ndarray</td>
+</tr>
+<tr>
+<td>np.zeros( N, dtype)</td>
+<td align="center">生成一个N长度类型位dtype的一维全零ndarray</td>
+</tr>
+<tr>
+<td>np.zeros_like(ndarray)</td>
+<td align="center">类似np.ones_like( ndarray )</td>
+</tr>
+<tr>
+<td>np.empty( N )</td>
+<td align="center">生成一个N长度的未初始化一维ndarray</td>
+</tr>
+<tr>
+<td>np.empty( N, dtype)</td>
+<td align="center">生成一个N长度类型是dtype的未初始化一维ndarray</td>
+</tr>
+<tr>
+<td>np.empty(ndarray)</td>
+<td align="center">类似np.ones_like( ndarray )</td>
+</tr>
+<tr>
+<td>np.eye( N )</td>
+<td align="center">创建一个N * N的单位矩阵（对角线为1，其余为0）</td>
+</tr>
+<tr>
+<td>np.identity( N )</td>
+<td align="center">创建一个N * N的单位矩阵（对角线为1，其余为0）</td>
+</tr>
+<tr>
+<td>np.arange( num)</td>
+<td align="center">生成一个从0到num-1步数为1的一维ndarray</td>
+</tr>
+<tr>
+<td>np.arange( begin, end)</td>
+<td align="center">生成一个从begin到end-1步数为1的一维ndarray</td>
+</tr>
+<tr>
+<td>np.arange( begin, end, step)</td>
+<td align="center">生成一个从begin到end-step的步数为step的一维ndarray</td>
+</tr>
+<tr>
+<td>np.mershgrid(ndarray, ndarray,…)</td>
+<td align="center">生成一个ndarray * ndarray * …的多维ndarray</td>
+</tr>
+<tr>
+<td>np.where(cond, ndarray1, ndarray2)</td>
+<td align="center">根据条件cond，选取ndarray1或者ndarray2，返回一个新的ndarray</td>
+</tr>
+<tr>
+<td>np.in1d(ndarray, [x,y,…])</td>
+<td align="center">检查ndarray中的元素是否等于[x,y,…]中的一个，返回bool数组</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="left">矩阵函数</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">np.diag( ndarray)</td>
+<td align="left">以一维数组的形式返回方阵的对角线（或非对角线）元素</td>
+</tr>
+<tr>
+<td align="left">np.diag( [x,y,…])</td>
+<td align="left">将一维数组转化为方阵（非对角线元素为0）</td>
+</tr>
+<tr>
+<td align="left">np.dot(ndarray, ndarray)</td>
+<td align="left">矩阵乘法</td>
+</tr>
+<tr>
+<td align="left">np.trace( ndarray)</td>
+<td align="left">计算对角线元素的和</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="left">排序函数</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">np.sort( ndarray)</td>
+<td align="left">排序，返回副本</td>
+</tr>
+<tr>
+<td align="left">np.unique(ndarray)</td>
+<td align="left">返回ndarray中的元素，排除重复元素之后，并进行排序</td>
+</tr>
+<tr>
+<td align="left">np.intersect1d( ndarray1, ndarray2)</td>
+<td align="left">返回二者的交集并排序。</td>
+</tr>
+<tr>
+<td align="left">np.union1d( ndarray1, ndarray2)</td>
+<td align="left">返回二者的并集并排序。</td>
+</tr>
+<tr>
+<td align="left">np.setdiff1d( ndarray1, ndarray2)</td>
+<td align="left">返回二者的差。</td>
+</tr>
+<tr>
+<td align="left">np.setxor1d( ndarray1, ndarray2)</td>
+<td align="left">返回二者的对称差</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="left">一元计算函数</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">np.abs(ndarray)</td>
+<td align="left">计算绝对值</td>
+</tr>
+<tr>
+<td align="left">np.fabs(ndarray)</td>
+<td align="left">计算绝对值（非复数）</td>
+</tr>
+<tr>
+<td align="left">np.mean(ndarray)</td>
+<td align="left">求平均值</td>
+</tr>
+<tr>
+<td align="left">np.sqrt(ndarray)</td>
+<td align="left">计算x^0.5</td>
+</tr>
+<tr>
+<td align="left">np.square(ndarray)</td>
+<td align="left">计算x^2</td>
+</tr>
+<tr>
+<td align="left">np.exp(ndarray)</td>
+<td align="left">计算e^x</td>
+</tr>
+<tr>
+<td align="left">log、log10、log2、log1p</td>
+<td align="left">计算自然对数、底为10的log、底为2的log、底为(1+x)的log</td>
+</tr>
+<tr>
+<td align="left">np.sign(ndarray)</td>
+<td align="left">计算正负号：1（正）、0（0）、-1（负）</td>
+</tr>
+<tr>
+<td align="left">np.ceil(ndarray)</td>
+<td align="left">计算大于等于改值的最小整数</td>
+</tr>
+<tr>
+<td align="left">np.floor(ndarray)</td>
+<td align="left">计算小于等于该值的最大整数</td>
+</tr>
+<tr>
+<td align="left">np.rint(ndarray)</td>
+<td align="left">四舍五入到最近的整数，保留dtype</td>
+</tr>
+<tr>
+<td align="left">np.modf(ndarray)</td>
+<td align="left">将数组的小数和整数部分以两个独立的数组方式返回</td>
+</tr>
+<tr>
+<td align="left">np.isnan(ndarray)</td>
+<td align="left">返回一个判断是否是NaN的bool型数组</td>
+</tr>
+<tr>
+<td align="left">np.isfinite(ndarray)</td>
+<td align="left">返回一个判断是否是有穷（非inf，非NaN）的bool型数组</td>
+</tr>
+<tr>
+<td align="left">np.isinf(ndarray)</td>
+<td align="left">返回一个判断是否是无穷的bool型数组</td>
+</tr>
+<tr>
+<td align="left">cos、cosh、sin、sinh、tan、tanh</td>
+<td align="left">普通型和双曲型三角函数</td>
+</tr>
+<tr>
+<td align="left">arccos、arccosh、arcsin、arcsinh、arctan、arctanh</td>
+<td align="left">反三角函数和双曲型反三角函数</td>
+</tr>
+<tr>
+<td align="left">np.logical_not(ndarray)</td>
+<td align="left">计算各元素not x的真值，相当于-ndarray</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="left">多元计算函数</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">np.add(ndarray, ndarray)</td>
+<td align="left">相加</td>
+</tr>
+<tr>
+<td align="left">np.subtract(ndarray, ndarray)</td>
+<td align="left">相减</td>
+</tr>
+<tr>
+<td align="left">np.multiply(ndarray, ndarray)</td>
+<td align="left">乘法</td>
+</tr>
+<tr>
+<td align="left">np.divide(ndarray, ndarray)</td>
+<td align="left">除法</td>
+</tr>
+<tr>
+<td align="left">np.floor_divide(ndarray, ndarray)</td>
+<td align="left">圆整除法（丢弃余数）</td>
+</tr>
+<tr>
+<td align="left">np.power(ndarray, ndarray)</td>
+<td align="left">次方</td>
+</tr>
+<tr>
+<td align="left">np.mod(ndarray, ndarray)</td>
+<td align="left">求模</td>
+</tr>
+<tr>
+<td align="left">np.maximum(ndarray, ndarray)</td>
+<td align="left">求最大值</td>
+</tr>
+<tr>
+<td align="left">np.fmax(ndarray, ndarray)</td>
+<td align="left">求最大值（忽略NaN）</td>
+</tr>
+<tr>
+<td align="left">np.minimun(ndarray, ndarray)</td>
+<td align="left">求最小值</td>
+</tr>
+<tr>
+<td align="left">np.fmin(ndarray, ndarray)</td>
+<td align="left">求最小值（忽略NaN）</td>
+</tr>
+<tr>
+<td align="left">np.copysign(ndarray, ndarray)</td>
+<td align="left">将参数2中的符号赋予参数1</td>
+</tr>
+<tr>
+<td align="left">np.greater(ndarray, ndarray)</td>
+<td align="left">&gt;</td>
+</tr>
+<tr>
+<td align="left">np.greater_equal(ndarray, ndarray)</td>
+<td align="left">&gt;=</td>
+</tr>
+<tr>
+<td align="left">np.less(ndarray, ndarray)</td>
+<td align="left">&lt;</td>
+</tr>
+<tr>
+<td align="left">np.less_equal(ndarray, ndarray)</td>
+<td align="left">&lt;=</td>
+</tr>
+<tr>
+<td align="left">np.equal(ndarray, ndarray)</td>
+<td align="left">==</td>
+</tr>
+<tr>
+<td align="left">np.not_equal(ndarray, ndarray)</td>
+<td align="left">!=</td>
+</tr>
+<tr>
+<td align="left">logical_and(ndarray, ndarray)</td>
+<td align="left">&amp;</td>
+</tr>
+<tr>
+<td align="left">logical_or(ndarray, ndarray)</td>
+<td align="left"><strong>|</strong></td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left">logical_xor(ndarray, ndarray)</td>
+</tr>
+<tr>
+<td align="left">np.dot( ndarray, ndarray)</td>
+<td align="left">计算两个ndarray的矩阵内积</td>
+</tr>
+<tr>
+<td align="left">np.ix_([x,y,m,n],…)</td>
+<td align="left">生成一个索引器，用于Fancy indexing(花式索引)</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="left">文件读写</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">np.save(string, ndarray)</td>
+<td align="left">将ndarray保存到文件名为 [string].npy 的文件中（无压缩）</td>
+</tr>
+<tr>
+<td align="left">np.savez(string, ndarray1, ndarray2, …)</td>
+<td align="left">将所有的ndarray压缩保存到文件名为[string].npy的文件中</td>
+</tr>
+<tr>
+<td align="left">np.savetxt(sring, ndarray, fmt, newline=’\n’)</td>
+<td align="left">将ndarray写入文件，格式为fmt</td>
+</tr>
+<tr>
+<td align="left">np.load(string)</td>
+<td align="left">读取文件名string的文件内容并转化为ndarray对象（或字典对象）</td>
+</tr>
+<tr>
+<td align="left">np.loadtxt(string, delimiter)</td>
+<td align="left">读取文件名string的文件内容，以delimiter为分隔符转化为ndarray</td>
+</tr>
+</tbody></table>
+<p><strong>表2.1.A.2 np常用函数</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">B NumPy.ndarray函数</th>
+<th align="left">属性：</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">ndarray.ndim</td>
+<td align="left">获取ndarray的维数</td>
+</tr>
+<tr>
+<td align="left">ndarray.shape</td>
+<td align="left">获取ndarray各个维度的长度</td>
+</tr>
+<tr>
+<td align="left">ndarray.dtype</td>
+<td align="left">获取ndarray中元素的数据类型</td>
+</tr>
+<tr>
+<td align="left">ndarray.T</td>
+<td align="left">简单转置矩阵ndarray</td>
+</tr>
+</tbody></table>
+<p><strong>表2.1.B.1 ndarray属性</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">函数</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">ndarray.astype(dtype)</td>
+<td align="left">转换类型，若转换失败则会出现TypeError</td>
+</tr>
+<tr>
+<td align="left">ndarray.copy()</td>
+<td align="left">复制一份ndarray(新的内存空间)</td>
+</tr>
+<tr>
+<td align="left">ndarray.reshape((N,M,…))</td>
+<td align="left">将ndarray转化为N<em>M</em>…的多维ndarray（非copy）</td>
+</tr>
+<tr>
+<td align="left">ndarray.transpose((xIndex,yIndex,…))</td>
+<td align="left">根据维索引xIndex,yIndex…进行矩阵转置，依赖于shape，不能用于一维矩阵（非copy）</td>
+</tr>
+<tr>
+<td align="left">ndarray.swapaxes(xIndex,yIndex)</td>
+<td align="left">交换维度（非copy）</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="left">计算函数</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">ndarray.mean( axis=0 )</td>
+<td align="left">求平均值</td>
+</tr>
+<tr>
+<td align="left">ndarray.sum( axis= 0)</td>
+<td align="left">求和</td>
+</tr>
+<tr>
+<td align="left">ndarray.cumsum( axis=0)</td>
+<td align="left">累加</td>
+</tr>
+<tr>
+<td align="left">ndarray.cumprod( axis=0)</td>
+<td align="left">累乘</td>
+</tr>
+<tr>
+<td align="left">ndarray.std()</td>
+<td align="left">方差</td>
+</tr>
+<tr>
+<td align="left">ndarray.var()</td>
+<td align="left">标准差</td>
+</tr>
+<tr>
+<td align="left">ndarray.max()</td>
+<td align="left">最大值</td>
+</tr>
+<tr>
+<td align="left">ndarray.min()</td>
+<td align="left">最小值</td>
+</tr>
+<tr>
+<td align="left">ndarray.argmax()</td>
+<td align="left">最大值索引</td>
+</tr>
+<tr>
+<td align="left">ndarray.argmin()</td>
+<td align="left">最小值索引</td>
+</tr>
+<tr>
+<td align="left">ndarray.any()</td>
+<td align="left">是否至少有一个True</td>
+</tr>
+<tr>
+<td align="left">ndarray.all()</td>
+<td align="left">是否全部为True</td>
+</tr>
+<tr>
+<td align="left">ndarray.dot( ndarray)</td>
+<td align="left">计算矩阵内积</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="left">排序函数</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">ndarray.sort(axis=0)</td>
+<td align="left">排序，返回源数据</td>
+</tr>
+</tbody></table>
+<p><strong>表2.1.B.2 ndarray函数</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">ndarray函数</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">ndarray[n]</td>
+<td align="left">选取第n+1个元素</td>
+</tr>
+<tr>
+<td align="left">ndarray[n:m]</td>
+<td align="left">选取第n+1到第m个元素</td>
+</tr>
+<tr>
+<td align="left">ndarray[:]</td>
+<td align="left">选取全部元素</td>
+</tr>
+<tr>
+<td align="left">ndarray[n:]</td>
+<td align="left">选取第n+1到最后一个元素</td>
+</tr>
+<tr>
+<td align="left">ndarray[:n]</td>
+<td align="left">选取第0到第n个元素</td>
+</tr>
+<tr>
+<td align="left">ndarray[ bool_ndarray ]</td>
+<td align="left">注：bool_ndarray表示bool类型的ndarray选取为true的元素</td>
+</tr>
+<tr>
+<td align="left">ndarray[[x,y,m,n]]…</td>
+<td align="left">选取顺序和序列为x、y、m、n的ndarray</td>
+</tr>
+<tr>
+<td align="left">ndarray[n,m]</td>
+<td align="left">选取第n+1行第m+1个元素</td>
+</tr>
+<tr>
+<td align="left">ndarray[n][m]</td>
+<td align="left">选取第n+1行第m+1个元素</td>
+</tr>
+<tr>
+<td align="left">ndarray[n,m,…]</td>
+<td align="left">选取n行n列….的元素</td>
+</tr>
+<tr>
+<td align="left">ndarray[n][m]….</td>
+<td align="left">选取n行n列….的元素</td>
+</tr>
+</tbody></table>
+<p><strong>表2.1.B.3 ndarray索引/切片方式</strong></p>
+<p>　　C NumPy.random函数和属性：</p>
+<table>
+<thead>
+<tr>
+<th align="left">函数</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">seed()</td>
+<td align="left">确定随机数生成种子</td>
+</tr>
+<tr>
+<td align="left">seed(int)</td>
+<td align="left">确定随机数生成种子</td>
+</tr>
+<tr>
+<td align="left">seed(ndarray)</td>
+<td align="left">确定随机数生成种子</td>
+</tr>
+<tr>
+<td align="left">permutation(int)</td>
+<td align="left">返回一个一维从0~9的序列的随机排列</td>
+</tr>
+<tr>
+<td align="left">permutation(ndarray)</td>
+<td align="left">返回一个序列的随机排列</td>
+</tr>
+<tr>
+<td align="left">shuffle(ndarray)</td>
+<td align="left">对一个序列就地随机排列</td>
+</tr>
+<tr>
+<td align="left">rand(int)</td>
+<td align="left">产生int个均匀分布的样本值</td>
+</tr>
+<tr>
+<td align="left">randint(begin,end,num=1)</td>
+<td align="left">从给定的begin和end随机选取num个整数</td>
+</tr>
+<tr>
+<td align="left">randn(N, M, …)</td>
+<td align="left">生成一个N<em>M</em>…的正态分布（平均值为0，标准差为1）的ndarray</td>
+</tr>
+<tr>
+<td align="left">normal(size=(N,M,…))</td>
+<td align="left">生成一个N<em>M</em>…的正态（高斯）分布的ndarray</td>
+</tr>
+<tr>
+<td align="left">beta(ndarray1,ndarray2)</td>
+<td align="left">产生beta分布的样本值，参数必须大于0</td>
+</tr>
+<tr>
+<td align="left">chisquare()</td>
+<td align="left">产生卡方分布的样本值</td>
+</tr>
+<tr>
+<td align="left">gamma()</td>
+<td align="left">产生gamma分布的样本值</td>
+</tr>
+<tr>
+<td align="left">uniform()</td>
+<td align="left">产生在[0,1)中均匀分布的样本值</td>
+</tr>
+</tbody></table>
+
+        <div class="hidden-xs col-xs-12 text-center">
+    <canvas id="geektutu-post-qr"></canvas>
+    <p style="margin-top: -10px;"><small>微信扫一扫，阅读/分享</small></p>
+</div>
+<script src="/js/qrious.min.js"></script>
+<script>
+    (function () {
+        new QRious({
+            element: document.getElementById('geektutu-post-qr'),
+            value: window.location.href,
+            size: 120
+        });
+    })();
+</script>
+        <hr>
+        <div>
+            
+            <p>
+                <span>专题: </span>
+                
+                <a href="/series/#机器学习">
+                    <code key="机器学习" class="post-label">机器学习</code>
+                </a>
+                
+            </p>
+            
+            <p>
+                <span>发表于2019-02-28 19:13:24，最后修改于2019-09-03 17:39:34。</span>
+            </p>
+            <!-- 文章末尾的提示 start -->
+            
+            <p>
+                本站永久域名<strong>「 <a
+                        href="/post/numpy方法.html">zxyyee.cn</a>
+                    」</strong>，也可搜索<strong>「 张兴亚的技术博客 」</strong>找到我。
+            </p>
+            
+            
+            <p>期待关注我的<strong>「 <a href="https://zhuanlan.zhihu.com/geektutu">知乎专栏</a>」</strong>，所有文章可在<strong>「
+                    知乎APP
+                    」</strong>查看。</p>
+            
+            <!-- 文章末尾的提示 end -->
+        </div>
+        <hr />
+        <p name="pagination" style="font-size: 1.2em">
+    
+    <a class="float-left" href="/post/部署分布式爬虫.html">上一篇 « 部署分布式爬虫</a>
+    
+    
+    <a class="float-right" href="/post/Redis-0.html">下一篇 » Redis</a>
+    
+</p>
+    </article>
+    <!-- 赞赏 -->
+    <!--打赏-->
+
+<style>
+    #reward .reward-btn-wrapper {
+        width: 100px;
+        padding-top: 25px;
+        cursor: pointer;
+        margin: 0 auto;
+    }
+
+    #reward .reward-btn {
+        padding: 2px 15px;
+        color: #fff;
+        background-color: #ea6f5a;
+        border-radius: 20px;
+    }
+
+    #reward .reward-code {
+        position: absolute;
+        top: -230px;
+        left: 50%;
+        display: none;
+        width: 360px;
+        height: 240px;
+        margin-left: -180px;
+        padding: 15px 20px;
+        border: 1px solid #e6e6e6;
+        background: #fff;
+        box-shadow: 0 1px 1px 1px #efefef;
+    }
+
+    #reward .reward-code:after,
+    #reward .reward-code:before {
+        position: absolute;
+        content: '';
+        border: 10px solid transparent
+    }
+
+    #reward .reward-code:after {
+        bottom: -19px;
+        left: 50%;
+        margin-left: -10px;
+        border-top-color: #fff
+    }
+
+    #reward .reward-code:before {
+        bottom: -20px;
+        left: 50%;
+        margin-left: -10px;
+        border-top-color: #e6e6e6
+    }
+
+    #reward .qr-code {
+        width: 50%;
+        float: left;
+        padding: 5px;
+    }
+
+    #reward .qr-code p {
+        margin-top: -6px;
+    }
+
+    #reward img[alt='i'] {
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        margin: 0 auto;
+        z-index: 2;
+        margin-left: 75px;
+        margin-top: 65px;
+    }
+
+    #reward img[alt="ali"] {
+        width: 100%;
+        box-sizing: border-box;
+        border: 5px solid #0f9be0;
+    }
+
+    #reward img[alt="wechat"] {
+        width: 100%;
+        box-sizing: border-box;
+        border: 5px solid #3db034;
+    }
+
+    #reward .reward-tip {
+        font-size: 1.2em;
+        margin-bottom: 0;
+        color: #ea6f5a;
+    }
+</style>
+<div id="reward" class="col-xs-12">
+    <div class="reward-btn-wrapper">
+        <div class="reward-btn text-center">赞赏支持</div>
+    </div>
+    <div class="reward-code text-center">
+        <p class="text-center reward-tip"><strong>请我吃胡萝卜 =^_^= </strong></p>
+        <div class="qr-code">
+            <img src="/img/icon.png" alt="i">
+            <img id="reward-ali" src="" alt="ali">
+            <p><small>支付宝</small></p>
+        </div>
+        <div class="qr-code">
+            <img src="/img/icon.png" alt="i">
+            <img id="reward-wechat" src="" alt="wechat">
+            <p><small>微信</small></p>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window, document) {
+        var aliQr = new QRious({ value: 'HTTPS://QR.ALIPAY.COM/FKX060337TUXBAX9LIFJE8' });
+        var wechatQr = new QRious({ value: 'wxp://f2f0qgGBlfD1nZXjvBjievxB0z0fc0W2sBq5' });
+        document.querySelector('#reward-ali').src = aliQr.toDataURL();
+        document.querySelector('#reward-wechat').src = wechatQr.toDataURL();
+
+        var rewardBtn = document.querySelector('#reward .reward-btn-wrapper');
+        var qrCode = document.querySelector('#reward .reward-code')
+        var activeFunc = function (e) {
+            qrCode.style.display = 'block';
+        }
+        var hideFunc = function (e) {
+            qrCode.style.display = 'none';
+        }
+
+        rewardBtn.addEventListener('mouseenter', activeFunc, false)
+        rewardBtn.addEventListener('mouseover', activeFunc, false)
+        rewardBtn.addEventListener('mouseleave', hideFunc, false)
+        qrCode.addEventListener('mouseenter', activeFunc, false)
+        qrCode.addEventListener('mouseover', activeFunc, false)
+        qrCode.addEventListener('mouseleave', hideFunc, false)
+    })(window, document);
+</script>
+
+    <!-- 推荐阅读三篇文章 -->
+    <div class="col-xs-12">
+        <h3>推荐阅读</h3>
+        
+        <div class="post-preview">
+    <div class="post-img" style="background-image: url('/source/img/banner06.jpg')"></div>
+    <div class="post-info">
+        <div class="post-info-center">
+            <div class="hidden-xs">
+                
+                
+                <span>/</span>
+                
+                <a class="text-gray" href="/tags/#机器学习"
+                    title="机器学习">机器学习</a>
+                <span>/</span>
+                
+                <a class="text-gray" href="/tags/#Python"
+                    title="Python">Python</a>
+                <span>/</span>
+                
+                
+            </div>
+            <a href="/post/pandas方法.html" class="title">
+                pandas方法
+            </a>
+            <p class="text-gray">
+                <small>
+                    <span>发表于2019-03-28，</span>
+                    <span class="hidden-xs">全文1805字，</span>
+                    <span>阅读约7分钟</span>
+                </small>
+            </p>
+        </div>
+    </div>
+</div>
+        
+        <div class="post-preview">
+    <div class="post-img" style="background-image: url('/source/img/banner06.jpg')"></div>
+    <div class="post-info">
+        <div class="post-info-center">
+            <div class="hidden-xs">
+                
+                
+                <span>/</span>
+                
+                <a class="text-gray" href="/tags/#机器学习"
+                    title="机器学习">机器学习</a>
+                <span>/</span>
+                
+                <a class="text-gray" href="/tags/#Python"
+                    title="Python">Python</a>
+                <span>/</span>
+                
+                
+            </div>
+            <a href="/post/numpy方法.html" class="title">
+                numpy方法
+            </a>
+            <p class="text-gray">
+                <small>
+                    <span>发表于2019-02-28，</span>
+                    <span class="hidden-xs">全文12391字，</span>
+                    <span>阅读约42分钟</span>
+                </small>
+            </p>
+        </div>
+    </div>
+</div>
+        
+        <div class="post-preview">
+    <div class="post-img" style="background-image: url('/source/img/banner06.jpg')"></div>
+    <div class="post-info">
+        <div class="post-info-center">
+            <div class="hidden-xs">
+                
+                
+                <span>/</span>
+                
+                <a class="text-gray" href="/tags/#Django"
+                    title="Django">Django</a>
+                <span>/</span>
+                
+                
+            </div>
+            <a href="/post/django自定义过滤器.html" class="title">
+                django自定义过滤器
+            </a>
+            <p class="text-gray">
+                <small>
+                    <span>发表于2018-05-29，</span>
+                    <span class="hidden-xs">全文1239字，</span>
+                    <span>阅读约5分钟</span>
+                </small>
+            </p>
+        </div>
+    </div>
+</div>
+        
+    </div>
+    <div class="col-xs-12">
+        <!-- 标签列表 -->
+        <!-- Featured Tags -->
+<style>
+    #featured-tag .post-tag-item {
+        font-size: 12px;
+        line-height: 30px;
+        display: inline-block;
+        height: 30px;
+        margin: 5px 0px;
+        padding: 0 7px;
+        color: #333;
+        border-radius: 15px;
+        background: #f6f6f6;
+    }
+
+    #featured-tag .post-tag-item:hover {
+        color: #337ab7;
+    }
+</style>
+<div id="featured-tag">
+    
+    <a class="post-tag-item" href="/tags/#机器学习" title="机器学习"
+        rel="2">#机器学习 (2) </a>
+    
+    <a class="post-tag-item" href="/tags/#Python" title="Python"
+        rel="2">#Python (2) </a>
+    
+    <a class="post-tag-item" href="/tags/#协议" title="协议"
+        rel="1">#协议 (1) </a>
+    
+    <a class="post-tag-item" href="/tags/#数据库" title="数据库"
+        rel="1">#数据库 (1) </a>
+    
+    <a class="post-tag-item" href="/tags/#Linux" title="Linux"
+        rel="2">#Linux (2) </a>
+    
+    <a class="post-tag-item" href="/tags/#Django" title="Django"
+        rel="1">#Django (1) </a>
+    
+    <a class="post-tag-item" href="/tags/#爬虫" title="爬虫"
+        rel="2">#爬虫 (2) </a>
+    
+</div>
+    </div>
+    <!-- 评论 -->
+    <div class="col-xs-12">
+        
+<div id="gitalk-container"></div>
+<div id="gitalk-related"></div>
+<link rel="stylesheet" href="/css/gitalk.css">
+<script src="/js/gitalk.min.js"></script>
+<script>
+    window.addEventListener('load', function () {
+        const gitalk = new Gitalk({
+            clientID: 'c1fdd456a4caae5f7df0',
+            clientSecret: 'b2674451e21feae50520f99337ec15d2aebe7879',
+            repo: 'hexo-theme-geektutu',
+            owner: 'geektutu',
+            admin: ['geektutu'],
+            id: window.location.pathname,
+            distractionFreeMode: false
+        });
+        gitalk.render('gitalk-container');
+        document.querySelector('#gitalk-container').addEventListener('click', function (e) {
+            e && e.stopPropagation && e.stopPropagation();
+        });
+    })
+</script>
+<script>
+    window.addEventListener('load', function () {
+        function render(comments) {
+            var template = '<a href="${comment.url}?utm_source=gitalk" class="dis-item-url"><h3 class="dis-item-title">${comment.title}</h3>' +
+                '<p class="dis-item-des">${comment.count} 评论 ● ${comment.date}</p>' +
+                '<div class="dis-item-content"><img class="dis-item-img" src="${comment.icon}" alt="icon"><p><b><span class="dis-item-user">${comment.user}</span></b>&nbsp;——&nbsp;${comment.body}</p></div>' +
+                '</a>'
+
+            var wrapper = get('#gitalk-related');
+            comments = shuffle(comments);
+            comments.slice(0, 4).forEach(function (c) {
+                var div = document.createElement('div');
+                div.classList.add('dis-item');
+                div.innerHTML = template.replace("${comment.url}", c.url)
+                    .replace("${comment.title}", c.title)
+                    .replace("${comment.count}", c.count)
+                    .replace("${comment.date}", c.date)
+                    .replace("${comment.icon}", c.icon)
+                    .replace("${comment.user}", c.user)
+                    .replace("${comment.body}", c.body)
+                wrapper.appendChild(div)
+            })
+            var p = document.createElement('p')
+            p.innerHTML = '<a href="https://geektutu.com/post/blog-experience-7.html">Gitalk Plus</a>';
+            p.classList.add('dis-divide');
+            wrapper.appendChild(p);
+            wrapper.classList.add('dis-wrapper')
+        }
+        function shuffle(a) {
+            for (var i = a.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                [a[i], a[j]] = [a[j], a[i]];
+            }
+            return a;
+        }
+        function get(str) { return document.querySelector(str) }
+        fetch('/tool/comments.json').then(function (r) { return r.json() }).then(render).catch(function (e) { })
+    })
+</script>
+
+    </div>
+</div>
+<aside class="float-left gkt-sidebar hidden-xs hidden-sm">
+    <div style="clear: both"></div>
+    <div class="gkt-sidebar-wrapper">
+        <section class="box-shadow"><style>
+    .gkt-summary {
+        border: 1px solid #DDDDDD;
+        border-radius: 3px;
+        padding: 5px;
+        width: 100%;
+    }
+
+
+    .gkt-summary nav {
+        overflow: hidden;
+    }
+
+    .gkt-summary nav a {
+        display: inline-block;
+        text-align: center;
+        color: #333;
+        font-size: 12px;
+    }
+
+    .gkt-summary nav span {
+        display: block;
+    }
+
+    .gkt-summary nav .middle {
+        border-left: 1px solid #eaecef;
+        border-right: 1px solid #eaecef;
+    }
+
+    .gkt-summary .number {
+        font-weight: bold;
+    }
+
+    .gkt-summary .link-list {
+        margin-top: 5px;
+        margin-bottom: -5px;
+        padding-top: 7px;
+        border-top: 1px dashed #999;
+        display: flex;
+    }
+
+    .gkt-summary .link-list a {
+        flex: 1;
+    }
+
+    .gkt-summary .link-list img {
+        width: 25px;
+        height: 25px;
+    }
+</style>
+
+<div class="gkt-summary">
+    <nav>
+        <a href="/" class="col-xs-4">
+            <number class="number">9</number><span>文章</span>
+        </a>
+        <a href="/series" class="col-xs-4 middle">
+            <number class="number">6</number><span>专题</span>
+        </a>
+        <a href="/tags" class="col-xs-4">
+            <number class="number">7</number><span>标签</span>
+        </a>
+    </nav>
+
+    
+    <div class="link-list">
+        
+        <a href="https://github.com/geektutu/hexo-theme-geektutu"><img src="/img/related_links/github.png" /></a>
+        
+        <a href="https://github.com/geekcircle"><img src="/img/related_links/geekcircle.png" /></a>
+        
+        <a href="mailto:Geektutu&lt;gzdaijie@gmail.com&gt;?subject=From Geektutu&#39;s Blog"><img src="/img/related_links/email.png" /></a>
+        
+    </div>
+    
+</div></section>
+        
+        
+        <section class="gkt-sidebar-content box-shadow">
+            <strong>机器学习</strong>
+            <ul>
+                
+                <li>
+                    <a href="/post/numpy方法.html"
+                        class="gkt-sidebar-active">numpy方法</a>
+                    
+                    <!-- Table of Contents -->
+<div id="sidebar-toc">
+  <!-- TOC  -->
+  
+  
+  
+</div>
+
+<script>
+  (function () {
+    var h2 = document.querySelectorAll('article h2');
+    var h3 = document.querySelectorAll('article h3');
+    var linkList = document.querySelectorAll('#sidebar-toc a');
+
+    function findLinkElement(name) {
+      for (var i = 0; i < linkList.length; i++) {
+        var items = linkList[i].href.split('#');
+        if (items && items[items.length - 1] === encodeURIComponent(name)) {
+          return i;
+        }
+      }
+      return -1;
+    }
+
+    function activeLink(titleList) {
+      var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+      for (var i = titleList.length - 1; i >= 0; i--) {
+        if (scrollTop - titleList[i].offsetTop > 0) {
+          var index = findLinkElement(titleList[i].id);
+          index != -1 && linkList[index].classList.add('gkt-sidebar-active');
+          break;
+        }
+      }
+    }
+
+    window.addEventListener("scroll", function (e) {
+      [].slice.call(linkList).forEach(function (link) {
+        link.classList.remove('gkt-sidebar-active');
+      })
+      activeLink(h2);
+    })
+  })();
+</script>
+                    
+                </li>
+                
+                <li>
+                    <a href="/post/pandas方法.html"
+                        class="">pandas方法</a>
+                    
+                </li>
+                
+            </ul>
+        </section>
+        
+        
+        <section class="box-shadow">
+            <strong>最近的文章</strong>
+            <ul>
+                
+                <li>
+                    <a href="/post/linux基础操作.html">linux基础操作</a>
+                </li>
+                
+                <li>
+                    <a href="/post/部署爬虫与Django.html">部署爬虫与Django</a>
+                </li>
+                
+                <li>
+                    <a href="/post/pandas方法.html">pandas方法</a>
+                </li>
+                
+            </ul>
+        </section>
+        <section class="box-shadow text-center">
+            
+
+<!-- 侧边栏ad 250 * 90 -->
+<ins class="adsbygoogle" style="display:inline-block;width:250px;height:90px"
+    data-ad-client="ca-pub-939225546" data-ad-slot="3708583719"></ins>
+
+
+
+
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+            
+
+<!-- 侧边栏ad 250 * 90 -->
+<ins class="adsbygoogle" style="display:inline-block;width:250px;height:90px"
+    data-ad-client="ca-pub-939225546" data-ad-slot="3708583719"></ins>
+
+
+
+
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+        </section>
+    </div>
+</aside>
+
+<script>
+    (function () {
+        var ele = getDom('.gkt-sidebar-content')
+        var wrapper = getDom('.gkt-sidebar-wrapper')
+        var last = 0
+        window.addEventListener("scroll", function (e) {
+            var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            var isDown = scrollTop > last;
+            var pos = getPosition(ele).y - scrollTop;
+            var downLimit = 50;
+            var upLimit = -100;
+            // uarrow.style.marginTop = scrollTop + 'px';
+            isDown && pos <= downLimit && wrapper.classList.add("gkt-sidebar-fixed");
+            !isDown && pos > upLimit && wrapper.classList.remove("gkt-sidebar-fixed");
+            last = scrollTop
+        })
+    })();
+    (function () {
+        function resizeUArrow() {
+            var s = getDom('.u-arrow-wrapper').style
+            var pc = getDom('.post-container')
+            s.left = getPosition(pc).x + 'px';
+            s.width = pc.clientWidth + 'px';
+        }
+        resizeUArrow()
+        window.addEventListener('resize', resizeUArrow);
+    })();
+</script>
+    
+</main>
+    </div>
+    <style>
+    img#go-top {
+        position: fixed;
+        bottom: 100px;
+        width: 50px;
+        cursor: pointer;
+        z-index: 9999;
+    }
+</style>
+<img id="go-top" src="/icon/top.png" class="hidden-xs" style="display: none" />
+<script>
+    (function () {
+        var goTop = document.getElementById('go-top');
+        var mainContainer = document.querySelector('.main-container');
+        
+        goTop.addEventListener('click', function () {
+            window.scroll(0, 0);
+        }, false);
+        window.addEventListener('scroll', function () {
+            var right = document.body.offsetWidth - mainContainer.getBoundingClientRect().right;
+            var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            goTop.style.right = right + 10 + 'px'
+            scrollTop > 700 && (goTop.style.display = "block");
+            scrollTop <= 700 && (goTop.style.display = "none");
+        });
+    })();
+</script>
+    <style>
+    #geektutu-click-img-container {
+        position: fixed;
+        left: 0;
+        top: 0;
+        text-align: center;
+        width: 100%;
+        display: none;
+        z-index: 9999;
+    }
+
+    #geektutu-click-img-container img {
+        object-fit: contain;
+        background: #eaecef;
+        padding: 15px;
+        border-radius: 10px;
+        height: auto;
+        width: auto;
+        vertical-align: middle;
+    }
+</style>
+
+
+<div id="geektutu-click-img-container">
+    <img src="" alt="Big Image">
+</div>
+
+<script>
+    (function () {
+        var container = document.querySelector('#geektutu-click-img-container')
+        var targetImg = container.querySelector('img')
+        var imgs = document.querySelectorAll('article img');
+        targetImg.addEventListener('click', function (e) {
+            container.style.display = 'none';
+            e && e.stopPropagation && e.stopPropagation();
+        }, false);
+
+        for (var i = 0; i < imgs.length; ++i) {
+            var img = imgs[i];
+            img.addEventListener('click', (function (src, rate) {
+                return function (e) {
+                    e && e.stopPropagation && e.stopPropagation();
+                    if (window.innerWidth < 980) {
+                        return
+                    }
+                    targetImg.style.height = targetImg.style.width = 'auto';
+                    if (window.innerWidth / window.innerHeight > rate) {
+                        targetImg.style.height = (window.innerHeight - 20) + 'px';
+                    } else {
+                        targetImg.style.width = (window.innerWidth - 20) + 'px';
+                    }
+                    container.style.height = window.innerHeight + 'px'
+                    container.style.lineHeight = window.innerHeight + 'px'
+                    container.style.display = 'block';
+                    targetImg.src = src;
+                };
+            }(img.src, img.width / img.height)), false)
+        }
+    })();
+</script>
+    <!-- Footer -->
+    <!-- Footer -->
+<style>
+    footer {
+        width: 100%;
+        line-height: 1.5;
+        padding: 20px;
+    }
+
+    footer a {
+        color: #333;
+        text-decoration: none;
+    }
+
+    .footer-hexo img {
+        height: 20px;
+        margin-bottom: -5px;
+    }
+
+    .footer-hexo a {
+        color: #337ab7;
+    }
+</style>
+<footer class="text-center col-xs-12">
+    <p>
+        <small>© 2019 - Xingya - </small>
+        <small>
+            <a target="_blank" rel="nofollow noopener" href="http://www.miitbeian.gov.cn/">沪ICP备18001798号-1</a>
+        </small>
+    </p>
+    <p class="footer-hexo">
+        <!-- 但若直接使用或修改主题，请务必保留这段声明 -->
+        <small>Powered by <a target="_blank" href="https://hexo.io">Hexo</a> | Theme
+            <a target="_blank" href="https://geektutu.com">Geektutu</a>
+            <a href="https://github.com/geektutu/hexo-theme-geektutu">
+                <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAYGBgYHBgcICAcKCwoLCg8ODAwODxYQERAREBYiFRkVFRkVIh4kHhweJB42KiYmKjY+NDI0PkxERExfWl98fKcBBgYGBgcGBwgIBwoLCgsKDw4MDA4PFhAREBEQFiIVGRUVGRUiHiQeHB4kHjYqJiYqNj40MjQ+TERETF9aX3x8p//CABEIACIAUAMBIgACEQEDEQH/xAAcAAABBAMBAAAAAAAAAAAAAAAAAQQFBwIDBgj/2gAIAQEAAAAA9KrHSgAYL5/z6zZGuJd12uugbhq3uKtmuRtix20IS7lTLAfAAAn/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/9oACAECEAAAAAAB/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/aAAgBAxAAAAAAAf/EADEQAAICAQIEBQEGBwAAAAAAAAECAwQFAAYREhORBxQhUlQxQVFic5KxJDJCYYGC0f/aAAgBAQABPwCFHnjWUzuvN6hV4cANSRLGjO9yRVUcSzMoA7jVXJYe5N0a2dhmk9kc0bN2GvLN8mbuNeWb5M3ca8s3yZu415Y/Jm7jXlm+TN3H/NeVPyZu40vOk3TZywK8wJ+v3EHVM/wsI/Dq2lrxN3Nnca16eti8chSAIoMbzByhMwP14kHVfwIiSaF5c96J6kwwCOTnHsYk8uvCrdmQy1TI4rJuz3cZLyGR/wCd4+YoOf8AEpUjXitubLYPG4paFsUxcuiGe7yc5gTW3LW44szXmobsi3Dhmic2+Z4+vCVH9CpraPiQ+QvbgTJrPFBWd5YpWrmNIIEXiRO32Pqt4p7cnfHk18lFBdmEVW1LVdIZGOrniTt6plrWKaO69yCykDRxwF+LMAewB0Txtr+Sf31VI8tEPw62fZt7N3Humtbpzz13ucX6CGSWMSuzpLyD1eNgeUka3PuvHbaxq3biTMHfkiSNCS78CwU+3Xg7Vu3MhuTcU6cq3Zemn3Eh2dv8Lzcut+29x1atKbHYqLJUhLwyNMwiZ3j9yDWOxUOV3tgb+3No5LDx1pi9+aeIwRlNY6bc+Jv+IFGrhLxtXJZ7VKcw81diiAAEn0JOrkWZyNfbEr0tz27UGQgkuGzXdIIvyowq99bRxk9ffO/L81SZBPZgEEroQroIxxMZOgeNsfkn99QypHGqO4Vl9CDrN4LDZkwyzyyQ2IgRHZrzGCZVP1XnQglT9oOtw4LC7iqV6uRkZoYpxKFSQpzFRw4EjVRMfSrQ1qqwxQxKFjjTgFUD7BoWYR6iVe+mtxt9Zwf9teaj4AdccPu5tedX5A/VrzUR+sy/q1CwksF19VEfDj/cnQRW+qg66cfsXtrpx+xe2unH7F7a6cfsXtrpx+xe2unH7F7a6cfsXtoxx+xe2gAAOA1//8QAFBEBAAAAAAAAAAAAAAAAAAAAMP/aAAgBAgEBPwB//8QAFBEBAAAAAAAAAAAAAAAAAAAAMP/aAAgBAwEBPwB//9k="
+                    alt="Github Star">
+            </a>
+        </small>
+    </p>
+    
+    <p>
+        <small>
+            <span id="busuanzi_container_site_pv">👁<span id="busuanzi_value_site_pv"></span></span> &nbsp;
+            <span id="busuanzi_container_page_pv">📚<span id="busuanzi_value_page_pv"></span></span>
+        </small>
+    </p>
+    
+    
+    <p><small><span id="cnzz_stat_icon_123649"></span></small></p>
+    
+
+</footer>
+
+
+<script>
+    window.addEventListener('load', function () {
+        globalAddScript('//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js');
+    })
+</script>
+
+<!-- Baidu Tongji -->
+
+<script>
+    window.addEventListener('load', function () {
+        var _hmt = _hmt || [];
+        globalAddScript('//hm.baidu.com/hm.js?1a0ec33b1aa')
+    })
+</script>
+
+
+<script>
+    window.addEventListener('load', function () {
+        globalAddScript('//s23.cnzz.com/z_stat.php?id=123649&online=2');
+    })
+</script>
+
+
+<!-- baidu auto push for seo -->
+<script>
+    window.addEventListener('load', function () {
+        var src = 'http://push.zhanzhang.baidu.com/push.js'
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        globalAddScript(src);
+    })
+</script>
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'UA-141425-1');
+
+    window.addEventListener('load', function () {
+        globalAddScript('https://www.googletagmanager.com/gtag/js?id=UA-141425-1');
+    });
+</script>
+
+
+    <script>
+        // 非本站网址，新开tab页签
+        (function () {
+            var stopBubble = function (e) {
+                e && e.stopPropagation && e.stopPropagation();
+            }
+            var links = document.querySelectorAll('a');
+            [].slice.call(links).forEach(function (item) {
+                if (item.href && item.href.indexOf(window.location.host) === -1) {
+                    item.target = '_blank'
+                }
+                // 阻止冒泡，不触发彩蛋。
+                item.addEventListener('click', stopBubble, false);
+            });
+            var article = document.querySelector('article');
+            article && article.addEventListener('click', stopBubble, false)
+        })();
+    </script>
+    
+<script>
+    (function (window, document, undefined) {
+        var hearts = [];
+        var keywords = ["点个赞", "留个言", "赞赏一下", "张兴亚的技术博客", "zxyyee.cn"];
+        function randomInt(max) {
+            return Math.floor(Math.random() * Math.floor(max));
+        }
+        window.addEventListener('click', createWord)
+
+        function createWord(e) {
+            var d = document.createElement("span");
+            d.style.position = 'fixed';
+            d.style.zIndex = 9999;
+            d.style.color = 'rgb(' + [randomInt(255), randomInt(255), randomInt(255)].join(',') + ')';
+            d.innerHTML = keywords[randomInt(keywords.length)];
+            d.onselectstart = function () { return false; }
+
+            hearts.push({ el: d, x: e.clientX - 5, y: e.clientY - 5, alpha: 1, scale: 1 });
+            document.body.appendChild(d);
+        }
+        (function gameloop() {
+            for (var i = 0; i < hearts.length; i++) {
+                heart = hearts[i];
+                if (heart.alpha <= 0) {
+                    document.body.removeChild(heart.el);
+                    hearts.splice(i, 1);
+                    continue;
+                }
+                heart.y -= heart.alpha < 0.5 ? 2 : 1;
+                heart.scale += 0.002;
+                heart.alpha -= 0.013;
+                heart.el.style.transform = 'scale(' + heart.scale + ')';
+                heart.el.style.left = heart.x + 'px';
+                heart.el.style.top = heart.y + 'px';
+            }
+            setTimeout(gameloop, 10)
+        })();
+    })(window, document);
+</script>
+
+</body>
+
+</html>

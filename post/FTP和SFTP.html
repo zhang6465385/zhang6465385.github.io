@@ -14,17 +14,17 @@
   <!-- if page has tags, then add tags to keyword -->
   
   
-  <meta name="keywords" content="张兴亚的博客,张兴亚的小站,">
+  <meta name="keywords" content="张兴亚的博客,张兴亚的小站,协议,">
   <!-- page.description has higher priority -->
-  <meta name="description" content="张兴亚的小站，致力于分享一些技术教程和有趣的技术实践。">
+  <meta name="description" content="传输">
   <link rel="shortcut icon" href="/img/icon.png">
   <title>
     
-    张兴亚的技术博客
+    FTP和SFTP | 极客兔兔
     
   </title>
 
-  <link rel="canonical" href="/">
+  <link rel="canonical" href="/post/FTP和SFTP.html">
   <link rel="stylesheet" href="/css/reset.css">
   <link rel="stylesheet" href="/css/layout.css">
   <link rel="stylesheet" href="/css/markdown.css">
@@ -109,7 +109,7 @@
                     
                 </li>
                 
-                <li class="gkt-cate-name float-left ">
+                <li class="gkt-cate-name float-left active">
                     <a class="float-left" href="/post/FTP和SFTP.html">传输协议</a>
                     
                 </li>
@@ -161,65 +161,236 @@
 <main class="col-xs-12 padding-0 markdown-it">
     <!-- Post Container -->
     
-    <style>
-        @media (min-width: 1200px) {
-            .main-container {
-                width: 1000px !important;
-            }
-        }
+    <!-- Post Content -->
+<div class="float-left post-container box-shadow">
+    <div class="u-arrow-wrapper hidden-xs">
+        
+        <a class="float-left" href="/post/Linux775权限.html"><i class="u-arrow-left"></i></a>
+        
+        
+        <a class="float-right" href="/post/部署分布式爬虫.html"><i class="u-arrow-right"></i></a>
+        
+    </div>
+    <article class="col-xs-12">
+        <h1> FTP和SFTP </h1>
 
-        #gkt-index-sidebar {
-            border-left: 1px solid #eaecef;
-        }
+        
 
-        #gkt-index-sidebar section {
-            margin-bottom: 8px;
-            padding: 10px;
-        }
-
-        .index-container {
-            padding: 20px;
-        }
-    </style>
-    <div class="col-xs-12 padding-0">
-        <div class="col-xs-12 col-md-8 bg-white index-container box-shadow">
-            <!-- Main Content -->
-<!-- css page.ejs -->
-<!-- 置顶文章 -->
-
-
-<!-- 普通文章 -->
-
-<div class="post-preview">
-    <div class="post-img" style="background-image: url('/source/img/banner06.jpg')"></div>
-    <div class="post-info">
-        <div class="post-info-center">
-            <div class="hidden-xs">
+        
+        <div class="hidden-lg hidden-md series_links">
+            <p> <strong> 传输协议系列文章链接：</strong></p>
+            <ul>
                 
+                <li>
+                    <a href="/post/FTP和SFTP.html">FTP和SFTP</a>
+                    <span class="post-item-date">(Jan 20, 2019)</span>
+                </li>
                 
-                <span>/</span>
+            </ul>
+        </div>
+        
+        
+        
+        <h2 id="FTP、SFTP"><a href="#FTP、SFTP" class="headerlink" title="FTP、SFTP"></a>FTP、SFTP</h2><blockquote>
+<p>TSL、SSL</p>
+<p>正常模式：需要用户名密码交互，会有权限</p>
+</blockquote>
+<p>FTP:<br>文件传输协议（英文：File Transfer Protocol，缩写：FTP）是用于在网络上进行文件传输的一套标准协议，使用客户/服务器模式。它属于网络传输协议的应用层。文件传送（file transfer）和文件访问（file access）之间的区别在于：前者由FTP提供，后者由如NFS等应用系统提供。<br>FTP是一个8位的客户端-服务器协议，能操作任何类型的文件而不需要进一步处理，就像MIME或Unicode一样。但是，FTP有着极高的延时，这意味着，从开始请求到第一次接收需求数据之间的时间，会非常长；并且不时的必须执行一些冗长的登录进程。</p>
+<p>SFTP:<br>sftp是SSH File Transfer Protocol的缩写，安全文件传送协议。可以为传输文件提供一种安全的网络的加密方法。sftp 与 ftp 有着几乎一样的语法和功能。SFTP 为 SSH的其中一部分，是一种传输档案至 Blogger 伺服器的安全方式。其实在SSH软件包中，已经包含了一个叫作SFTP(Secure File Transfer Protocol)的安全文件信息传输子系统，SFTP本身没有单独的守护进程，它必须使用sshd守护进程（端口号默认是22）来完成相应的连接和答复操作，所以从某种意义上来说，SFTP并不像一个服务器程序，而更像是一个客户端程序。SFTP同样是使用加密传输认证信息和传输的数据，所以，使用SFTP是非常安全的。但是，由于这种传输方式使用了加密/解密技术，所以传输效率比普通的FTP要低得多。</p>
+
+        <div class="hidden-xs col-xs-12 text-center">
+    <canvas id="geektutu-post-qr"></canvas>
+    <p style="margin-top: -10px;"><small>微信扫一扫，阅读/分享</small></p>
+</div>
+<script src="/js/qrious.min.js"></script>
+<script>
+    (function () {
+        new QRious({
+            element: document.getElementById('geektutu-post-qr'),
+            value: window.location.href,
+            size: 120
+        });
+    })();
+</script>
+        <hr>
+        <div>
+            
+            <p>
+                <span>专题: </span>
                 
-                <a class="text-gray" href="/tags/#Linux"
-                    title="Linux">Linux</a>
-                <span>/</span>
+                <a href="/series/#传输协议">
+                    <code key="传输协议" class="post-label">传输协议</code>
+                </a>
                 
-                
-            </div>
-            <a href="/post/linux基础操作.html" class="title">
-                linux基础操作
-            </a>
-            <p class="text-gray">
-                <small>
-                    <span>发表于2019-07-28，</span>
-                    <span class="hidden-xs">全文1990字，</span>
-                    <span>阅读约7分钟</span>
-                </small>
             </p>
+            
+            <p>
+                <span>发表于2019-01-20 06:11:39，最后修改于2019-09-03 19:09:03。</span>
+            </p>
+            <!-- 文章末尾的提示 start -->
+            
+            <p>
+                本站永久域名<strong>「 <a
+                        href="/post/FTP和SFTP.html">zxyyee.cn</a>
+                    」</strong>，也可搜索<strong>「 张兴亚的技术博客 」</strong>找到我。
+            </p>
+            
+            
+            <p>期待关注我的<strong>「 <a href="https://zhuanlan.zhihu.com/geektutu">知乎专栏</a>」</strong>，所有文章可在<strong>「
+                    知乎APP
+                    」</strong>查看。</p>
+            
+            <!-- 文章末尾的提示 end -->
+        </div>
+        <hr />
+        <p name="pagination" style="font-size: 1.2em">
+    
+    <a class="float-left" href="/post/Linux775权限.html">上一篇 « Linux775权限</a>
+    
+    
+    <a class="float-right" href="/post/部署分布式爬虫.html">下一篇 » 部署分布式爬虫</a>
+    
+</p>
+    </article>
+    <!-- 赞赏 -->
+    <!--打赏-->
+
+<style>
+    #reward .reward-btn-wrapper {
+        width: 100px;
+        padding-top: 25px;
+        cursor: pointer;
+        margin: 0 auto;
+    }
+
+    #reward .reward-btn {
+        padding: 2px 15px;
+        color: #fff;
+        background-color: #ea6f5a;
+        border-radius: 20px;
+    }
+
+    #reward .reward-code {
+        position: absolute;
+        top: -230px;
+        left: 50%;
+        display: none;
+        width: 360px;
+        height: 240px;
+        margin-left: -180px;
+        padding: 15px 20px;
+        border: 1px solid #e6e6e6;
+        background: #fff;
+        box-shadow: 0 1px 1px 1px #efefef;
+    }
+
+    #reward .reward-code:after,
+    #reward .reward-code:before {
+        position: absolute;
+        content: '';
+        border: 10px solid transparent
+    }
+
+    #reward .reward-code:after {
+        bottom: -19px;
+        left: 50%;
+        margin-left: -10px;
+        border-top-color: #fff
+    }
+
+    #reward .reward-code:before {
+        bottom: -20px;
+        left: 50%;
+        margin-left: -10px;
+        border-top-color: #e6e6e6
+    }
+
+    #reward .qr-code {
+        width: 50%;
+        float: left;
+        padding: 5px;
+    }
+
+    #reward .qr-code p {
+        margin-top: -6px;
+    }
+
+    #reward img[alt='i'] {
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        margin: 0 auto;
+        z-index: 2;
+        margin-left: 75px;
+        margin-top: 65px;
+    }
+
+    #reward img[alt="ali"] {
+        width: 100%;
+        box-sizing: border-box;
+        border: 5px solid #0f9be0;
+    }
+
+    #reward img[alt="wechat"] {
+        width: 100%;
+        box-sizing: border-box;
+        border: 5px solid #3db034;
+    }
+
+    #reward .reward-tip {
+        font-size: 1.2em;
+        margin-bottom: 0;
+        color: #ea6f5a;
+    }
+</style>
+<div id="reward" class="col-xs-12">
+    <div class="reward-btn-wrapper">
+        <div class="reward-btn text-center">赞赏支持</div>
+    </div>
+    <div class="reward-code text-center">
+        <p class="text-center reward-tip"><strong>请我吃胡萝卜 =^_^= </strong></p>
+        <div class="qr-code">
+            <img src="/img/icon.png" alt="i">
+            <img id="reward-ali" src="" alt="ali">
+            <p><small>支付宝</small></p>
+        </div>
+        <div class="qr-code">
+            <img src="/img/icon.png" alt="i">
+            <img id="reward-wechat" src="" alt="wechat">
+            <p><small>微信</small></p>
         </div>
     </div>
 </div>
+<script>
+    (function (window, document) {
+        var aliQr = new QRious({ value: 'HTTPS://QR.ALIPAY.COM/FKX060337TUXBAX9LIFJE8' });
+        var wechatQr = new QRious({ value: 'wxp://f2f0qgGBlfD1nZXjvBjievxB0z0fc0W2sBq5' });
+        document.querySelector('#reward-ali').src = aliQr.toDataURL();
+        document.querySelector('#reward-wechat').src = wechatQr.toDataURL();
 
-<div class="post-preview">
+        var rewardBtn = document.querySelector('#reward .reward-btn-wrapper');
+        var qrCode = document.querySelector('#reward .reward-code')
+        var activeFunc = function (e) {
+            qrCode.style.display = 'block';
+        }
+        var hideFunc = function (e) {
+            qrCode.style.display = 'none';
+        }
+
+        rewardBtn.addEventListener('mouseenter', activeFunc, false)
+        rewardBtn.addEventListener('mouseover', activeFunc, false)
+        rewardBtn.addEventListener('mouseleave', hideFunc, false)
+        qrCode.addEventListener('mouseenter', activeFunc, false)
+        qrCode.addEventListener('mouseover', activeFunc, false)
+        qrCode.addEventListener('mouseleave', hideFunc, false)
+    })(window, document);
+</script>
+
+    <!-- 推荐阅读三篇文章 -->
+    <div class="col-xs-12">
+        <h3>推荐阅读</h3>
+        
+        <div class="post-preview">
     <div class="post-img" style="background-image: url('/source/img/banner06.jpg')"></div>
     <div class="post-info">
         <div class="post-info-center">
@@ -247,103 +418,8 @@
         </div>
     </div>
 </div>
-
-<div class="post-preview">
-    <div class="post-img" style="background-image: url('/source/img/banner06.jpg')"></div>
-    <div class="post-info">
-        <div class="post-info-center">
-            <div class="hidden-xs">
-                
-                
-                <span>/</span>
-                
-                <a class="text-gray" href="/tags/#机器学习"
-                    title="机器学习">机器学习</a>
-                <span>/</span>
-                
-                <a class="text-gray" href="/tags/#Python"
-                    title="Python">Python</a>
-                <span>/</span>
-                
-                
-            </div>
-            <a href="/post/pandas方法.html" class="title">
-                pandas方法
-            </a>
-            <p class="text-gray">
-                <small>
-                    <span>发表于2019-03-28，</span>
-                    <span class="hidden-xs">全文1805字，</span>
-                    <span>阅读约7分钟</span>
-                </small>
-            </p>
-        </div>
-    </div>
-</div>
-
-<div class="post-preview">
-    <div class="post-img" style="background-image: url('/source/img/banner06.jpg')"></div>
-    <div class="post-info">
-        <div class="post-info-center">
-            <div class="hidden-xs">
-                
-                
-                <span>/</span>
-                
-                <a class="text-gray" href="/tags/#数据库"
-                    title="数据库">数据库</a>
-                <span>/</span>
-                
-                
-            </div>
-            <a href="/post/Redis-0.html" class="title">
-                Redis
-            </a>
-            <p class="text-gray">
-                <small>
-                    <span>发表于2019-03-18，</span>
-                    <span class="hidden-xs">全文1903字，</span>
-                    <span>阅读约7分钟</span>
-                </small>
-            </p>
-        </div>
-    </div>
-</div>
-
-<div class="post-preview">
-    <div class="post-img" style="background-image: url('/source/img/banner06.jpg')"></div>
-    <div class="post-info">
-        <div class="post-info-center">
-            <div class="hidden-xs">
-                
-                
-                <span>/</span>
-                
-                <a class="text-gray" href="/tags/#机器学习"
-                    title="机器学习">机器学习</a>
-                <span>/</span>
-                
-                <a class="text-gray" href="/tags/#Python"
-                    title="Python">Python</a>
-                <span>/</span>
-                
-                
-            </div>
-            <a href="/post/numpy方法.html" class="title">
-                numpy方法
-            </a>
-            <p class="text-gray">
-                <small>
-                    <span>发表于2019-02-28，</span>
-                    <span class="hidden-xs">全文12391字，</span>
-                    <span>阅读约42分钟</span>
-                </small>
-            </p>
-        </div>
-    </div>
-</div>
-
-<div class="post-preview">
+        
+        <div class="post-preview">
     <div class="post-img" style="background-image: url('/source/img/banner06.jpg')"></div>
     <div class="post-info">
         <div class="post-info-center">
@@ -371,8 +447,8 @@
         </div>
     </div>
 </div>
-
-<div class="post-preview">
+        
+        <div class="post-preview">
     <div class="post-img" style="background-image: url('/source/img/banner06.jpg')"></div>
     <div class="post-info">
         <div class="post-info-center">
@@ -400,77 +476,123 @@
         </div>
     </div>
 </div>
+        
+    </div>
+    <div class="col-xs-12">
+        <!-- 标签列表 -->
+        <!-- Featured Tags -->
+<style>
+    #featured-tag .post-tag-item {
+        font-size: 12px;
+        line-height: 30px;
+        display: inline-block;
+        height: 30px;
+        margin: 5px 0px;
+        padding: 0 7px;
+        color: #333;
+        border-radius: 15px;
+        background: #f6f6f6;
+    }
 
-<div class="post-preview">
-    <div class="post-img" style="background-image: url('/source/img/banner06.jpg')"></div>
-    <div class="post-info">
-        <div class="post-info-center">
-            <div class="hidden-xs">
-                
-                
-                <span>/</span>
-                
-                <a class="text-gray" href="/tags/#Linux"
-                    title="Linux">Linux</a>
-                <span>/</span>
-                
-                
-            </div>
-            <a href="/post/Linux775权限.html" class="title">
-                Linux775权限
-            </a>
-            <p class="text-gray">
-                <small>
-                    <span>发表于2018-07-28，</span>
-                    <span class="hidden-xs">全文428字，</span>
-                    <span>阅读约2分钟</span>
-                </small>
-            </p>
-        </div>
+    #featured-tag .post-tag-item:hover {
+        color: #337ab7;
+    }
+</style>
+<div id="featured-tag">
+    
+    <a class="post-tag-item" href="/tags/#机器学习" title="机器学习"
+        rel="2">#机器学习 (2) </a>
+    
+    <a class="post-tag-item" href="/tags/#Python" title="Python"
+        rel="2">#Python (2) </a>
+    
+    <a class="post-tag-item" href="/tags/#协议" title="协议"
+        rel="1">#协议 (1) </a>
+    
+    <a class="post-tag-item" href="/tags/#数据库" title="数据库"
+        rel="1">#数据库 (1) </a>
+    
+    <a class="post-tag-item" href="/tags/#Linux" title="Linux"
+        rel="2">#Linux (2) </a>
+    
+    <a class="post-tag-item" href="/tags/#Django" title="Django"
+        rel="1">#Django (1) </a>
+    
+    <a class="post-tag-item" href="/tags/#爬虫" title="爬虫"
+        rel="2">#爬虫 (2) </a>
+    
+</div>
+    </div>
+    <!-- 评论 -->
+    <div class="col-xs-12">
+        
+<div id="gitalk-container"></div>
+<div id="gitalk-related"></div>
+<link rel="stylesheet" href="/css/gitalk.css">
+<script src="/js/gitalk.min.js"></script>
+<script>
+    window.addEventListener('load', function () {
+        const gitalk = new Gitalk({
+            clientID: 'c1fdd456a4caae5f7df0',
+            clientSecret: 'b2674451e21feae50520f99337ec15d2aebe7879',
+            repo: 'hexo-theme-geektutu',
+            owner: 'geektutu',
+            admin: ['geektutu'],
+            id: window.location.pathname,
+            distractionFreeMode: false
+        });
+        gitalk.render('gitalk-container');
+        document.querySelector('#gitalk-container').addEventListener('click', function (e) {
+            e && e.stopPropagation && e.stopPropagation();
+        });
+    })
+</script>
+<script>
+    window.addEventListener('load', function () {
+        function render(comments) {
+            var template = '<a href="${comment.url}?utm_source=gitalk" class="dis-item-url"><h3 class="dis-item-title">${comment.title}</h3>' +
+                '<p class="dis-item-des">${comment.count} 评论 ● ${comment.date}</p>' +
+                '<div class="dis-item-content"><img class="dis-item-img" src="${comment.icon}" alt="icon"><p><b><span class="dis-item-user">${comment.user}</span></b>&nbsp;——&nbsp;${comment.body}</p></div>' +
+                '</a>'
+
+            var wrapper = get('#gitalk-related');
+            comments = shuffle(comments);
+            comments.slice(0, 4).forEach(function (c) {
+                var div = document.createElement('div');
+                div.classList.add('dis-item');
+                div.innerHTML = template.replace("${comment.url}", c.url)
+                    .replace("${comment.title}", c.title)
+                    .replace("${comment.count}", c.count)
+                    .replace("${comment.date}", c.date)
+                    .replace("${comment.icon}", c.icon)
+                    .replace("${comment.user}", c.user)
+                    .replace("${comment.body}", c.body)
+                wrapper.appendChild(div)
+            })
+            var p = document.createElement('p')
+            p.innerHTML = '<a href="https://geektutu.com/post/blog-experience-7.html">Gitalk Plus</a>';
+            p.classList.add('dis-divide');
+            wrapper.appendChild(p);
+            wrapper.classList.add('dis-wrapper')
+        }
+        function shuffle(a) {
+            for (var i = a.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                [a[i], a[j]] = [a[j], a[i]];
+            }
+            return a;
+        }
+        function get(str) { return document.querySelector(str) }
+        fetch('/tool/comments.json').then(function (r) { return r.json() }).then(render).catch(function (e) { })
+    })
+</script>
+
     </div>
 </div>
-
-<div class="post-preview">
-    <div class="post-img" style="background-image: url('/source/img/banner06.jpg')"></div>
-    <div class="post-info">
-        <div class="post-info-center">
-            <div class="hidden-xs">
-                
-                
-                <span>/</span>
-                
-                <a class="text-gray" href="/tags/#Django"
-                    title="Django">Django</a>
-                <span>/</span>
-                
-                
-            </div>
-            <a href="/post/django自定义过滤器.html" class="title">
-                django自定义过滤器
-            </a>
-            <p class="text-gray">
-                <small>
-                    <span>发表于2018-05-29，</span>
-                    <span class="hidden-xs">全文1239字，</span>
-                    <span>阅读约5分钟</span>
-                </small>
-            </p>
-        </div>
-    </div>
-</div>
-
-<div style="margin: 15px 0">
-    <div class="text-center">
-    <p>
-        
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        
-    </p>
-</div>
-</div>
-        </div>
-        <div id="gkt-index-sidebar" class="hidden-xs hidden-sm col-md-4">
-            <section class="bg-white box-shadow"><style>
+<aside class="float-left gkt-sidebar hidden-xs hidden-sm">
+    <div style="clear: both"></div>
+    <div class="gkt-sidebar-wrapper">
+        <section class="box-shadow"><style>
     .gkt-summary {
         border: 1px solid #DDDDDD;
         border-radius: 3px;
@@ -546,53 +668,86 @@
     </div>
     
 </div></section>
-            <section class="bg-white box-shadow"><!-- Featured Tags -->
-<style>
-    #featured-tag .post-tag-item {
-        font-size: 12px;
-        line-height: 30px;
-        display: inline-block;
-        height: 30px;
-        margin: 5px 0px;
-        padding: 0 7px;
-        color: #333;
-        border-radius: 15px;
-        background: #f6f6f6;
+        
+        
+        <section class="gkt-sidebar-content box-shadow">
+            <strong>传输协议</strong>
+            <ul>
+                
+                <li>
+                    <a href="/post/FTP和SFTP.html"
+                        class="gkt-sidebar-active">FTP和SFTP</a>
+                    
+                    <!-- Table of Contents -->
+<div id="sidebar-toc">
+  <!-- TOC  -->
+  
+  <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#FTP、SFTP"><span class="toc-nav-text">FTP、SFTP</span></a></li></ol>
+  
+</div>
+
+<script>
+  (function () {
+    var h2 = document.querySelectorAll('article h2');
+    var h3 = document.querySelectorAll('article h3');
+    var linkList = document.querySelectorAll('#sidebar-toc a');
+
+    function findLinkElement(name) {
+      for (var i = 0; i < linkList.length; i++) {
+        var items = linkList[i].href.split('#');
+        if (items && items[items.length - 1] === encodeURIComponent(name)) {
+          return i;
+        }
+      }
+      return -1;
     }
 
-    #featured-tag .post-tag-item:hover {
-        color: #337ab7;
+    function activeLink(titleList) {
+      var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+      for (var i = titleList.length - 1; i >= 0; i--) {
+        if (scrollTop - titleList[i].offsetTop > 0) {
+          var index = findLinkElement(titleList[i].id);
+          index != -1 && linkList[index].classList.add('gkt-sidebar-active');
+          break;
+        }
+      }
     }
-</style>
-<div id="featured-tag">
-    
-    <a class="post-tag-item" href="/tags/#机器学习" title="机器学习"
-        rel="2">#机器学习 (2) </a>
-    
-    <a class="post-tag-item" href="/tags/#Python" title="Python"
-        rel="2">#Python (2) </a>
-    
-    <a class="post-tag-item" href="/tags/#协议" title="协议"
-        rel="1">#协议 (1) </a>
-    
-    <a class="post-tag-item" href="/tags/#数据库" title="数据库"
-        rel="1">#数据库 (1) </a>
-    
-    <a class="post-tag-item" href="/tags/#Linux" title="Linux"
-        rel="2">#Linux (2) </a>
-    
-    <a class="post-tag-item" href="/tags/#Django" title="Django"
-        rel="1">#Django (1) </a>
-    
-    <a class="post-tag-item" href="/tags/#爬虫" title="爬虫"
-        rel="2">#爬虫 (2) </a>
-    
-</div></section>
-            <section class="bg-white box-shadow text-center">
-                
 
+    window.addEventListener("scroll", function (e) {
+      [].slice.call(linkList).forEach(function (link) {
+        link.classList.remove('gkt-sidebar-active');
+      })
+      activeLink(h2);
+    })
+  })();
+</script>
+                    
+                </li>
                 
+            </ul>
+        </section>
+        
+        
+        <section class="box-shadow">
+            <strong>最近的文章</strong>
+            <ul>
                 
+                <li>
+                    <a href="/post/linux基础操作.html">linux基础操作</a>
+                </li>
+                
+                <li>
+                    <a href="/post/部署爬虫与Django.html">部署爬虫与Django</a>
+                </li>
+                
+                <li>
+                    <a href="/post/pandas方法.html">pandas方法</a>
+                </li>
+                
+            </ul>
+        </section>
+        <section class="box-shadow text-center">
+            
 
 <!-- 侧边栏ad 250 * 90 -->
 <ins class="adsbygoogle" style="display:inline-block;width:250px;height:90px"
@@ -606,8 +761,7 @@
 </script>
 
 
-                
-                
+            
 
 <!-- 侧边栏ad 250 * 90 -->
 <ins class="adsbygoogle" style="display:inline-block;width:250px;height:90px"
@@ -621,130 +775,38 @@
 </script>
 
 
-                
-                
-
-<!-- 侧边栏ad 250 * 90 -->
-<ins class="adsbygoogle" style="display:inline-block;width:250px;height:90px"
-    data-ad-client="ca-pub-939225546" data-ad-slot="3708583719"></ins>
-
-
-
-
-<script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-                
-                
-
-<!-- 侧边栏ad 250 * 90 -->
-<ins class="adsbygoogle" style="display:inline-block;width:250px;height:90px"
-    data-ad-client="ca-pub-939225546" data-ad-slot="3708583719"></ins>
-
-
-
-
-<script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-                
-                
-
-<!-- 侧边栏ad 250 * 90 -->
-<ins class="adsbygoogle" style="display:inline-block;width:250px;height:90px"
-    data-ad-client="ca-pub-939225546" data-ad-slot="3708583719"></ins>
-
-
-
-
-<script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-                
-                
-
-<!-- 侧边栏ad 250 * 90 -->
-<ins class="adsbygoogle" style="display:inline-block;width:250px;height:90px"
-    data-ad-client="ca-pub-939225546" data-ad-slot="3708583719"></ins>
-
-
-
-
-<script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-                
-                
-
-<!-- 侧边栏ad 250 * 90 -->
-<ins class="adsbygoogle" style="display:inline-block;width:250px;height:90px"
-    data-ad-client="ca-pub-939225546" data-ad-slot="3708583719"></ins>
-
-
-
-
-<script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-                
-                
-
-<!-- 侧边栏ad 250 * 90 -->
-<ins class="adsbygoogle" style="display:inline-block;width:250px;height:90px"
-    data-ad-client="ca-pub-939225546" data-ad-slot="3708583719"></ins>
-
-
-
-
-<script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-                
-                
-
-<!-- 侧边栏ad 250 * 90 -->
-<ins class="adsbygoogle" style="display:inline-block;width:250px;height:90px"
-    data-ad-client="ca-pub-939225546" data-ad-slot="3708583719"></ins>
-
-
-
-
-<script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-                
-                
-
-<!-- 侧边栏ad 250 * 90 -->
-<ins class="adsbygoogle" style="display:inline-block;width:250px;height:90px"
-    data-ad-client="ca-pub-939225546" data-ad-slot="3708583719"></ins>
-
-
-
-
-<script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-                
-            </section>
-        </div>
+        </section>
     </div>
+</aside>
+
+<script>
+    (function () {
+        var ele = getDom('.gkt-sidebar-content')
+        var wrapper = getDom('.gkt-sidebar-wrapper')
+        var last = 0
+        window.addEventListener("scroll", function (e) {
+            var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            var isDown = scrollTop > last;
+            var pos = getPosition(ele).y - scrollTop;
+            var downLimit = 50;
+            var upLimit = -100;
+            // uarrow.style.marginTop = scrollTop + 'px';
+            isDown && pos <= downLimit && wrapper.classList.add("gkt-sidebar-fixed");
+            !isDown && pos > upLimit && wrapper.classList.remove("gkt-sidebar-fixed");
+            last = scrollTop
+        })
+    })();
+    (function () {
+        function resizeUArrow() {
+            var s = getDom('.u-arrow-wrapper').style
+            var pc = getDom('.post-container')
+            s.left = getPosition(pc).x + 'px';
+            s.width = pc.clientWidth + 'px';
+        }
+        resizeUArrow()
+        window.addEventListener('resize', resizeUArrow);
+    })();
+</script>
     
 </main>
     </div>
