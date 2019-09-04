@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="72ff6b13-281e-4b15-a2a1-2dc46886db47" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/img/0b4d6a1aae98ec39a3e75153c9da151.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/img/1567587364.jpg" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/img/1564357999.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/img/1564358042.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/img/1564358080.png" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/post/django自定义过滤器.html" afterPath="$PROJECT_DIR$/post/django自定义过滤器.html" />
-    </list>
+    <list default="true" id="72ff6b13-281e-4b15-a2a1-2dc46886db47" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -34,8 +25,8 @@
       <file leaf-file-name="django自定义过滤器.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/post/django自定义过滤器.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="633">
-              <caret line="399" column="51" lean-forward="true" selection-start-line="399" selection-start-column="51" selection-end-line="399" selection-end-column="51" />
+            <state relative-caret-position="533">
+              <caret line="404" column="3" lean-forward="false" selection-start-line="404" selection-start-column="3" selection-end-line="404" selection-end-column="3" />
               <folding>
                 <marker date="1567587776243" expanded="true" signature="24740:24746" ph=" " />
                 <marker date="1567587776243" expanded="true" signature="24748:24754" ph=" " />
@@ -59,8 +50,8 @@
       <find>文章</find>
       <find>link-list</find>
       <find>git</find>
-      <find>赞赏支持</find>
       <find>友</find>
+      <find>赞赏支持</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -337,7 +328,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1918" height="1038" extended-state="1" />
+    <frame x="0" y="0" width="1918" height="1038" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28796095" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -569,8 +560,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/post/django自定义过滤器.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="633">
-          <caret line="399" column="51" lean-forward="true" selection-start-line="399" selection-start-column="51" selection-end-line="399" selection-end-column="51" />
+        <state relative-caret-position="533">
+          <caret line="404" column="3" lean-forward="false" selection-start-line="404" selection-start-column="3" selection-end-line="404" selection-end-column="3" />
           <folding>
             <marker date="1567587776243" expanded="true" signature="24740:24746" ph=" " />
             <marker date="1567587776243" expanded="true" signature="24748:24754" ph=" " />
