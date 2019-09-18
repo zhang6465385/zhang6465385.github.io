@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
+  <meta name="baidu-site-verification" content="p7Pz3jlx4t">
+  <meta name="google-site-verification" content="19ixTFj-X-rXuvZFvR1PMkqSHMXZ5GjN7nhYdYYFm-c">
+  <meta name="msvalidate.01" content="7E2AEE3378AC93764DEAB411177A21A1">
+  <meta name="360-site-verification" content="5c7e8a1fdbf35ed6003c48733208f705">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- if page has tags, then add tags to keyword -->
+  
+  
+  <meta name="keywords" content="张兴亚的博客,张兴亚的小站,">
+  <!-- page.description has higher priority -->
+  <meta name="description" content="张兴亚的小站，致力于分享一些技术教程和有趣的技术实践。">
+  <link rel="shortcut icon" href="/img/icon.png">
+  <title>
+    
+    线性回归的正则化 | XQ
+    
+  </title>
+
+  <link rel="canonical" href="/post/线性回归的正则化.html">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/markdown.css">
+  <!-- Pygments Highlight CSS -->
+  <link rel="stylesheet" href="/css/highlight.css">
+  <link rel="stylesheet" href="/css/geektutu.css">
+  <!-- global function -->
+  <script>
+    window.globalAddScript = function (url, onload, onerror) {
+      var s = document.createElement('script');
+      s.src = url;
+      onload && (s.onload = onload);
+      onerror && (s.onerror = onerror);
+      document.body.appendChild(s);
+    }
+    window.globalAddCss = function (url) {
+      var s = document.createElement('link');
+      s.rel = 'stylesheet';
+      s.href = url;
+      document.body.appendChild(s);
+    }
+    window.getPosition = function (ele) {
+      var x = 0, y = 0;
+      while (ele) {
+        x += (ele.offsetLeft - ele.scrollLeft + ele.clientLeft);
+        y += (ele.offsetTop - ele.scrollTop + ele.clientTop);
+        ele = ele.offsetParent;
+      }
+      return { x: x, y: y };
+    }
+    window.getDom = function (str) { return document.querySelector(str) }
+  </script>
+  <!-- google ad -->
+  
+  <script>
+    window.addEventListener('load', function () {
+      globalAddScript("https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js", "", function (e) {
+        if (window.localStorage.getItem('gkt_marker')) {
+          var rec = document.querySelector('.gkt-rec-links');
+          rec && (rec.style.display = 'none');
+        }
+      });
+    });
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-939225546",
+      enable_page_level_ads: true
+    });
+  </script>
+  
+</head>
+
+<body>
+    <header class="gkt-header col-xs-12 padding-0">
+    <div id="gkt-nav" class="gkt-header-container">
+        <a href="/" class="gkt-header-title float-left">
+            <img class="float-left" src="/img/icon.png" alt="">
+            <span>张兴亚的技术博客</span>
+        </a>
+        <nav class="gkt-header-nav text-right">
+            <ul>
+                <li><a class="hidden-xs" href="/">主页</a></li>
+                <li><a href="/series/">专题</a></li>
+                <li><a href="/archives/">归档</a></li>
+                <li><a href="/post/link.html">友链</a></li>
+                <li><a href="/post/about.html">留言</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div id="gkt-cate-nav" class="gkt-header-container hidden-xs">
+        
+        <nav class="gkt-header-nav float-left">
+            <ul>
+                
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/Linux775权限.html">Linux</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/Nginx-uwsgi安装配置.html">web</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/FTP和SFTP.html">传输协议</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/部署分布式爬虫.html">爬虫</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/Redis-0.html">数据库</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/装饰器.html">Python</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/numpy方法.html">机器学习</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/docker与windows挂载失效.html">Docker</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/支付宝退款.html">第三方支付</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/django自定义过滤器.html">Django</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/session,cookie,Storage.html">cookie</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/nginx反向代理tornado遇到的小问题.html">nginx</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/Redisearch.html">Redis</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/关于Tornado-真实的异步和虚假的异步.html">Tornado</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/vue打包cookie失效.html">Vue</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/个人简历.html">个人简历</a>
+                    
+                </li>
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+<div style="height: 44px"></div>
+<div class="hidden-xs" style="height: 44px"></div>
+<script>
+    (function () {
+        window.addEventListener('scroll', function () {
+            if (window.innerWidth < 768) {
+                return;
+            }
+            var nav = document.querySelector('#gkt-nav');
+            var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            scrollTop > 50 && (nav.classList.add('hide'));
+            scrollTop <= 50 && (nav.classList.remove('hide'));
+        });
+        var cateNavs = document.querySelectorAll('#gkt-cate-nav>nav>ul>li');
+        [].slice.call(cateNavs).forEach(function (item) {
+            var sub = item.querySelector('.gkt-sub-cate');
+            if (!sub) return;
+            item.addEventListener('mouseenter', function (e) { sub.style.display = 'block'; }, false);
+            item.addEventListener('mouseleave', function (e) { sub.style.display = 'none'; }, false);
+        })
+    })();
+</script>
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Main Content -->
+<main class="col-xs-12 padding-0 markdown-it">
+    <!-- Post Container -->
+    
+    <!-- Post Content -->
+<div class="float-left post-container box-shadow">
+    <div class="u-arrow-wrapper hidden-xs">
+        
+        <a class="float-left" href="/post/基础线性回归.html"><i class="u-arrow-left"></i></a>
+        
+        
+        <a class="float-right" href="/post/利用Python进行数据可视化（1）.html"><i class="u-arrow-right"></i></a>
+        
+    </div>
+    <article class="col-xs-12">
+        <h1> 线性回归的正则化 </h1>
+
+        
+
+        
+        
+        
+        <p>​    今天的内容是线性回归的正则化扩展。正则化能有效的解决过拟合（overfitting）的问题。</p>
+<p>​    本质上讲，<strong>过拟合就是模型过于复杂，复杂到削弱了它的泛化性能</strong>。由于训练数据的数目是有限的，因此我们总是可以通过增加参数的数量来提升模型的复杂度，进而降低训练误差。然而，学习的本领越专精，应用的口径就越狭窄，过于复杂的模型能在训练集上获得很好的拟合效果，但是在测试集上拟合效果很差，即模型的范化性能差。</p>
+<p>​    正则化（regularization）是用于抑制过拟合的方法的统称，它<strong>通过动态调整估计参数的取值来降低模型的复杂度，以偏差的增加为代价来换取方差的下降</strong>。这是因为当一些参数足够小时，它们对应的属性对输出结果的贡献就会微乎其微，这在实质上去除了非相关属性的影响。</p>
+<p>​    在线性回归里，最常见的正则化方式就是在损失函数（loss function）中添加<strong>正则化项</strong>（regularizer），而添加的正则化项 $R(\lambda)$ 往往是待估计参数的 $p$- 范数。将均方误差和参数的范数之和作为一个整体来进行约束优化，相当于额外添加了一重关于参数的限制条件，避免大量参数同时出现较大的取值。由于正则化的作用通常是让参数估计值的幅度下降，因此在统计学中它也被称为<strong>系数收缩方法</strong>（shrinkage method）。</p>
+<p>​    将正则化项应用在基于最小二乘法的线性回归中，就可以得到<strong>线性回归的不同修正</strong>（penalized linear regression）。当正则化项为 2- 范数的平方时，修正结果就是<strong>岭回归</strong>；当正则化项为 1- 范数时，修正结果就是<strong>LASSO</strong>。岭回归和 LASSO 具有不同的几何意义。下图给出的是岭回归（左）和 LASSO（右）的可视化表示。图中的蓝色点表示普通最小二乘法计算出的最优参数，外面的每个蓝色圆圈都是损失函数的等值线，每个圆圈上的误差都是相等的，从里到外误差则越来越大。</p>
+<p><img src="https://alvinqy.github.io/2018/11/15/linear/1564397575185.png" alt="1564397575185"></p>
+<p>​    红色边界表示的则是正则化项对参数可能取值的约束，这里假定了未知参数的数目是两个。岭回归中要求两个参数的平方和小于某个固定的取值，即 $w_1 ^2 + w_2 ^ 2 &lt; t$，因此解空间就是浅色区域代表的圆形；而 LASSO 要求两个参数的绝对值之和小于某个固定的取值，即 $|w_1| + |w_2| &lt; t$，因此解空间就是浅色区域代表的方形。</p>
+<p>​    圆形的岭回归边界是平滑的曲线，误差等值线可能在任何位置和边界相切。相形之下，方形的 LASSO 边界是有棱有角的直线，因此切点最可能出现在方形的顶点上，这就意味着某个参数的取值被衰减为 0。这张图形象地说明了岭回归和 LASSO 的区别。岭回归的作用是衰减不同属性的权重，让所有属性一起向圆心收拢；LASSO 则直接将某些属性的权重降低为 0，完成的是属性过滤的任务。</p>
+<p>​    在编程中，很多第三方的 Python 库都可以直接实现不同的正则化处理。在 Scikit-learn 库中，线性模型模块 linear_model 中的 Lasso 类和 Ridge 类就可以实现 $l_1$ 正则化和 $l_2$ 正则化。使用这两个类对前面文章中拟合出来的多元线性回归模型进行正则化处理，将两种算法中的正则化项参数均设置为 $\lambda = 0.05$，就可以得到修正后的结果，代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> scipy <span class="keyword">as</span> sp</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> linear_model,metrics</span><br><span class="line"></span><br><span class="line">stats = pd.read_csv(<span class="string">'../mlin40-master/regression.csv'</span>,sep=<span class="string">'\t'</span>)</span><br><span class="line">point = stats.iloc[:,<span class="number">4</span>] / <span class="number">38</span></span><br><span class="line">positional_rating = stats.iloc[:,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]]</span><br><span class="line"></span><br><span class="line">linear = linear_model.LinearRegression()</span><br><span class="line">linear.fit(positional_rating, point)</span><br><span class="line">print(<span class="string">"The coefficients of linear regression is: \n"</span>, linear.coef_, linear.intercept_)</span><br><span class="line">linear_pred = linear.predict(positional_rating)</span><br><span class="line">linear_error = metrics.mean_squared_error(point, linear_pred)</span><br><span class="line"></span><br><span class="line">lasso = linear_model.Lasso(alpha = <span class="number">0.05</span>)</span><br><span class="line">lasso.fit(positional_rating, point)</span><br><span class="line">print(<span class="string">"The coefficients of LASSO is: \n"</span>, lasso.coef_, lasso.intercept_)</span><br><span class="line">lasso_pred = lasso.predict(positional_rating)</span><br><span class="line">lasso_error = metrics.mean_squared_error(point, lasso_pred)</span><br><span class="line"></span><br><span class="line">ridge = linear_model.Ridge(alpha = <span class="number">0.05</span>)</span><br><span class="line">ridge.fit(positional_rating, point)</span><br><span class="line">print(<span class="string">"The coefficients of ridge regression is: \n"</span>, ridge.coef_, ridge.intercept_)</span><br><span class="line">ridge_pred = ridge.predict(positional_rating)</span><br><span class="line">ridge_error = metrics.mean_squared_error(point, ridge_pred)</span><br><span class="line"></span><br><span class="line">plt.scatter(range(len(point)), linear_pred, c=<span class="string">"b"</span>, s=<span class="number">5</span>, label = <span class="string">"RMSE = &#123;&#125;"</span>.format(linear_error))</span><br><span class="line">plt.scatter(range(len(point)), lasso_pred, c=<span class="string">"g"</span>, s=<span class="number">5</span>, label = <span class="string">"RMSE = &#123;&#125;"</span>.format(lasso_error))</span><br><span class="line">plt.scatter(range(len(point)), ridge_pred, c=<span class="string">"r"</span>, s=<span class="number">5</span>, label = <span class="string">"RMSE = &#123;&#125;"</span>.format(ridge_error))</span><br><span class="line">plt.legend()</span><br><span class="line">plt.title(<span class="string">"Multivariate Linear Regression with Regularization"</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p>​    所得系数结果如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">The coefficients of linear regression <span class="keyword">is</span>: </span><br><span class="line"> [<span class="number">-0.21123266</span>  <span class="number">1.57223726</span>  <span class="number">0.55099646</span>  <span class="number">0.53368376</span>] <span class="number">-15.530602996552473</span></span><br><span class="line">The coefficients of LASSO <span class="keyword">is</span>: </span><br><span class="line"> [<span class="number">0.</span>         <span class="number">0.</span>         <span class="number">0.14278881</span> <span class="number">0.74503449</span>] <span class="number">-4.756272103162484</span></span><br><span class="line">The coefficients of ridge regression <span class="keyword">is</span>: </span><br><span class="line"> [<span class="number">0.02804539</span> <span class="number">1.15815936</span> <span class="number">0.65716007</span> <span class="number">0.56690047</span>] <span class="number">-15.232251377010472</span></span><br></pre></td></tr></table></figure>
+
+<p>​    线性系数的变化直观地体现出两种正则化的不同效果。在未经正则化的多元线性回归中，第一个系数比较反直觉，为负，因为它意味着门将的表现对球队积分起到的是负作用，这种结论明显不合常理。</p>
+<p>​    这个问题在两种正则化操作中都得以解决。</p>
+<p>​    LASSO 将 4 个特征中 2 个的系数缩减为 0，这意味着一半的特征被淘汰掉了，其中就包括倒霉的守门员。在 LASSO 看来，对比赛做出贡献的只有中场和前锋球员，而中场的作用又远远不及前锋——这样的结果是否是对英超注重进攻的直观印象的佐证呢？</p>
+<p>​    和 LASSO 相比，岭回归保留了所有的特征，并给门将的表现赋予了接近于 0 的权重系数，以削弱它对结果的影响，其它的权重系数也和原始多元回归的结果更加接近。但 LASSO 和岭回归的均方误差都高于普通线性回归的均方误差，LASSO 的性能还要劣于岭回归的性能，这是抑制过拟合和降低误差必然的结果。</p>
+<p>​    比较岭回归和LASSO回归的使用场景：</p>
+<p>​    当参数的数目远远大于样本的数目的高维统计问题，并且参数的选择比较简单粗暴，其中有不少参数存在相关性时，比较建议用LASSO回归来降低参数数目。这样处理后才能做矩阵求逆运算。</p>
+<p>​    LASSO回归会让很多参数的系数变成零，只保留一部分参数，一般是保留系数最大的，系数小的因子很可能是噪音。参数取值的幅度有可能不一样，比如有的参数是-1到1，有的是-10到10，那么系数也会受影响。因此，在使用LASSO之前，需要对参数的取值幅度进行调整，这样计算出来的系数才具有可比性。</p>
+<p>​    <strong>当样本数远大于参数的数目时</strong>，岭回归计算更快。如果参数数量少而精，数值都调整好，偏度、峰度、正态化、去极值等等，而且普遍适用多种场景，参数可解释，这时比较适合用岭回归。</p>
+<p>​    岭回归不会删除参数，会对参数的取值幅度进行压缩。特征值小的特征向量会被压缩得最厉害，因此，它也要求参数取值幅度最好差不多，这样系数差不多，压缩起来才更有意义。</p>
+
+        <div class="hidden-xs col-xs-12 text-center">
+    <canvas id="geektutu-post-qr"></canvas>
+    <p style="margin-top: -10px;"><small>微信扫一扫，阅读/分享</small></p>
+</div>
+<script src="/js/qrious.min.js"></script>
+<script>
+    (function () {
+        new QRious({
+            element: document.getElementById('geektutu-post-qr'),
+            value: window.location.href,
+            size: 120
+        });
+    })();
+</script>
+        <hr>
+        <div>
+            
+            <p>
+                <span>发表于2018-11-15 14:04:35，最后修改于2019-09-10 09:06:44。</span>
+            </p>
+            <!-- 文章末尾的提示 start -->
+            
+            
+            <!-- 文章末尾的提示 end -->
+        </div>
+        <hr />
+        <p name="pagination" style="font-size: 1.2em">
+    
+    <a class="float-left" href="/post/基础线性回归.html">上一篇 « 基础线性回归</a>
+    
+    
+    <a class="float-right" href="/post/利用Python进行数据可视化（1）.html">下一篇 » 利用Python进行数据可视化（1）</a>
+    
+</p>
+    </article>
+    <!-- 赞赏 -->
+    <!--打赏-->
+
+<style>
+    #reward .reward-btn-wrapper {
+        width: 100px;
+        padding-top: 25px;
+        cursor: pointer;
+        margin: 0 auto;
+    }
+
+    #reward .reward-btn {
+        padding: 2px 15px;
+        color: #fff;
+        background-color: #ea6f5a;
+        border-radius: 20px;
+    }
+
+    #reward .reward-code {
+        position: absolute;
+        top: -230px;
+        left: 50%;
+        display: none;
+        width: 360px;
+        height: 240px;
+        margin-left: -180px;
+        padding: 15px 20px;
+        border: 1px solid #e6e6e6;
+        background: #fff;
+        box-shadow: 0 1px 1px 1px #efefef;
+    }
+
+    #reward .reward-code:after,
+    #reward .reward-code:before {
+        position: absolute;
+        content: '';
+        border: 10px solid transparent
+    }
+
+    #reward .reward-code:after {
+        bottom: -19px;
+        left: 50%;
+        margin-left: -10px;
+        border-top-color: #fff
+    }
+
+    #reward .reward-code:before {
+        bottom: -20px;
+        left: 50%;
+        margin-left: -10px;
+        border-top-color: #e6e6e6
+    }
+
+    #reward .qr-code {
+        width: 50%;
+        float: left;
+        padding: 5px;
+    }
+
+    #reward .qr-code p {
+        margin-top: -6px;
+    }
+
+    #reward img[alt='i'] {
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        margin: 0 auto;
+        z-index: 2;
+        margin-left: 75px;
+        margin-top: 65px;
+    }
+
+    #reward img[alt="ali"] {
+        width: 100%;
+        box-sizing: border-box;
+        border: 5px solid #0f9be0;
+    }
+
+    #reward img[alt="wechat"] {
+        width: 100%;
+        box-sizing: border-box;
+        border: 5px solid #3db034;
+    }
+
+    #reward .reward-tip {
+        font-size: 1.2em;
+        margin-bottom: 0;
+        color: #ea6f5a;
+    }
+</style>
+<div id="reward" class="col-xs-12">
+    <div class="reward-btn-wrapper">
+        <div class="reward-btn text-center">赞赏支持</div>
+    </div>
+    <div class="reward-code text-center">
+        <p class="text-center reward-tip"><strong>请我吃胡萝卜 =^_^= </strong></p>
+        <div class="qr-code">
+            <img src="/img/icon.png" alt="i">
+            <img id="reward-ali" src="" alt="ali">
+            <p><small>支付宝</small></p>
+        </div>
+        <div class="qr-code">
+            <img src="/img/icon.png" alt="i">
+            <img id="reward-wechat" src="" alt="wechat">
+            <p><small>微信</small></p>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window, document) {
+        var aliQr = new QRious({ value: 'HTTPS://QR.ALIPAY.COM/FKX060337TUXBAX9LIFJE8' });
+        var wechatQr = new QRious({ value: 'wxp://f2f0qgGBlfD1nZXjvBjievxB0z0fc0W2sBq5' });
+        document.querySelector('#reward-ali').src = aliQr.toDataURL();
+        document.querySelector('#reward-wechat').src = wechatQr.toDataURL();
+
+        var rewardBtn = document.querySelector('#reward .reward-btn-wrapper');
+        var qrCode = document.querySelector('#reward .reward-code')
+        var activeFunc = function (e) {
+            qrCode.style.display = 'block';
+        }
+        var hideFunc = function (e) {
+            qrCode.style.display = 'none';
+        }
+
+        rewardBtn.addEventListener('mouseenter', activeFunc, false)
+        rewardBtn.addEventListener('mouseover', activeFunc, false)
+        rewardBtn.addEventListener('mouseleave', hideFunc, false)
+        qrCode.addEventListener('mouseenter', activeFunc, false)
+        qrCode.addEventListener('mouseover', activeFunc, false)
+        qrCode.addEventListener('mouseleave', hideFunc, false)
+    })(window, document);
+</script>
+
+    <!-- 推荐阅读三篇文章 -->
+    <div class="col-xs-12">
+        <h3>推荐阅读</h3>
+        
+        <div class="post-preview">
+    <div class="post-img" style="background-image: url('/undefined')"></div>
+    <div class="post-info">
+        <div class="post-info-center">
+            <div class="hidden-xs">
+                
+                
+            </div>
+            <a href="/post/使用基于mpvue的框架开发微信小程序（搭建环境）.html" class="title">
+                使用基于mpvue的框架开发微信小程序（搭建环境）
+            </a>
+            <p class="text-gray">
+                <small>
+                    <span>发表于2019-07-30，</span>
+                    <span class="hidden-xs">全文2126字，</span>
+                    <span>阅读约8分钟</span>
+                </small>
+            </p>
+        </div>
+    </div>
+</div>
+        
+        <div class="post-preview">
+    <div class="post-img" style="background-image: url('/undefined')"></div>
+    <div class="post-info">
+        <div class="post-info-center">
+            <div class="hidden-xs">
+                
+                
+                <span>/</span>
+                
+                <a class="text-gray" href="/tags/#web"
+                    title="web">web</a>
+                <span>/</span>
+                
+                
+            </div>
+            <a href="/post/简单了解一下Python的web设计模式.html" class="title">
+                简单了解一下Python的web设计模式
+            </a>
+            <p class="text-gray">
+                <small>
+                    <span>发表于2019-07-23，</span>
+                    <span class="hidden-xs">全文5031字，</span>
+                    <span>阅读约17分钟</span>
+                </small>
+            </p>
+        </div>
+    </div>
+</div>
+        
+        <div class="post-preview">
+    <div class="post-img" style="background-image: url('/undefined')"></div>
+    <div class="post-info">
+        <div class="post-info-center">
+            <div class="hidden-xs">
+                
+                
+                <span>/</span>
+                
+                <a class="text-gray" href="/tags/#数据库"
+                    title="数据库">数据库</a>
+                <span>/</span>
+                
+                
+            </div>
+            <a href="/post/Redis-0.html" class="title">
+                Redis
+            </a>
+            <p class="text-gray">
+                <small>
+                    <span>发表于2016-03-18，</span>
+                    <span class="hidden-xs">全文1872字，</span>
+                    <span>阅读约7分钟</span>
+                </small>
+            </p>
+        </div>
+    </div>
+</div>
+        
+    </div>
+    <div class="col-xs-12">
+        <!-- 标签列表 -->
+        <!-- Featured Tags -->
+<style>
+    #featured-tag .post-tag-item {
+        font-size: 12px;
+        line-height: 30px;
+        display: inline-block;
+        height: 30px;
+        margin: 5px 0px;
+        padding: 0 7px;
+        color: #333;
+        border-radius: 15px;
+        background: #f6f6f6;
+    }
+
+    #featured-tag .post-tag-item:hover {
+        color: #337ab7;
+    }
+</style>
+<div id="featured-tag">
+    
+    <a class="post-tag-item" href="/tags/#机器学习" title="机器学习"
+        rel="4">#机器学习 (4) </a>
+    
+    <a class="post-tag-item" href="/tags/#Python" title="Python"
+        rel="6">#Python (6) </a>
+    
+    <a class="post-tag-item" href="/tags/#协议" title="协议"
+        rel="1">#协议 (1) </a>
+    
+    <a class="post-tag-item" href="/tags/#数据库" title="数据库"
+        rel="2">#数据库 (2) </a>
+    
+    <a class="post-tag-item" href="/tags/#Linux" title="Linux"
+        rel="2">#Linux (2) </a>
+    
+    <a class="post-tag-item" href="/tags/#Django" title="Django"
+        rel="1">#Django (1) </a>
+    
+    <a class="post-tag-item" href="/tags/#爬虫" title="爬虫"
+        rel="2">#爬虫 (2) </a>
+    
+    <a class="post-tag-item" href="/tags/#Docker" title="Docker"
+        rel="3">#Docker (3) </a>
+    
+    <a class="post-tag-item" href="/tags/#Redis" title="Redis"
+        rel="1">#Redis (1) </a>
+    
+    <a class="post-tag-item" href="/tags/#nginx" title="nginx"
+        rel="2">#nginx (2) </a>
+    
+    <a class="post-tag-item" href="/tags/#Vue" title="Vue"
+        rel="1">#Vue (1) </a>
+    
+    <a class="post-tag-item" href="/tags/#cookie" title="cookie"
+        rel="1">#cookie (1) </a>
+    
+    <a class="post-tag-item" href="/tags/#第三方支付" title="第三方支付"
+        rel="2">#第三方支付 (2) </a>
+    
+    <a class="post-tag-item" href="/tags/#web" title="web"
+        rel="4">#web (4) </a>
+    
+    <a class="post-tag-item" href="/tags/#第三方" title="第三方"
+        rel="1">#第三方 (1) </a>
+    
+    <a class="post-tag-item" href="/tags/#Tornado" title="Tornado"
+        rel="1">#Tornado (1) </a>
+    
+    <a class="post-tag-item" href="/tags/#mysql" title="mysql"
+        rel="1">#mysql (1) </a>
+    
+</div>
+    </div>
+    <!-- 评论 -->
+    <div class="col-xs-12">
+        
+<div id="gitalk-container"></div>
+<div id="gitalk-related"></div>
+<link rel="stylesheet" href="/css/gitalk.css">
+<script src="/js/gitalk.min.js"></script>
+<script>
+    window.addEventListener('load', function () {
+        const gitalk = new Gitalk({
+            clientID: 'c1fdd456a4caae5f7df0',
+            clientSecret: 'b2674451e21feae50520f99337ec15d2aebe7879',
+            repo: 'hexo-theme-geektutu',
+            owner: 'geektutu',
+            admin: ['geektutu'],
+            id: window.location.pathname,
+            distractionFreeMode: false
+        });
+        gitalk.render('gitalk-container');
+        document.querySelector('#gitalk-container').addEventListener('click', function (e) {
+            e && e.stopPropagation && e.stopPropagation();
+        });
+    })
+</script>
+<script>
+    window.addEventListener('load', function () {
+        function render(comments) {
+            var template = '<a href="${comment.url}?utm_source=gitalk" class="dis-item-url"><h3 class="dis-item-title">${comment.title}</h3>' +
+                '<p class="dis-item-des">${comment.count} 评论 ● ${comment.date}</p>' +
+                '<div class="dis-item-content"><img class="dis-item-img" src="${comment.icon}" alt="icon"><p><b><span class="dis-item-user">${comment.user}</span></b>&nbsp;——&nbsp;${comment.body}</p></div>' +
+                '</a>'
+
+            var wrapper = get('#gitalk-related');
+            comments = shuffle(comments);
+            comments.slice(0, 4).forEach(function (c) {
+                var div = document.createElement('div');
+                div.classList.add('dis-item');
+                div.innerHTML = template.replace("${comment.url}", c.url)
+                    .replace("${comment.title}", c.title)
+                    .replace("${comment.count}", c.count)
+                    .replace("${comment.date}", c.date)
+                    .replace("${comment.icon}", c.icon)
+                    .replace("${comment.user}", c.user)
+                    .replace("${comment.body}", c.body)
+                wrapper.appendChild(div)
+            })
+            var p = document.createElement('p')
+            p.innerHTML = '<a href="https://geektutu.com/post/blog-experience-7.html">Gitalk Plus</a>';
+            p.classList.add('dis-divide');
+            wrapper.appendChild(p);
+            wrapper.classList.add('dis-wrapper')
+        }
+        function shuffle(a) {
+            for (var i = a.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                [a[i], a[j]] = [a[j], a[i]];
+            }
+            return a;
+        }
+        function get(str) { return document.querySelector(str) }
+        fetch('/tool/comments.json').then(function (r) { return r.json() }).then(render).catch(function (e) { })
+    })
+</script>
+
+    </div>
+</div>
+<aside class="float-left gkt-sidebar hidden-xs hidden-sm">
+    <div style="clear: both"></div>
+    <div class="gkt-sidebar-wrapper">
+        <section class="box-shadow"><style>
+    .gkt-summary {
+        border: 1px solid #DDDDDD;
+        border-radius: 3px;
+        padding: 5px;
+        width: 100%;
+    }
+
+
+    .gkt-summary nav {
+        overflow: hidden;
+    }
+
+    .gkt-summary nav a {
+        display: inline-block;
+        text-align: center;
+        color: #333;
+        font-size: 12px;
+    }
+
+    .gkt-summary nav span {
+        display: block;
+    }
+
+    .gkt-summary nav .middle {
+        border-left: 1px solid #eaecef;
+        border-right: 1px solid #eaecef;
+    }
+
+    .gkt-summary .number {
+        font-weight: bold;
+    }
+
+    .gkt-summary .link-list {
+        margin-top: 5px;
+        margin-bottom: -5px;
+        padding-top: 7px;
+        border-top: 1px dashed #999;
+        display: flex;
+    }
+
+    .gkt-summary .link-list a {
+        flex: 1;
+    }
+
+    .gkt-summary .link-list img {
+        width: 25px;
+        height: 25px;
+    }
+</style>
+
+<div class="gkt-summary">
+    <nav>
+        <a href="/" class="col-xs-4">
+            <number class="number">46</number><span>文章</span>
+        </a>
+        <a href="/series" class="col-xs-4 middle">
+            <number class="number">16</number><span>专题</span>
+        </a>
+        <a href="/tags" class="col-xs-4">
+            <number class="number">17</number><span>标签</span>
+        </a>
+    </nav>
+
+    
+</div></section>
+        
+        
+        
+        <section class="box-shadow">
+            <strong>最近的文章</strong>
+            <ul>
+                
+                <li>
+                    <a href="/post/在centos7-6上利用docker-compose统一管理容器和服务.html">在centos7.6上利用docker-compose统一管理容器和服务</a>
+                </li>
+                
+                <li>
+                    <a href="/post/在Centos7-6上部署Docker环境以及安装docker-compose.html">在Centos7.6上部署Docker环境以及安装docker-compose</a>
+                </li>
+                
+                <li>
+                    <a href="/post/个人简历.html">个人简历</a>
+                </li>
+                
+                <li>
+                    <a href="/post/使用python3和高性能全文检索引擎Redisearch进行交互.html">使用python3和高性能全文检索引擎Redisearch进行交互</a>
+                </li>
+                
+                <li>
+                    <a href="/post/使用Redisearch实现的全文检索功能服务.html">使用Redisearch实现的全文检索功能服务</a>
+                </li>
+                
+                <li>
+                    <a href="/post/vue打包cookie失效.html">vue打包cookie失效</a>
+                </li>
+                
+                <li>
+                    <a href="/post/MySQL主从分离.html">MySQL主从分离</a>
+                </li>
+                
+                <li>
+                    <a href="/post/使用flex弹性布局来为微信小程序写自适应页面.html">使用flex弹性布局来为微信小程序写自适应页面</a>
+                </li>
+                
+                <li>
+                    <a href="/post/Thrift重构HTTP接口.html">Thrift重构HTTP接口</a>
+                </li>
+                
+                <li>
+                    <a href="/post/使用基于mpvue的框架开发微信小程序（搭建环境）.html">使用基于mpvue的框架开发微信小程序（搭建环境）</a>
+                </li>
+                
+            </ul>
+        </section>
+        <section class="box-shadow text-center">
+            
+
+<!-- 侧边栏ad 250 * 90 -->
+<ins class="adsbygoogle" style="display:inline-block;width:250px;height:90px"
+    data-ad-client="ca-pub-939225546" data-ad-slot="3708583719"></ins>
+
+
+
+
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+            
+
+<!-- 侧边栏ad 250 * 90 -->
+<ins class="adsbygoogle" style="display:inline-block;width:250px;height:90px"
+    data-ad-client="ca-pub-939225546" data-ad-slot="3708583719"></ins>
+
+
+
+
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+        </section>
+    </div>
+</aside>
+
+<script>
+    (function () {
+        var ele = getDom('.gkt-sidebar-content')
+        var wrapper = getDom('.gkt-sidebar-wrapper')
+        var last = 0
+        window.addEventListener("scroll", function (e) {
+            var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            var isDown = scrollTop > last;
+            var pos = getPosition(ele).y - scrollTop;
+            var downLimit = 50;
+            var upLimit = -100;
+            // uarrow.style.marginTop = scrollTop + 'px';
+            isDown && pos <= downLimit && wrapper.classList.add("gkt-sidebar-fixed");
+            !isDown && pos > upLimit && wrapper.classList.remove("gkt-sidebar-fixed");
+            last = scrollTop
+        })
+    })();
+    (function () {
+        function resizeUArrow() {
+            var s = getDom('.u-arrow-wrapper').style
+            var pc = getDom('.post-container')
+            s.left = getPosition(pc).x + 'px';
+            s.width = pc.clientWidth + 'px';
+        }
+        resizeUArrow()
+        window.addEventListener('resize', resizeUArrow);
+    })();
+</script>
+    
+</main>
+    </div>
+    <style>
+    img#go-top {
+        position: fixed;
+        bottom: 100px;
+        width: 50px;
+        cursor: pointer;
+        z-index: 9999;
+    }
+</style>
+<img id="go-top" src="/icon/top.png" class="hidden-xs" style="display: none" />
+<script>
+    (function () {
+        var goTop = document.getElementById('go-top');
+        var mainContainer = document.querySelector('.main-container');
+        
+        goTop.addEventListener('click', function () {
+            window.scroll(0, 0);
+        }, false);
+        window.addEventListener('scroll', function () {
+            var right = document.body.offsetWidth - mainContainer.getBoundingClientRect().right;
+            var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            goTop.style.right = right + 10 + 'px'
+            scrollTop > 700 && (goTop.style.display = "block");
+            scrollTop <= 700 && (goTop.style.display = "none");
+        });
+    })();
+</script>
+    <style>
+    #geektutu-click-img-container {
+        position: fixed;
+        left: 0;
+        top: 0;
+        text-align: center;
+        width: 100%;
+        display: none;
+        z-index: 9999;
+    }
+
+    #geektutu-click-img-container img {
+        object-fit: contain;
+        background: #eaecef;
+        padding: 15px;
+        border-radius: 10px;
+        height: auto;
+        width: auto;
+        vertical-align: middle;
+    }
+</style>
+
+
+<div id="geektutu-click-img-container">
+    <img src="" alt="Big Image">
+</div>
+
+<script>
+    (function () {
+        var container = document.querySelector('#geektutu-click-img-container')
+        var targetImg = container.querySelector('img')
+        var imgs = document.querySelectorAll('article img');
+        targetImg.addEventListener('click', function (e) {
+            container.style.display = 'none';
+            e && e.stopPropagation && e.stopPropagation();
+        }, false);
+
+        for (var i = 0; i < imgs.length; ++i) {
+            var img = imgs[i];
+            img.addEventListener('click', (function (src, rate) {
+                return function (e) {
+                    e && e.stopPropagation && e.stopPropagation();
+                    if (window.innerWidth < 980) {
+                        return
+                    }
+                    targetImg.style.height = targetImg.style.width = 'auto';
+                    if (window.innerWidth / window.innerHeight > rate) {
+                        targetImg.style.height = (window.innerHeight - 20) + 'px';
+                    } else {
+                        targetImg.style.width = (window.innerWidth - 20) + 'px';
+                    }
+                    container.style.height = window.innerHeight + 'px'
+                    container.style.lineHeight = window.innerHeight + 'px'
+                    container.style.display = 'block';
+                    targetImg.src = src;
+                };
+            }(img.src, img.width / img.height)), false)
+        }
+    })();
+</script>
+    <!-- Footer -->
+    <!-- Footer -->
+<style>
+    footer {
+        width: 100%;
+        line-height: 1.5;
+        padding: 20px;
+    }
+
+    footer a {
+        color: #333;
+        text-decoration: none;
+    }
+
+    .footer-hexo img {
+        height: 20px;
+        margin-bottom: -5px;
+    }
+
+    .footer-hexo a {
+        color: #337ab7;
+    }
+</style>
+<footer class="text-center col-xs-12">
+    <p>
+        <small>© 2019 - Xingya - </small>
+        <small>
+            <a target="_blank" rel="nofollow noopener" href="http://www.miitbeian.gov.cn/">沪ICP备18001798号-1</a>
+        </small>
+    </p>
+    <p class="footer-hexo">
+        <!-- 但若直接使用或修改主题，请务必保留这段声明 -->
+        <small>Powered by <a target="_blank" href="https://hexo.io">Hexo</a> | Theme
+            <a target="_blank" href="https://geektutu.com">Geektutu</a>
+            <a href="https://github.com/geektutu/hexo-theme-geektutu">
+                <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAYGBgYHBgcICAcKCwoLCg8ODAwODxYQERAREBYiFRkVFRkVIh4kHhweJB42KiYmKjY+NDI0PkxERExfWl98fKcBBgYGBgcGBwgIBwoLCgsKDw4MDA4PFhAREBEQFiIVGRUVGRUiHiQeHB4kHjYqJiYqNj40MjQ+TERETF9aX3x8p//CABEIACIAUAMBIgACEQEDEQH/xAAcAAABBAMBAAAAAAAAAAAAAAAAAQQFBwIDBgj/2gAIAQEAAAAA9KrHSgAYL5/z6zZGuJd12uugbhq3uKtmuRtix20IS7lTLAfAAAn/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/9oACAECEAAAAAAB/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/aAAgBAxAAAAAAAf/EADEQAAICAQIEBQEGBwAAAAAAAAECAwQFAAYREhORBxQhUlQxQVFic5KxJDJCYYGC0f/aAAgBAQABPwCFHnjWUzuvN6hV4cANSRLGjO9yRVUcSzMoA7jVXJYe5N0a2dhmk9kc0bN2GvLN8mbuNeWb5M3ca8s3yZu415Y/Jm7jXlm+TN3H/NeVPyZu40vOk3TZywK8wJ+v3EHVM/wsI/Dq2lrxN3Nnca16eti8chSAIoMbzByhMwP14kHVfwIiSaF5c96J6kwwCOTnHsYk8uvCrdmQy1TI4rJuz3cZLyGR/wCd4+YoOf8AEpUjXitubLYPG4paFsUxcuiGe7yc5gTW3LW44szXmobsi3Dhmic2+Z4+vCVH9CpraPiQ+QvbgTJrPFBWd5YpWrmNIIEXiRO32Pqt4p7cnfHk18lFBdmEVW1LVdIZGOrniTt6plrWKaO69yCykDRxwF+LMAewB0Txtr+Sf31VI8tEPw62fZt7N3Humtbpzz13ucX6CGSWMSuzpLyD1eNgeUka3PuvHbaxq3biTMHfkiSNCS78CwU+3Xg7Vu3MhuTcU6cq3Zemn3Eh2dv8Lzcut+29x1atKbHYqLJUhLwyNMwiZ3j9yDWOxUOV3tgb+3No5LDx1pi9+aeIwRlNY6bc+Jv+IFGrhLxtXJZ7VKcw81diiAAEn0JOrkWZyNfbEr0tz27UGQgkuGzXdIIvyowq99bRxk9ffO/L81SZBPZgEEroQroIxxMZOgeNsfkn99QypHGqO4Vl9CDrN4LDZkwyzyyQ2IgRHZrzGCZVP1XnQglT9oOtw4LC7iqV6uRkZoYpxKFSQpzFRw4EjVRMfSrQ1qqwxQxKFjjTgFUD7BoWYR6iVe+mtxt9Zwf9teaj4AdccPu5tedX5A/VrzUR+sy/q1CwksF19VEfDj/cnQRW+qg66cfsXtrpx+xe2unH7F7a6cfsXtrpx+xe2unH7F7a6cfsXtoxx+xe2gAAOA1//8QAFBEBAAAAAAAAAAAAAAAAAAAAMP/aAAgBAgEBPwB//8QAFBEBAAAAAAAAAAAAAAAAAAAAMP/aAAgBAwEBPwB//9k="
+                    alt="Github Star">
+            </a>
+        </small>
+    </p>
+    
+    <p>
+        <small>
+            <span id="busuanzi_container_site_pv">👁<span id="busuanzi_value_site_pv"></span></span> &nbsp;
+            <span id="busuanzi_container_page_pv">📚<span id="busuanzi_value_page_pv"></span></span>
+        </small>
+    </p>
+    
+    
+    <p><small><span id="cnzz_stat_icon_123649"></span></small></p>
+    
+
+</footer>
+
+
+<script>
+    window.addEventListener('load', function () {
+        globalAddScript('//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js');
+    })
+</script>
+
+<!-- Baidu Tongji -->
+
+<script>
+    window.addEventListener('load', function () {
+        var _hmt = _hmt || [];
+        globalAddScript('//hm.baidu.com/hm.js?1a0ec33b1aa')
+    })
+</script>
+
+
+<script>
+    window.addEventListener('load', function () {
+        globalAddScript('//s23.cnzz.com/z_stat.php?id=123649&online=2');
+    })
+</script>
+
+
+<!-- baidu auto push for seo -->
+<script>
+    window.addEventListener('load', function () {
+        var src = 'http://push.zhanzhang.baidu.com/push.js'
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        globalAddScript(src);
+    })
+</script>
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'UA-141425-1');
+
+    window.addEventListener('load', function () {
+        globalAddScript('https://www.googletagmanager.com/gtag/js?id=UA-141425-1');
+    });
+</script>
+
+
+    <script>
+        // 非本站网址，新开tab页签
+        (function () {
+            var stopBubble = function (e) {
+                e && e.stopPropagation && e.stopPropagation();
+            }
+            var links = document.querySelectorAll('a');
+            [].slice.call(links).forEach(function (item) {
+                if (item.href && item.href.indexOf(window.location.host) === -1) {
+                    item.target = '_blank'
+                }
+                // 阻止冒泡，不触发彩蛋。
+                item.addEventListener('click', stopBubble, false);
+            });
+            var article = document.querySelector('article');
+            article && article.addEventListener('click', stopBubble, false)
+        })();
+    </script>
+    
+<script>
+    (function (window, document, undefined) {
+        var hearts = [];
+        var keywords = ["点个赞", "留个言", "赞赏一下", "张兴亚的技术博客", "zxyyee.cn"];
+        function randomInt(max) {
+            return Math.floor(Math.random() * Math.floor(max));
+        }
+        window.addEventListener('click', createWord)
+
+        function createWord(e) {
+            var d = document.createElement("span");
+            d.style.position = 'fixed';
+            d.style.zIndex = 9999;
+            d.style.color = 'rgb(' + [randomInt(255), randomInt(255), randomInt(255)].join(',') + ')';
+            d.innerHTML = keywords[randomInt(keywords.length)];
+            d.onselectstart = function () { return false; }
+
+            hearts.push({ el: d, x: e.clientX - 5, y: e.clientY - 5, alpha: 1, scale: 1 });
+            document.body.appendChild(d);
+        }
+        (function gameloop() {
+            for (var i = 0; i < hearts.length; i++) {
+                heart = hearts[i];
+                if (heart.alpha <= 0) {
+                    document.body.removeChild(heart.el);
+                    hearts.splice(i, 1);
+                    continue;
+                }
+                heart.y -= heart.alpha < 0.5 ? 2 : 1;
+                heart.scale += 0.002;
+                heart.alpha -= 0.013;
+                heart.el.style.transform = 'scale(' + heart.scale + ')';
+                heart.el.style.left = heart.x + 'px';
+                heart.el.style.top = heart.y + 'px';
+            }
+            setTimeout(gameloop, 10)
+        })();
+    })(window, document);
+</script>
+
+</body>
+
+</html>

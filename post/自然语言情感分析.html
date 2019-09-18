@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
+  <meta name="baidu-site-verification" content="p7Pz3jlx4t">
+  <meta name="google-site-verification" content="19ixTFj-X-rXuvZFvR1PMkqSHMXZ5GjN7nhYdYYFm-c">
+  <meta name="msvalidate.01" content="7E2AEE3378AC93764DEAB411177A21A1">
+  <meta name="360-site-verification" content="5c7e8a1fdbf35ed6003c48733208f705">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- if page has tags, then add tags to keyword -->
+  
+  
+  <meta name="keywords" content="张兴亚的博客,张兴亚的小站,">
+  <!-- page.description has higher priority -->
+  <meta name="description" content="张兴亚的小站，致力于分享一些技术教程和有趣的技术实践。">
+  <link rel="shortcut icon" href="/img/icon.png">
+  <title>
+    
+    自然语言情感分析 | XQ
+    
+  </title>
+
+  <link rel="canonical" href="/post/自然语言情感分析.html">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/markdown.css">
+  <!-- Pygments Highlight CSS -->
+  <link rel="stylesheet" href="/css/highlight.css">
+  <link rel="stylesheet" href="/css/geektutu.css">
+  <!-- global function -->
+  <script>
+    window.globalAddScript = function (url, onload, onerror) {
+      var s = document.createElement('script');
+      s.src = url;
+      onload && (s.onload = onload);
+      onerror && (s.onerror = onerror);
+      document.body.appendChild(s);
+    }
+    window.globalAddCss = function (url) {
+      var s = document.createElement('link');
+      s.rel = 'stylesheet';
+      s.href = url;
+      document.body.appendChild(s);
+    }
+    window.getPosition = function (ele) {
+      var x = 0, y = 0;
+      while (ele) {
+        x += (ele.offsetLeft - ele.scrollLeft + ele.clientLeft);
+        y += (ele.offsetTop - ele.scrollTop + ele.clientTop);
+        ele = ele.offsetParent;
+      }
+      return { x: x, y: y };
+    }
+    window.getDom = function (str) { return document.querySelector(str) }
+  </script>
+  <!-- google ad -->
+  
+  <script>
+    window.addEventListener('load', function () {
+      globalAddScript("https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js", "", function (e) {
+        if (window.localStorage.getItem('gkt_marker')) {
+          var rec = document.querySelector('.gkt-rec-links');
+          rec && (rec.style.display = 'none');
+        }
+      });
+    });
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-939225546",
+      enable_page_level_ads: true
+    });
+  </script>
+  
+</head>
+
+<body>
+    <header class="gkt-header col-xs-12 padding-0">
+    <div id="gkt-nav" class="gkt-header-container">
+        <a href="/" class="gkt-header-title float-left">
+            <img class="float-left" src="/img/icon.png" alt="">
+            <span>张兴亚的技术博客</span>
+        </a>
+        <nav class="gkt-header-nav text-right">
+            <ul>
+                <li><a class="hidden-xs" href="/">主页</a></li>
+                <li><a href="/series/">专题</a></li>
+                <li><a href="/archives/">归档</a></li>
+                <li><a href="/post/link.html">友链</a></li>
+                <li><a href="/post/about.html">留言</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div id="gkt-cate-nav" class="gkt-header-container hidden-xs">
+        
+        <nav class="gkt-header-nav float-left">
+            <ul>
+                
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/Linux775权限.html">Linux</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/Nginx-uwsgi安装配置.html">web</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/FTP和SFTP.html">传输协议</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/部署分布式爬虫.html">爬虫</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/Redis-0.html">数据库</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/装饰器.html">Python</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/numpy方法.html">机器学习</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/docker与windows挂载失效.html">Docker</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/支付宝退款.html">第三方支付</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/django自定义过滤器.html">Django</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/session,cookie,Storage.html">cookie</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/nginx反向代理tornado遇到的小问题.html">nginx</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/Redisearch.html">Redis</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/关于Tornado-真实的异步和虚假的异步.html">Tornado</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/vue打包cookie失效.html">Vue</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/个人简历.html">个人简历</a>
+                    
+                </li>
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+<div style="height: 44px"></div>
+<div class="hidden-xs" style="height: 44px"></div>
+<script>
+    (function () {
+        window.addEventListener('scroll', function () {
+            if (window.innerWidth < 768) {
+                return;
+            }
+            var nav = document.querySelector('#gkt-nav');
+            var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            scrollTop > 50 && (nav.classList.add('hide'));
+            scrollTop <= 50 && (nav.classList.remove('hide'));
+        });
+        var cateNavs = document.querySelectorAll('#gkt-cate-nav>nav>ul>li');
+        [].slice.call(cateNavs).forEach(function (item) {
+            var sub = item.querySelector('.gkt-sub-cate');
+            if (!sub) return;
+            item.addEventListener('mouseenter', function (e) { sub.style.display = 'block'; }, false);
+            item.addEventListener('mouseleave', function (e) { sub.style.display = 'none'; }, false);
+        })
+    })();
+</script>
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Main Content -->
+<main class="col-xs-12 padding-0 markdown-it">
+    <!-- Post Container -->
+    
+    <!-- Post Content -->
+<div class="float-left post-container box-shadow">
+    <div class="u-arrow-wrapper hidden-xs">
+        
+        <a class="float-left" href="/post/session,cookie,Storage.html"><i class="u-arrow-left"></i></a>
+        
+        
+        <a class="float-right" href="/post/分享一个QQ第三方登录详解.html"><i class="u-arrow-right"></i></a>
+        
+    </div>
+    <article class="col-xs-12">
+        <h1> 自然语言情感分析 </h1>
+
+        
+
+        
+        
+        
+        <h1 id="背景与挖掘目标"><a href="#背景与挖掘目标" class="headerlink" title="背景与挖掘目标"></a>背景与挖掘目标</h1><p>在这种电商平台激烈竟争的大背景下除了提高商品质量、压低商品价格之外，了解更多消费者的心声对于电商平台来说也变得越来越有必用，其中非常重要的方式就是对消费者的文本评论数据进行内在信息的数据挖掘分析。</p>
+<p>对某平台的热水器评沦进行文本挖掘分析本次数据挖掘建模目标如下：</p>
+<p>分析商品的用户情感倾向 从评沦文本中挖掘出该商品优点与不足 提炼不同商品的卖点</p>
+<h1 id="自然语言情感分析"><a href="#自然语言情感分析" class="headerlink" title="自然语言情感分析"></a>自然语言情感分析</h1><p>情感分析是一种常见的自然语言处理（NLP）方法的应用，特别是在以提取文本的情感内容为目标的分类方法中。通过这种方式，情感分析可以被视为利用一些情感得分指标来量化定性数据的方法。尽管情绪在很大程度上是主观的，但是情感量化分析已经有很多有用的实践，比如企业分析消费者对产品的反馈信息，或者检测在线评论中的差评信息。</p>
+<p>最简单的情感分析方法是利用词语的正负属性来判定。句子中的每个单词都有一个得分，乐观的单词得分为 +1，悲观的单词则为 -1。然后我们对句子中所有单词得分进行加总求和得到一个最终的情感总分。很明显，这种方法有许多局限之处，最重要的一点在于它忽略了上下文的信息。例如，在这个简易模型中，因为“not”的得分为 -1，而“good”的得分为 +1，所以词组“not good”将被归类到中性词组中。尽管词组“not good”中包含单词“good”，但是人们仍倾向于将其归类到悲观词组中。</p>
+<p>另外一个常见的方法是将文本视为一个“词袋”。我们将每个文本看出一个1xN的向量，其中N表示文本词汇的数量。该向量中每一列都是一个单词，其对应的值为该单词出现的频数。例如，词组“bag of bag of words”可以被编码为 [2, 2, 1]。这些数据可以被应用到机器学习分类算法中（比如罗吉斯回归或者支持向量机），从而预测未知数据的情感状况。需要注意的是，这种有监督学习的方法要求利用已知情感状况的数据作为训练集。虽然这个方法改进了之前的模型，但是它仍然忽略了上下文的信息和数据集的规模情况。</p>
+<p>谷歌开发了一个叫做 Word2Vec 的方法，该方法可以在捕捉语境信息的同时压缩数据规模。Word2Vec实际上是两种不同的方法：Continuous Bag of Words (CBOW) 和 Skip-gram。CBOW的目标是根据上下文来预测当前词语的概率。Skip-gram刚好相反：根据当前词语来预测上下文的概率（如图 1 所示）。这两种方法都利用人工神经网络作为它们的分类算法。起初，每个单词都是一个随机 N 维向量。经过训练之后，该算法利用 CBOW 或者 Skip-gram 的方法获得了每个单词的最优向量。</p>
+<p>现在这些词向量已经捕捉到上下文的信息。我们可以利用基本代数公式来发现单词之间的关系（比如，“国王”-“男人”+“女人”=“王后”）。这些词向量可以代替词袋用来预测未知数据的情感状况。该模型的优点在于不仅考虑了语境信息还压缩了数据规模（通常情况下，词汇量规模大约在300个单词左右而不是之前模型的100000个单词）。因为神经网络可以替我们提取出这些特征的信息，所以我们仅需要做很少的手动工作。但是由于文本的长度各异，我们可能需要利用所有词向量的平均值作为分类算法的输入值，从而对整个文本文档进行分类处理。</p>
+<p>然而，即使上述模型对词向量进行平均处理，我们仍然忽略了单词之间的排列顺序对情感分析的影响。作为一个处理可变长度文本的总结性方法，Quoc Le 和 Tomas Mikolov 提出了 Doc2Vec方法。除了增加一个段落向量以外，这个方法几乎等同于 Word2Vec。和 Word2Vec 一样，该模型也存在两种方法：Distributed Memory(DM) 和 Distributed Bag of Words(DBOW)。DM 试图在给定上下文和段落向量的情况下预测单词的概率。在一个句子或者文档的训练过程中，段落 ID 保持不变，共享着同一个段落向量。DBOW 则在仅给定段落向量的情况下预测段落中一组随机单词的概率。</p>
+<p>安装gensim</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install gensim==3.8.0</span><br></pre></td></tr></table></figure>
+
+<p>具体操作：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 用gensim去做word2vec的处理，用sklearn当中的SVM进行建模</span></span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> KFold</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">from</span> gensim.models.word2vec <span class="keyword">import</span> Word2Vec</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> jieba</span><br><span class="line"><span class="keyword">from</span> sklearn.externals <span class="keyword">import</span> joblib</span><br><span class="line"><span class="keyword">from</span> sklearn.svm <span class="keyword">import</span> SVC</span><br><span class="line"></span><br><span class="line"><span class="comment">#  载入数据，做预处理(分词)，切分训练集与测试集</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">load_file_and_preprocessing</span><span class="params">()</span>:</span></span><br><span class="line">    neg=pd.read_excel(<span class="string">'data/neg.xls'</span>,header=<span class="literal">None</span>,index=<span class="literal">None</span>)</span><br><span class="line">    pos=pd.read_excel(<span class="string">'data/pos.xls'</span>,header=<span class="literal">None</span>,index=<span class="literal">None</span>)</span><br><span class="line"></span><br><span class="line">    cw = <span class="keyword">lambda</span> x: list(jieba.cut(x))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 新增一列 word ,存放分好词的评论，pos[0]代表表格第一列</span></span><br><span class="line"></span><br><span class="line">    pos[<span class="string">'words'</span>] = pos[<span class="number">0</span>].apply(cw)</span><br><span class="line">    neg[<span class="string">'words'</span>] = neg[<span class="number">0</span>].apply(cw)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># np.ones(len(pos)) 新建一个长度为len(pos)的数组并初始化元素全为1来标注好评</span></span><br><span class="line">    <span class="comment"># np.concatenate（）连接数组</span></span><br><span class="line">    <span class="comment"># axis=0 向下执行方法 axis=1向右执行方法</span></span><br><span class="line">    y = np.concatenate((np.ones(len(pos)), np.zeros(len(neg))),axis=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># train_test_split：从样本中随机的按比例选取train data和testdata</span></span><br><span class="line">    <span class="comment"># 一般形式：train_test_split(train_data,train_target,test_size=0.4, random_state=0)</span></span><br><span class="line">    <span class="comment"># train_data：所要划分的样本特征集</span></span><br><span class="line">    <span class="comment"># train_target：所要划分的样本结果（标注）</span></span><br><span class="line">    <span class="comment"># test_size：样本占比，如果是整数的话就是样本的数量</span></span><br><span class="line">    <span class="comment"># random_state：是随机数的种子。</span></span><br><span class="line"></span><br><span class="line">    x_train, x_test, y_train, y_test = train_test_split(np.concatenate((pos[<span class="string">'words'</span>], neg[<span class="string">'words'</span>])), y, test_size=<span class="number">0.2</span>)</span><br><span class="line"></span><br><span class="line">    np.save(<span class="string">'svm_data/y_train.npy'</span>,y_train)</span><br><span class="line">    np.save(<span class="string">'svm_data/y_test.npy'</span>,y_test)</span><br><span class="line">    <span class="keyword">return</span> x_train,x_test</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 对每个句子的所有词向量取均值，来生成一个句子的vector</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">build_sentence_vector</span><span class="params">(text, size,imdb_w2v)</span>:</span></span><br><span class="line">    vec = np.zeros(size).reshape((<span class="number">1</span>, size))</span><br><span class="line">    count = <span class="number">0.</span></span><br><span class="line">    <span class="keyword">for</span> word <span class="keyword">in</span> text:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            vec += imdb_w2v[word].reshape((<span class="number">1</span>, size))</span><br><span class="line">            count += <span class="number">1.</span></span><br><span class="line">        <span class="keyword">except</span> KeyError:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">    <span class="keyword">if</span> count != <span class="number">0</span>:</span><br><span class="line">        vec /= count</span><br><span class="line">    <span class="keyword">return</span> vec</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算词向量</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_train_vecs</span><span class="params">(x_train, x_test)</span>:</span></span><br><span class="line">    n_dim = <span class="number">300</span></span><br><span class="line">    <span class="comment"># 初始化模型和词表</span></span><br><span class="line">    imdb_w2v = Word2Vec(x_train, size=n_dim, min_count=<span class="number">10</span>)</span><br><span class="line">    <span class="comment"># imdb_w2v = Word2Vec(size=300, window=5, min_count=10, workers=12)</span></span><br><span class="line">    <span class="comment"># imdb_w2v.build_vocab(x_train)</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment"># imdb_w2v.train(x_train,</span></span><br><span class="line">    <span class="comment">#                total_examples=imdb_w2v.corpus_count,</span></span><br><span class="line">    <span class="comment">#                epochs=imdb_w2v.iter)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    train_vecs = np.concatenate([build_sentence_vector(z, n_dim, imdb_w2v) <span class="keyword">for</span> z <span class="keyword">in</span> x_train])</span><br><span class="line">    <span class="comment"># train_vecs = scale(train_vecs)</span></span><br><span class="line"></span><br><span class="line">    np.save(<span class="string">'svm_data/train_vecs.npy'</span>, train_vecs)</span><br><span class="line">    print(train_vecs.shape)</span><br><span class="line">    <span class="comment"># 在测试集上训练</span></span><br><span class="line">    imdb_w2v.train(x_test)</span><br><span class="line">    <span class="comment"># imdb_w2v.train(x_test,</span></span><br><span class="line">    <span class="comment">#                total_examples=imdb_w2v.corpus_count,</span></span><br><span class="line">    <span class="comment">#                epochs=imdb_w2v.iter)</span></span><br><span class="line"></span><br><span class="line">    imdb_w2v.save(<span class="string">'svm_data/w2v_model/w2v_model.pkl'</span>)</span><br><span class="line">    <span class="comment"># Build test tweet vectors then scale</span></span><br><span class="line">    test_vecs = np.concatenate([build_sentence_vector(z, n_dim, imdb_w2v) <span class="keyword">for</span> z <span class="keyword">in</span> x_test])</span><br><span class="line">    <span class="comment"># test_vecs = scale(test_vecs)</span></span><br><span class="line">    np.save(<span class="string">'svm_data/test_vecs.npy'</span>, test_vecs)</span><br><span class="line">    print(test_vecs.shape)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_data</span><span class="params">()</span>:</span></span><br><span class="line">    train_vecs=np.load(<span class="string">'svm_data/train_vecs.npy'</span>)</span><br><span class="line">    y_train=np.load(<span class="string">'svm_data/y_train.npy'</span>)</span><br><span class="line">    test_vecs=np.load(<span class="string">'svm_data/test_vecs.npy'</span>)</span><br><span class="line">    y_test=np.load(<span class="string">'svm_data/y_test.npy'</span>)</span><br><span class="line">    <span class="keyword">return</span> train_vecs,y_train,test_vecs,y_test</span><br><span class="line"></span><br><span class="line"><span class="comment"># 训练svm模型</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">svm_train</span><span class="params">(train_vecs,y_train,test_vecs,y_test)</span>:</span></span><br><span class="line">    clf=SVC(kernel=<span class="string">'rbf'</span>,verbose=<span class="literal">True</span>)</span><br><span class="line">    clf.fit(train_vecs,y_train)</span><br><span class="line">    joblib.dump(clf, <span class="string">'svm_data/svm_model/model.pkl'</span>)</span><br><span class="line">    print(clf.score(test_vecs,y_test))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 构建待预测句子的向量</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_predict_vecs</span><span class="params">(words)</span>:</span></span><br><span class="line">    n_dim = <span class="number">300</span></span><br><span class="line">    imdb_w2v = Word2Vec.load(<span class="string">'svm_data/w2v_model/w2v_model.pkl'</span>)</span><br><span class="line">    <span class="comment">#imdb_w2v.train(words)</span></span><br><span class="line">    train_vecs = build_sentence_vector(words, n_dim,imdb_w2v)</span><br><span class="line">    <span class="comment">#print train_vecs.shape</span></span><br><span class="line">    <span class="keyword">return</span> train_vecs</span><br><span class="line"></span><br><span class="line"><span class="comment"># 对单个句子进行情感判断</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">svm_predict</span><span class="params">(string)</span>:</span></span><br><span class="line">    words=jieba.lcut(string)</span><br><span class="line">    words_vecs=get_predict_vecs(words)</span><br><span class="line">    clf=joblib.load(<span class="string">'svm_data/svm_model/model.pkl'</span>)</span><br><span class="line"></span><br><span class="line">    result=clf.predict(words_vecs)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> int(result[<span class="number">0</span>])==<span class="number">1</span>:</span><br><span class="line">        print(string,<span class="string">' 正面评价'</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        print(string,<span class="string">' 负面评价'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    验证模型</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    <span class="comment">#string='这手机真棒，从1米高的地方摔下去就坏了'</span></span><br><span class="line">    string=<span class="string">'电池充完了电连手机都打不开.简直烂的要命.真是金玉其外,败絮其中!连5号电池都不如'</span></span><br><span class="line">    string=<span class="string">'这手机质量不错'</span></span><br><span class="line">    svm_predict(string)</span><br></pre></td></tr></table></figure>
+        <div class="hidden-xs col-xs-12 text-center">
+    <canvas id="geektutu-post-qr"></canvas>
+    <p style="margin-top: -10px;"><small>微信扫一扫，阅读/分享</small></p>
+</div>
+<script src="/js/qrious.min.js"></script>
+<script>
+    (function () {
+        new QRious({
+            element: document.getElementById('geektutu-post-qr'),
+            value: window.location.href,
+            size: 120
+        });
+    })();
+</script>
+        <hr>
+        <div>
+            
+            <p>
+                <span>发表于2018-08-10 10:51:09，最后修改于2019-09-10 10:52:54。</span>
+            </p>
+            <!-- 文章末尾的提示 start -->
+            
+            
+            <!-- 文章末尾的提示 end -->
+        </div>
+        <hr />
+        <p name="pagination" style="font-size: 1.2em">
+    
+    <a class="float-left" href="/post/session,cookie,Storage.html">上一篇 « cookie,Storage</a>
+    
+    
+    <a class="float-right" href="/post/分享一个QQ第三方登录详解.html">下一篇 » 分享一个QQ第三方登录详解</a>
+    
+</p>
+    </article>
+    <!-- 赞赏 -->
+    <!--打赏-->
+
+<style>
+    #reward .reward-btn-wrapper {
+        width: 100px;
+        padding-top: 25px;
+        cursor: pointer;
+        margin: 0 auto;
+    }
+
+    #reward .reward-btn {
+        padding: 2px 15px;
+        color: #fff;
+        background-color: #ea6f5a;
+        border-radius: 20px;
+    }
+
+    #reward .reward-code {
+        position: absolute;
+        top: -230px;
+        left: 50%;
+        display: none;
+        width: 360px;
+        height: 240px;
+        margin-left: -180px;
+        padding: 15px 20px;
+        border: 1px solid #e6e6e6;
+        background: #fff;
+        box-shadow: 0 1px 1px 1px #efefef;
+    }
+
+    #reward .reward-code:after,
+    #reward .reward-code:before {
+        position: absolute;
+        content: '';
+        border: 10px solid transparent
+    }
+
+    #reward .reward-code:after {
+        bottom: -19px;
+        left: 50%;
+        margin-left: -10px;
+        border-top-color: #fff
+    }
+
+    #reward .reward-code:before {
+        bottom: -20px;
+        left: 50%;
+        margin-left: -10px;
+        border-top-color: #e6e6e6
+    }
+
+    #reward .qr-code {
+        width: 50%;
+        float: left;
+        padding: 5px;
+    }
+
+    #reward .qr-code p {
+        margin-top: -6px;
+    }
+
+    #reward img[alt='i'] {
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        margin: 0 auto;
+        z-index: 2;
+        margin-left: 75px;
+        margin-top: 65px;
+    }
+
+    #reward img[alt="ali"] {
+        width: 100%;
+        box-sizing: border-box;
+        border: 5px solid #0f9be0;
+    }
+
+    #reward img[alt="wechat"] {
+        width: 100%;
+        box-sizing: border-box;
+        border: 5px solid #3db034;
+    }
+
+    #reward .reward-tip {
+        font-size: 1.2em;
+        margin-bottom: 0;
+        color: #ea6f5a;
+    }
+</style>
+<div id="reward" class="col-xs-12">
+    <div class="reward-btn-wrapper">
+        <div class="reward-btn text-center">赞赏支持</div>
+    </div>
+    <div class="reward-code text-center">
+        <p class="text-center reward-tip"><strong>请我吃胡萝卜 =^_^= </strong></p>
+        <div class="qr-code">
+            <img src="/img/icon.png" alt="i">
+            <img id="reward-ali" src="" alt="ali">
+            <p><small>支付宝</small></p>
+        </div>
+        <div class="qr-code">
+            <img src="/img/icon.png" alt="i">
+            <img id="reward-wechat" src="" alt="wechat">
+            <p><small>微信</small></p>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window, document) {
+        var aliQr = new QRious({ value: 'HTTPS://QR.ALIPAY.COM/FKX060337TUXBAX9LIFJE8' });
+        var wechatQr = new QRious({ value: 'wxp://f2f0qgGBlfD1nZXjvBjievxB0z0fc0W2sBq5' });
+        document.querySelector('#reward-ali').src = aliQr.toDataURL();
+        document.querySelector('#reward-wechat').src = wechatQr.toDataURL();
+
+        var rewardBtn = document.querySelector('#reward .reward-btn-wrapper');
+        var qrCode = document.querySelector('#reward .reward-code')
+        var activeFunc = function (e) {
+            qrCode.style.display = 'block';
+        }
+        var hideFunc = function (e) {
+            qrCode.style.display = 'none';
+        }
+
+        rewardBtn.addEventListener('mouseenter', activeFunc, false)
+        rewardBtn.addEventListener('mouseover', activeFunc, false)
+        rewardBtn.addEventListener('mouseleave', hideFunc, false)
+        qrCode.addEventListener('mouseenter', activeFunc, false)
+        qrCode.addEventListener('mouseover', activeFunc, false)
+        qrCode.addEventListener('mouseleave', hideFunc, false)
+    })(window, document);
+</script>
+
+    <!-- 推荐阅读三篇文章 -->
+    <div class="col-xs-12">
+        <h3>推荐阅读</h3>
+        
+        <div class="post-preview">
+    <div class="post-img" style="background-image: url('/undefined')"></div>
+    <div class="post-info">
+        <div class="post-info-center">
+            <div class="hidden-xs">
+                
+                
+                <span>/</span>
+                
+                <a class="text-gray" href="/tags/#第三方支付"
+                    title="第三方支付">第三方支付</a>
+                <span>/</span>
+                
+                
+            </div>
+            <a href="/post/支付宝支付.html" class="title">
+                支付宝支付
+            </a>
+            <p class="text-gray">
+                <small>
+                    <span>发表于2018-05-28，</span>
+                    <span class="hidden-xs">全文3847字，</span>
+                    <span>阅读约13分钟</span>
+                </small>
+            </p>
+        </div>
+    </div>
+</div>
+        
+        <div class="post-preview">
+    <div class="post-img" style="background-image: url('/undefined')"></div>
+    <div class="post-info">
+        <div class="post-info-center">
+            <div class="hidden-xs">
+                
+                
+                <span>/</span>
+                
+                <a class="text-gray" href="/tags/#web"
+                    title="web">web</a>
+                <span>/</span>
+                
+                
+            </div>
+            <a href="/post/JWT.html" class="title">
+                JWT
+            </a>
+            <p class="text-gray">
+                <small>
+                    <span>发表于2017-05-04，</span>
+                    <span class="hidden-xs">全文1523字，</span>
+                    <span>阅读约6分钟</span>
+                </small>
+            </p>
+        </div>
+    </div>
+</div>
+        
+        <div class="post-preview">
+    <div class="post-img" style="background-image: url('/undefined')"></div>
+    <div class="post-info">
+        <div class="post-info-center">
+            <div class="hidden-xs">
+                
+                
+            </div>
+            <a href="/post/正则表达式.html" class="title">
+                正则表达式
+            </a>
+            <p class="text-gray">
+                <small>
+                    <span>发表于2014-11-06，</span>
+                    <span class="hidden-xs">全文4830字，</span>
+                    <span>阅读约17分钟</span>
+                </small>
+            </p>
+        </div>
+    </div>
+</div>
+        
+    </div>
+    <div class="col-xs-12">
+        <!-- 标签列表 -->
+        <!-- Featured Tags -->
+<style>
+    #featured-tag .post-tag-item {
+        font-size: 12px;
+        line-height: 30px;
+        display: inline-block;
+        height: 30px;
+        margin: 5px 0px;
+        padding: 0 7px;
+        color: #333;
+        border-radius: 15px;
+        background: #f6f6f6;
+    }
+
+    #featured-tag .post-tag-item:hover {
+        color: #337ab7;
+    }
+</style>
+<div id="featured-tag">
+    
+    <a class="post-tag-item" href="/tags/#机器学习" title="机器学习"
+        rel="4">#机器学习 (4) </a>
+    
+    <a class="post-tag-item" href="/tags/#Python" title="Python"
+        rel="6">#Python (6) </a>
+    
+    <a class="post-tag-item" href="/tags/#协议" title="协议"
+        rel="1">#协议 (1) </a>
+    
+    <a class="post-tag-item" href="/tags/#数据库" title="数据库"
+        rel="2">#数据库 (2) </a>
+    
+    <a class="post-tag-item" href="/tags/#Linux" title="Linux"
+        rel="2">#Linux (2) </a>
+    
+    <a class="post-tag-item" href="/tags/#Django" title="Django"
+        rel="1">#Django (1) </a>
+    
+    <a class="post-tag-item" href="/tags/#爬虫" title="爬虫"
+        rel="2">#爬虫 (2) </a>
+    
+    <a class="post-tag-item" href="/tags/#Docker" title="Docker"
+        rel="3">#Docker (3) </a>
+    
+    <a class="post-tag-item" href="/tags/#Redis" title="Redis"
+        rel="1">#Redis (1) </a>
+    
+    <a class="post-tag-item" href="/tags/#nginx" title="nginx"
+        rel="2">#nginx (2) </a>
+    
+    <a class="post-tag-item" href="/tags/#Vue" title="Vue"
+        rel="1">#Vue (1) </a>
+    
+    <a class="post-tag-item" href="/tags/#cookie" title="cookie"
+        rel="1">#cookie (1) </a>
+    
+    <a class="post-tag-item" href="/tags/#第三方支付" title="第三方支付"
+        rel="2">#第三方支付 (2) </a>
+    
+    <a class="post-tag-item" href="/tags/#web" title="web"
+        rel="4">#web (4) </a>
+    
+    <a class="post-tag-item" href="/tags/#第三方" title="第三方"
+        rel="1">#第三方 (1) </a>
+    
+    <a class="post-tag-item" href="/tags/#Tornado" title="Tornado"
+        rel="1">#Tornado (1) </a>
+    
+    <a class="post-tag-item" href="/tags/#mysql" title="mysql"
+        rel="1">#mysql (1) </a>
+    
+</div>
+    </div>
+    <!-- 评论 -->
+    <div class="col-xs-12">
+        
+<div id="gitalk-container"></div>
+<div id="gitalk-related"></div>
+<link rel="stylesheet" href="/css/gitalk.css">
+<script src="/js/gitalk.min.js"></script>
+<script>
+    window.addEventListener('load', function () {
+        const gitalk = new Gitalk({
+            clientID: 'c1fdd456a4caae5f7df0',
+            clientSecret: 'b2674451e21feae50520f99337ec15d2aebe7879',
+            repo: 'hexo-theme-geektutu',
+            owner: 'geektutu',
+            admin: ['geektutu'],
+            id: window.location.pathname,
+            distractionFreeMode: false
+        });
+        gitalk.render('gitalk-container');
+        document.querySelector('#gitalk-container').addEventListener('click', function (e) {
+            e && e.stopPropagation && e.stopPropagation();
+        });
+    })
+</script>
+<script>
+    window.addEventListener('load', function () {
+        function render(comments) {
+            var template = '<a href="${comment.url}?utm_source=gitalk" class="dis-item-url"><h3 class="dis-item-title">${comment.title}</h3>' +
+                '<p class="dis-item-des">${comment.count} 评论 ● ${comment.date}</p>' +
+                '<div class="dis-item-content"><img class="dis-item-img" src="${comment.icon}" alt="icon"><p><b><span class="dis-item-user">${comment.user}</span></b>&nbsp;——&nbsp;${comment.body}</p></div>' +
+                '</a>'
+
+            var wrapper = get('#gitalk-related');
+            comments = shuffle(comments);
+            comments.slice(0, 4).forEach(function (c) {
+                var div = document.createElement('div');
+                div.classList.add('dis-item');
+                div.innerHTML = template.replace("${comment.url}", c.url)
+                    .replace("${comment.title}", c.title)
+                    .replace("${comment.count}", c.count)
+                    .replace("${comment.date}", c.date)
+                    .replace("${comment.icon}", c.icon)
+                    .replace("${comment.user}", c.user)
+                    .replace("${comment.body}", c.body)
+                wrapper.appendChild(div)
+            })
+            var p = document.createElement('p')
+            p.innerHTML = '<a href="https://geektutu.com/post/blog-experience-7.html">Gitalk Plus</a>';
+            p.classList.add('dis-divide');
+            wrapper.appendChild(p);
+            wrapper.classList.add('dis-wrapper')
+        }
+        function shuffle(a) {
+            for (var i = a.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                [a[i], a[j]] = [a[j], a[i]];
+            }
+            return a;
+        }
+        function get(str) { return document.querySelector(str) }
+        fetch('/tool/comments.json').then(function (r) { return r.json() }).then(render).catch(function (e) { })
+    })
+</script>
+
+    </div>
+</div>
+<aside class="float-left gkt-sidebar hidden-xs hidden-sm">
+    <div style="clear: both"></div>
+    <div class="gkt-sidebar-wrapper">
+        <section class="box-shadow"><style>
+    .gkt-summary {
+        border: 1px solid #DDDDDD;
+        border-radius: 3px;
+        padding: 5px;
+        width: 100%;
+    }
+
+
+    .gkt-summary nav {
+        overflow: hidden;
+    }
+
+    .gkt-summary nav a {
+        display: inline-block;
+        text-align: center;
+        color: #333;
+        font-size: 12px;
+    }
+
+    .gkt-summary nav span {
+        display: block;
+    }
+
+    .gkt-summary nav .middle {
+        border-left: 1px solid #eaecef;
+        border-right: 1px solid #eaecef;
+    }
+
+    .gkt-summary .number {
+        font-weight: bold;
+    }
+
+    .gkt-summary .link-list {
+        margin-top: 5px;
+        margin-bottom: -5px;
+        padding-top: 7px;
+        border-top: 1px dashed #999;
+        display: flex;
+    }
+
+    .gkt-summary .link-list a {
+        flex: 1;
+    }
+
+    .gkt-summary .link-list img {
+        width: 25px;
+        height: 25px;
+    }
+</style>
+
+<div class="gkt-summary">
+    <nav>
+        <a href="/" class="col-xs-4">
+            <number class="number">46</number><span>文章</span>
+        </a>
+        <a href="/series" class="col-xs-4 middle">
+            <number class="number">16</number><span>专题</span>
+        </a>
+        <a href="/tags" class="col-xs-4">
+            <number class="number">17</number><span>标签</span>
+        </a>
+    </nav>
+
+    
+</div></section>
+        
+        
+        
+        <section class="box-shadow">
+            <strong>最近的文章</strong>
+            <ul>
+                
+                <li>
+                    <a href="/post/在centos7-6上利用docker-compose统一管理容器和服务.html">在centos7.6上利用docker-compose统一管理容器和服务</a>
+                </li>
+                
+                <li>
+                    <a href="/post/在Centos7-6上部署Docker环境以及安装docker-compose.html">在Centos7.6上部署Docker环境以及安装docker-compose</a>
+                </li>
+                
+                <li>
+                    <a href="/post/个人简历.html">个人简历</a>
+                </li>
+                
+                <li>
+                    <a href="/post/使用python3和高性能全文检索引擎Redisearch进行交互.html">使用python3和高性能全文检索引擎Redisearch进行交互</a>
+                </li>
+                
+                <li>
+                    <a href="/post/使用Redisearch实现的全文检索功能服务.html">使用Redisearch实现的全文检索功能服务</a>
+                </li>
+                
+                <li>
+                    <a href="/post/vue打包cookie失效.html">vue打包cookie失效</a>
+                </li>
+                
+                <li>
+                    <a href="/post/MySQL主从分离.html">MySQL主从分离</a>
+                </li>
+                
+                <li>
+                    <a href="/post/使用flex弹性布局来为微信小程序写自适应页面.html">使用flex弹性布局来为微信小程序写自适应页面</a>
+                </li>
+                
+                <li>
+                    <a href="/post/Thrift重构HTTP接口.html">Thrift重构HTTP接口</a>
+                </li>
+                
+                <li>
+                    <a href="/post/使用基于mpvue的框架开发微信小程序（搭建环境）.html">使用基于mpvue的框架开发微信小程序（搭建环境）</a>
+                </li>
+                
+            </ul>
+        </section>
+        <section class="box-shadow text-center">
+            
+
+<!-- 侧边栏ad 250 * 90 -->
+<ins class="adsbygoogle" style="display:inline-block;width:250px;height:90px"
+    data-ad-client="ca-pub-939225546" data-ad-slot="3708583719"></ins>
+
+
+
+
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+            
+
+<!-- 侧边栏ad 250 * 90 -->
+<ins class="adsbygoogle" style="display:inline-block;width:250px;height:90px"
+    data-ad-client="ca-pub-939225546" data-ad-slot="3708583719"></ins>
+
+
+
+
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+        </section>
+    </div>
+</aside>
+
+<script>
+    (function () {
+        var ele = getDom('.gkt-sidebar-content')
+        var wrapper = getDom('.gkt-sidebar-wrapper')
+        var last = 0
+        window.addEventListener("scroll", function (e) {
+            var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            var isDown = scrollTop > last;
+            var pos = getPosition(ele).y - scrollTop;
+            var downLimit = 50;
+            var upLimit = -100;
+            // uarrow.style.marginTop = scrollTop + 'px';
+            isDown && pos <= downLimit && wrapper.classList.add("gkt-sidebar-fixed");
+            !isDown && pos > upLimit && wrapper.classList.remove("gkt-sidebar-fixed");
+            last = scrollTop
+        })
+    })();
+    (function () {
+        function resizeUArrow() {
+            var s = getDom('.u-arrow-wrapper').style
+            var pc = getDom('.post-container')
+            s.left = getPosition(pc).x + 'px';
+            s.width = pc.clientWidth + 'px';
+        }
+        resizeUArrow()
+        window.addEventListener('resize', resizeUArrow);
+    })();
+</script>
+    
+</main>
+    </div>
+    <style>
+    img#go-top {
+        position: fixed;
+        bottom: 100px;
+        width: 50px;
+        cursor: pointer;
+        z-index: 9999;
+    }
+</style>
+<img id="go-top" src="/icon/top.png" class="hidden-xs" style="display: none" />
+<script>
+    (function () {
+        var goTop = document.getElementById('go-top');
+        var mainContainer = document.querySelector('.main-container');
+        
+        goTop.addEventListener('click', function () {
+            window.scroll(0, 0);
+        }, false);
+        window.addEventListener('scroll', function () {
+            var right = document.body.offsetWidth - mainContainer.getBoundingClientRect().right;
+            var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            goTop.style.right = right + 10 + 'px'
+            scrollTop > 700 && (goTop.style.display = "block");
+            scrollTop <= 700 && (goTop.style.display = "none");
+        });
+    })();
+</script>
+    <style>
+    #geektutu-click-img-container {
+        position: fixed;
+        left: 0;
+        top: 0;
+        text-align: center;
+        width: 100%;
+        display: none;
+        z-index: 9999;
+    }
+
+    #geektutu-click-img-container img {
+        object-fit: contain;
+        background: #eaecef;
+        padding: 15px;
+        border-radius: 10px;
+        height: auto;
+        width: auto;
+        vertical-align: middle;
+    }
+</style>
+
+
+<div id="geektutu-click-img-container">
+    <img src="" alt="Big Image">
+</div>
+
+<script>
+    (function () {
+        var container = document.querySelector('#geektutu-click-img-container')
+        var targetImg = container.querySelector('img')
+        var imgs = document.querySelectorAll('article img');
+        targetImg.addEventListener('click', function (e) {
+            container.style.display = 'none';
+            e && e.stopPropagation && e.stopPropagation();
+        }, false);
+
+        for (var i = 0; i < imgs.length; ++i) {
+            var img = imgs[i];
+            img.addEventListener('click', (function (src, rate) {
+                return function (e) {
+                    e && e.stopPropagation && e.stopPropagation();
+                    if (window.innerWidth < 980) {
+                        return
+                    }
+                    targetImg.style.height = targetImg.style.width = 'auto';
+                    if (window.innerWidth / window.innerHeight > rate) {
+                        targetImg.style.height = (window.innerHeight - 20) + 'px';
+                    } else {
+                        targetImg.style.width = (window.innerWidth - 20) + 'px';
+                    }
+                    container.style.height = window.innerHeight + 'px'
+                    container.style.lineHeight = window.innerHeight + 'px'
+                    container.style.display = 'block';
+                    targetImg.src = src;
+                };
+            }(img.src, img.width / img.height)), false)
+        }
+    })();
+</script>
+    <!-- Footer -->
+    <!-- Footer -->
+<style>
+    footer {
+        width: 100%;
+        line-height: 1.5;
+        padding: 20px;
+    }
+
+    footer a {
+        color: #333;
+        text-decoration: none;
+    }
+
+    .footer-hexo img {
+        height: 20px;
+        margin-bottom: -5px;
+    }
+
+    .footer-hexo a {
+        color: #337ab7;
+    }
+</style>
+<footer class="text-center col-xs-12">
+    <p>
+        <small>© 2019 - Xingya - </small>
+        <small>
+            <a target="_blank" rel="nofollow noopener" href="http://www.miitbeian.gov.cn/">沪ICP备18001798号-1</a>
+        </small>
+    </p>
+    <p class="footer-hexo">
+        <!-- 但若直接使用或修改主题，请务必保留这段声明 -->
+        <small>Powered by <a target="_blank" href="https://hexo.io">Hexo</a> | Theme
+            <a target="_blank" href="https://geektutu.com">Geektutu</a>
+            <a href="https://github.com/geektutu/hexo-theme-geektutu">
+                <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAYGBgYHBgcICAcKCwoLCg8ODAwODxYQERAREBYiFRkVFRkVIh4kHhweJB42KiYmKjY+NDI0PkxERExfWl98fKcBBgYGBgcGBwgIBwoLCgsKDw4MDA4PFhAREBEQFiIVGRUVGRUiHiQeHB4kHjYqJiYqNj40MjQ+TERETF9aX3x8p//CABEIACIAUAMBIgACEQEDEQH/xAAcAAABBAMBAAAAAAAAAAAAAAAAAQQFBwIDBgj/2gAIAQEAAAAA9KrHSgAYL5/z6zZGuJd12uugbhq3uKtmuRtix20IS7lTLAfAAAn/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/9oACAECEAAAAAAB/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/aAAgBAxAAAAAAAf/EADEQAAICAQIEBQEGBwAAAAAAAAECAwQFAAYREhORBxQhUlQxQVFic5KxJDJCYYGC0f/aAAgBAQABPwCFHnjWUzuvN6hV4cANSRLGjO9yRVUcSzMoA7jVXJYe5N0a2dhmk9kc0bN2GvLN8mbuNeWb5M3ca8s3yZu415Y/Jm7jXlm+TN3H/NeVPyZu40vOk3TZywK8wJ+v3EHVM/wsI/Dq2lrxN3Nnca16eti8chSAIoMbzByhMwP14kHVfwIiSaF5c96J6kwwCOTnHsYk8uvCrdmQy1TI4rJuz3cZLyGR/wCd4+YoOf8AEpUjXitubLYPG4paFsUxcuiGe7yc5gTW3LW44szXmobsi3Dhmic2+Z4+vCVH9CpraPiQ+QvbgTJrPFBWd5YpWrmNIIEXiRO32Pqt4p7cnfHk18lFBdmEVW1LVdIZGOrniTt6plrWKaO69yCykDRxwF+LMAewB0Txtr+Sf31VI8tEPw62fZt7N3Humtbpzz13ucX6CGSWMSuzpLyD1eNgeUka3PuvHbaxq3biTMHfkiSNCS78CwU+3Xg7Vu3MhuTcU6cq3Zemn3Eh2dv8Lzcut+29x1atKbHYqLJUhLwyNMwiZ3j9yDWOxUOV3tgb+3No5LDx1pi9+aeIwRlNY6bc+Jv+IFGrhLxtXJZ7VKcw81diiAAEn0JOrkWZyNfbEr0tz27UGQgkuGzXdIIvyowq99bRxk9ffO/L81SZBPZgEEroQroIxxMZOgeNsfkn99QypHGqO4Vl9CDrN4LDZkwyzyyQ2IgRHZrzGCZVP1XnQglT9oOtw4LC7iqV6uRkZoYpxKFSQpzFRw4EjVRMfSrQ1qqwxQxKFjjTgFUD7BoWYR6iVe+mtxt9Zwf9teaj4AdccPu5tedX5A/VrzUR+sy/q1CwksF19VEfDj/cnQRW+qg66cfsXtrpx+xe2unH7F7a6cfsXtrpx+xe2unH7F7a6cfsXtoxx+xe2gAAOA1//8QAFBEBAAAAAAAAAAAAAAAAAAAAMP/aAAgBAgEBPwB//8QAFBEBAAAAAAAAAAAAAAAAAAAAMP/aAAgBAwEBPwB//9k="
+                    alt="Github Star">
+            </a>
+        </small>
+    </p>
+    
+    <p>
+        <small>
+            <span id="busuanzi_container_site_pv">👁<span id="busuanzi_value_site_pv"></span></span> &nbsp;
+            <span id="busuanzi_container_page_pv">📚<span id="busuanzi_value_page_pv"></span></span>
+        </small>
+    </p>
+    
+    
+    <p><small><span id="cnzz_stat_icon_123649"></span></small></p>
+    
+
+</footer>
+
+
+<script>
+    window.addEventListener('load', function () {
+        globalAddScript('//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js');
+    })
+</script>
+
+<!-- Baidu Tongji -->
+
+<script>
+    window.addEventListener('load', function () {
+        var _hmt = _hmt || [];
+        globalAddScript('//hm.baidu.com/hm.js?1a0ec33b1aa')
+    })
+</script>
+
+
+<script>
+    window.addEventListener('load', function () {
+        globalAddScript('//s23.cnzz.com/z_stat.php?id=123649&online=2');
+    })
+</script>
+
+
+<!-- baidu auto push for seo -->
+<script>
+    window.addEventListener('load', function () {
+        var src = 'http://push.zhanzhang.baidu.com/push.js'
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        globalAddScript(src);
+    })
+</script>
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'UA-141425-1');
+
+    window.addEventListener('load', function () {
+        globalAddScript('https://www.googletagmanager.com/gtag/js?id=UA-141425-1');
+    });
+</script>
+
+
+    <script>
+        // 非本站网址，新开tab页签
+        (function () {
+            var stopBubble = function (e) {
+                e && e.stopPropagation && e.stopPropagation();
+            }
+            var links = document.querySelectorAll('a');
+            [].slice.call(links).forEach(function (item) {
+                if (item.href && item.href.indexOf(window.location.host) === -1) {
+                    item.target = '_blank'
+                }
+                // 阻止冒泡，不触发彩蛋。
+                item.addEventListener('click', stopBubble, false);
+            });
+            var article = document.querySelector('article');
+            article && article.addEventListener('click', stopBubble, false)
+        })();
+    </script>
+    
+<script>
+    (function (window, document, undefined) {
+        var hearts = [];
+        var keywords = ["点个赞", "留个言", "赞赏一下", "张兴亚的技术博客", "zxyyee.cn"];
+        function randomInt(max) {
+            return Math.floor(Math.random() * Math.floor(max));
+        }
+        window.addEventListener('click', createWord)
+
+        function createWord(e) {
+            var d = document.createElement("span");
+            d.style.position = 'fixed';
+            d.style.zIndex = 9999;
+            d.style.color = 'rgb(' + [randomInt(255), randomInt(255), randomInt(255)].join(',') + ')';
+            d.innerHTML = keywords[randomInt(keywords.length)];
+            d.onselectstart = function () { return false; }
+
+            hearts.push({ el: d, x: e.clientX - 5, y: e.clientY - 5, alpha: 1, scale: 1 });
+            document.body.appendChild(d);
+        }
+        (function gameloop() {
+            for (var i = 0; i < hearts.length; i++) {
+                heart = hearts[i];
+                if (heart.alpha <= 0) {
+                    document.body.removeChild(heart.el);
+                    hearts.splice(i, 1);
+                    continue;
+                }
+                heart.y -= heart.alpha < 0.5 ? 2 : 1;
+                heart.scale += 0.002;
+                heart.alpha -= 0.013;
+                heart.el.style.transform = 'scale(' + heart.scale + ')';
+                heart.el.style.left = heart.x + 'px';
+                heart.el.style.top = heart.y + 'px';
+            }
+            setTimeout(gameloop, 10)
+        })();
+    })(window, document);
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
+  <meta name="baidu-site-verification" content="p7Pz3jlx4t">
+  <meta name="google-site-verification" content="19ixTFj-X-rXuvZFvR1PMkqSHMXZ5GjN7nhYdYYFm-c">
+  <meta name="msvalidate.01" content="7E2AEE3378AC93764DEAB411177A21A1">
+  <meta name="360-site-verification" content="5c7e8a1fdbf35ed6003c48733208f705">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- if page has tags, then add tags to keyword -->
+  
+  
+  <meta name="keywords" content="张兴亚的博客,张兴亚的小站,web,">
+  <!-- page.description has higher priority -->
+  <meta name="description" content="张兴亚的小站，致力于分享一些技术教程和有趣的技术实践。">
+  <link rel="shortcut icon" href="/img/icon.png">
+  <title>
+    
+    简单了解一下Python的web设计模式 | XQ
+    
+  </title>
+
+  <link rel="canonical" href="/post/简单了解一下Python的web设计模式.html">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/markdown.css">
+  <!-- Pygments Highlight CSS -->
+  <link rel="stylesheet" href="/css/highlight.css">
+  <link rel="stylesheet" href="/css/geektutu.css">
+  <!-- global function -->
+  <script>
+    window.globalAddScript = function (url, onload, onerror) {
+      var s = document.createElement('script');
+      s.src = url;
+      onload && (s.onload = onload);
+      onerror && (s.onerror = onerror);
+      document.body.appendChild(s);
+    }
+    window.globalAddCss = function (url) {
+      var s = document.createElement('link');
+      s.rel = 'stylesheet';
+      s.href = url;
+      document.body.appendChild(s);
+    }
+    window.getPosition = function (ele) {
+      var x = 0, y = 0;
+      while (ele) {
+        x += (ele.offsetLeft - ele.scrollLeft + ele.clientLeft);
+        y += (ele.offsetTop - ele.scrollTop + ele.clientTop);
+        ele = ele.offsetParent;
+      }
+      return { x: x, y: y };
+    }
+    window.getDom = function (str) { return document.querySelector(str) }
+  </script>
+  <!-- google ad -->
+  
+  <script>
+    window.addEventListener('load', function () {
+      globalAddScript("https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js", "", function (e) {
+        if (window.localStorage.getItem('gkt_marker')) {
+          var rec = document.querySelector('.gkt-rec-links');
+          rec && (rec.style.display = 'none');
+        }
+      });
+    });
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-939225546",
+      enable_page_level_ads: true
+    });
+  </script>
+  
+</head>
+
+<body>
+    <header class="gkt-header col-xs-12 padding-0">
+    <div id="gkt-nav" class="gkt-header-container">
+        <a href="/" class="gkt-header-title float-left">
+            <img class="float-left" src="/img/icon.png" alt="">
+            <span>张兴亚的技术博客</span>
+        </a>
+        <nav class="gkt-header-nav text-right">
+            <ul>
+                <li><a class="hidden-xs" href="/">主页</a></li>
+                <li><a href="/series/">专题</a></li>
+                <li><a href="/archives/">归档</a></li>
+                <li><a href="/post/link.html">友链</a></li>
+                <li><a href="/post/about.html">留言</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div id="gkt-cate-nav" class="gkt-header-container hidden-xs">
+        
+        <nav class="gkt-header-nav float-left">
+            <ul>
+                
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/Linux775权限.html">Linux</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left active">
+                    <a class="float-left" href="/post/Nginx-uwsgi安装配置.html">web</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/FTP和SFTP.html">传输协议</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/部署分布式爬虫.html">爬虫</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/Redis-0.html">数据库</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/装饰器.html">Python</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/numpy方法.html">机器学习</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/docker与windows挂载失效.html">Docker</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/支付宝退款.html">第三方支付</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/django自定义过滤器.html">Django</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/session,cookie,Storage.html">cookie</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/nginx反向代理tornado遇到的小问题.html">nginx</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/Redisearch.html">Redis</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/关于Tornado-真实的异步和虚假的异步.html">Tornado</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/vue打包cookie失效.html">Vue</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/个人简历.html">个人简历</a>
+                    
+                </li>
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+<div style="height: 44px"></div>
+<div class="hidden-xs" style="height: 44px"></div>
+<script>
+    (function () {
+        window.addEventListener('scroll', function () {
+            if (window.innerWidth < 768) {
+                return;
+            }
+            var nav = document.querySelector('#gkt-nav');
+            var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            scrollTop > 50 && (nav.classList.add('hide'));
+            scrollTop <= 50 && (nav.classList.remove('hide'));
+        });
+        var cateNavs = document.querySelectorAll('#gkt-cate-nav>nav>ul>li');
+        [].slice.call(cateNavs).forEach(function (item) {
+            var sub = item.querySelector('.gkt-sub-cate');
+            if (!sub) return;
+            item.addEventListener('mouseenter', function (e) { sub.style.display = 'block'; }, false);
+            item.addEventListener('mouseleave', function (e) { sub.style.display = 'none'; }, false);
+        })
+    })();
+</script>
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Main Content -->
+<main class="col-xs-12 padding-0 markdown-it">
+    <!-- Post Container -->
+    
+    <!-- Post Content -->
+<div class="float-left post-container box-shadow">
+    <div class="u-arrow-wrapper hidden-xs">
+        
+        <a class="float-left" href="/post/docker-compose.html"><i class="u-arrow-left"></i></a>
+        
+        
+        <a class="float-right" href="/post/浏览器同源策略与ajax跨域方法汇总.html"><i class="u-arrow-right"></i></a>
+        
+    </div>
+    <article class="col-xs-12">
+        <h1> 简单了解一下Python的web设计模式 </h1>
+
+        
+
+        
+        <div class="hidden-lg hidden-md series_links">
+            <p> <strong> web系列文章链接：</strong></p>
+            <ul>
+                
+                <li>
+                    <a href="/post/Nginx-uwsgi安装配置.html">Nginx+uwsgi安装配置</a>
+                    <span class="post-item-date">(Oct 3, 2015)</span>
+                </li>
+                
+                <li>
+                    <a href="/post/JWT.html">JWT</a>
+                    <span class="post-item-date">(May 4, 2017)</span>
+                </li>
+                
+                <li>
+                    <a href="/post/简单了解一下Python的web设计模式.html">简单了解一下Python的web设计模式</a>
+                    <span class="post-item-date">(Jul 23, 2019)</span>
+                </li>
+                
+                <li>
+                    <a href="/post/Thrift重构HTTP接口.html">Thrift重构HTTP接口</a>
+                    <span class="post-item-date">(Aug 5, 2019)</span>
+                </li>
+                
+            </ul>
+        </div>
+        
+        
+        
+        <p>#前言</p>
+<p>​    之前一直总结了很长时间的设计模式，只不过一直都是写在笔记上，并没有整理成博客。之前在学校跟一个老师聊起来的时候，他还说过，有很多东西，他只会写在本子上，从来不会公开的，我见过一些开发了十几年的java大牛，他们也不会轻易的把自己值钱的经验随便告诉给别人，跟他们一起工作，都要相近一切办法才能把值钱的东西挖过来。实际上就是这样，分享归分享，有些东西是会垄断的，你们所谓的google，facebook开源，实际上都是他们觉得不值钱的东西，值钱的东西当然不能开源，毕竟研究起来太费劲，耗费大量人力物力。还有很多人问我问题的时候会说，自己懒得看了，直接告诉他算了。对于这种伸手党也是呵呵了。</p>
+<p>​    那么为什么我要总结这样一篇博客呢？因为我觉得这真不是啥值钱的玩意儿，如果把这点东西还当宝贝，那这辈子眼界也就这么窄了，还有我觉得很少有人会看我的博客。</p>
+<p>​    以上就当我扯淡了，这篇博客的题目叫python的web设计模式。为什么会叫一个这样的题目呢？首先我觉得，要给自己在工作中所做的事，下一个定义，首先我是一个python工程师，并且我在做web开发，那么一些设计模式，对于我而言是没有用的（当然实际上我也是会的）。而另一些，是我要去加强的。</p>
+<p>​    那么我们就来讲讲，作为一个python web开发者，我们可以忽略掉哪些设计模式，可以加强哪些设计模式？ 那么在看这篇博客之前，你自然需要先了解设计模式啦，否则下面的内容你是看不懂的。</p>
+<h1 id="创建型模式"><a href="#创建型模式" class="headerlink" title="创建型模式"></a>创建型模式</h1><p>​    实际上我觉得web开发用的最少的就是创建者模式，在我的印象中，GUI和一些游戏的开发可能用的会更多。作为用来建模的设计模式而言，web开发的orm层可能才会用到，毕竟web开发的核心在数据流的处理和状态的维护。</p>
+<h3 id="抽象工厂模式"><a href="#抽象工厂模式" class="headerlink" title="抽象工厂模式"></a>抽象工厂模式</h3><hr>
+<p>​    抽象工厂用来创建产品簇，这个我记得在java开发跨平台GUI的解决方案有用到，比如Text，Diagram，Rectangle这些，在window上一套，在linux上一套，这个时候就需要抽象工厂模式来创建这种产品簇，web？我没用过。</p>
+<h3 id="建造者模式"><a href="#建造者模式" class="headerlink" title="建造者模式"></a>建造者模式</h3><hr>
+<p>​    之前说道抽象工厂是在不同平台去实现统一的产品簇，而建造者模式用于实现一个xx的产品，比如有个XAF的c#开发库，写好orm和基础handler，就可以生成web和GUI两套界面，内容和操作交互基本都是一样的。web？我没用过。</p>
+<h3 id="工厂方法模式"><a href="#工厂方法模式" class="headerlink" title="工厂方法模式"></a>工厂方法模式</h3><hr>
+<p>​    orm中建立数据库链接的那一套东西，基本都是工厂方法的。getConnection，能获得不同类型的数据库链接对象，因为额工厂方法的用以就是定义一个创建产品对象的工厂接口，将实际工作推迟到子类中。在.net里面的数据库链接对象就是产生数据命令对象的工厂，每种数据库的Connection对象里(继承自己的IDbconnection)都对自己的createCommand(定义在IDbCommand里)的实现。</p>
+<h3 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h3><hr>
+<p>​    实际上python非常好实现单例模式，只要把全局状态放在私有变量中，并提供用于访问此变量的公开函数就行了。网上还有写标准的python单例类写法，继承此类就可以使用，这么说吧，logging对象就算是一个单例，数据库连接池也是单例。这个模式还是很简单常见的。</p>
+<h3 id="原型模式"><a href="#原型模式" class="headerlink" title="原型模式"></a>原型模式</h3><hr>
+<p>​    我只有在写单测的时候，用过此技术来从初始对象deepcopy过来，进行修改运行不同单测。</p>
+<p>​    与直接new一个对象不同的是，原型模式的clone技术，更加说明两个对象是上下文相关的，而new出来的对象是上下文无关的。而且比如你的对象初始化要靠读取文件或者数据库，那么clone出来一个的代价要比new一个小得多。</p>
+<p>​    据说orm底层使用了原型模式，在orm对象上做了修改之后，其实会通过原型模式做一个对象链，在保存的时候，会将前后两个对象做对比，相同的就不会修改，不相同的就生成相应的sql语句。</p>
+<h1 id="结构型模式"><a href="#结构型模式" class="headerlink" title="结构型模式"></a>结构型模式</h1><h3 id="适配器模式"><a href="#适配器模式" class="headerlink" title="适配器模式"></a>适配器模式</h3><hr>
+<p>​    适配器模式算是最常见的设计模式了。主要用途就是将一种对象改造成另一种对象，或者将小对象拼成大对象。这种场景更像是，现在已经有一部分稳定上线的接口了，你开发的产品，要能使用新的接口，又能让老的接口运行，就要使用适配器来兼容老接口了。</p>
+<p>​    在ADO.NET,Microsoft NET Framework,DataAdapter用作DataSet和数据源之间的桥接器，以便检索和保存数据。DataAdopter通过映射Fill(更改DataSet中的数据以便与数据源中的数据相匹配)和update(这更改了数据源中数据以便与DataSet中的数据相匹配)来提供这一桥接器。</p>
+<h3 id="桥接模式"><a href="#桥接模式" class="headerlink" title="桥接模式"></a>桥接模式</h3><hr>
+<p>​    桥接模式，将抽象（接口或算法）与实现的方式相分离，你如果做python web开发，那么你一定知道wsgi,这个就算是桥接模式，这使得python的web服务器和python的web框架完美衔接。实际上桥接模式企图搭建一个平台。比如java虚拟机，一方面，它可以运行在windows，linux，mac等不同的平台，另一方面，在它之上又运行着不同的java程序。</p>
+<p>​    JDBC那一套东西也算是桥接模式，Driver Manager管理的API，不同的数据库厂商去实现这些接口，另一方面Jdbc应用又都是在JDBC API的基础上开发的。这样就做到了开发者与数据库厂商的分离。</p>
+<h3 id="组合模式"><a href="#组合模式" class="headerlink" title="组合模式"></a>组合模式</h3><hr>
+<p>​    将对象组合成树型结构以表示“整体，部分”的层次结构，composite模式使得客户对单个对象和组合对象的使用具有一致性。文件系统就是组合模式，xml也算是组合模式。写js的同学在操作html的时候，就对组合模式深有体会，在python的开发上，我很少使用到组合模式，可能xml库会用到吧。</p>
+<h3 id="装饰模式"><a href="#装饰模式" class="headerlink" title="装饰模式"></a>装饰模式</h3><hr>
+<p>​    装饰模式是在不必改变原类文件和原用继承的情况下，动态的扩展一个对象的功能，通过一个包装对象，也就是装饰器来包裹真实的对象。实际上python在语法层面上就支持装饰模式，也是就@，比较经典的使用，我记得是tornado中<code>@tornado.gen.coroutine</code>使用yield来写异步代码，还有就是python中对于类的一些属性方法装饰器。提到一点的是，java io就在使用装饰器模式，什么InputStream，ByteArrayInputStream，FileInputStream，实际上，如果你的代码在处理数据的时候，用yield来拆分功能点，那么使用装饰器也是很爽的。</p>
+<h3 id="外观模式"><a href="#外观模式" class="headerlink" title="外观模式"></a>外观模式</h3><hr>
+<p>​    外观模式主要提供一个整洁的一致性接口给客户端，N层构架的应用程序，就算是Facade模式了。也就是同一类产品簇提供相同的接口。这个我觉得在设计web服务的时候会用到，比如我之前的web服务都会有两层，在基础服务这一层前面再挡一层业务曾，这样对于客户端前端的调用而言，业务层暴露的接口就是统一，简单的。</p>
+<h3 id="享元模式"><a href="#享元模式" class="headerlink" title="享元模式"></a>享元模式</h3><hr>
+<p>​    它通过使用共享物件，用来经可能的减少内存使用量以及分享咨询给尽可能多的相似物体。文字处理系统中图形字符，.net的string类型，python的str，和一些不可变对象都使用了享元模式。这个在web开发中，几乎没用到过。这个在开发中几乎用不到，因为此模式，一般用于解决系统性能问题，所以经常用于底层开发，在项目中并不常用。</p>
+<h3 id="代理模式"><a href="#代理模式" class="headerlink" title="代理模式"></a>代理模式</h3><hr>
+<p>​    代理模式也是一种常见的模式，1.为其他对象提供一种代理以控制这个对象的访问，解决直接访问某些对象出现的问题。</p>
+<p>​    代理模式的根本根本是，保护一个对象的操作，在一个对象的操作上，追加其他方法。</p>
+<p>​    在实际生产中，我们可以看到：</p>
+<p>​        1，远程代理，能够为一个位于不同的地址空间的对象提供一个本地的代理对象。</p>
+<p>​        2，保护代理，用于保护对象的访问权限。</p>
+<p>​        3，智能指针，取代简单的指针，在访问对象时，提供额外的附加操作。</p>
+<p>​        4，copy-on-write, 延迟处理的代理。</p>
+<p>​    我觉得单元测试中的mock对象也算是代理对象，当然你最常见到的还是代理服务器，vpn之类的。</p>
+<h3 id="行为模式"><a href="#行为模式" class="headerlink" title="行为模式"></a>行为模式</h3><hr>
+<p>​    创建型模式关注对象的创建，结构型模式关注类和对象之间的组织关系，而行为模式关注对象间的交互和职责分配。</p>
+<p>​    所以我觉得结构型模式才是web开发最常用的，创建和行为模式都不是特别常用。</p>
+<h3 id="命令模式"><a href="#命令模式" class="headerlink" title="命令模式"></a>命令模式</h3><hr>
+<p>​    将行为抽象成对象的模式？记录每一步操作，可以undo，redo。我是没用过。。。</p>
+<h3 id="迭代器模式"><a href="#迭代器模式" class="headerlink" title="迭代器模式"></a>迭代器模式</h3><hr>
+<p>​    迭代器模式是一个很常用的模式，它分离了聚合对象的遍历行为，抽象出了一个迭代器负责，这样既可以做到不暴露集合内部结构，又可以让外部代码透明的访问集合内部数据。<br>    范型都用了迭代器模式，但是这个和web开发没啥关系，算是比较基础的模式吧。</p>
+<h3 id="观察者模式"><a href="#观察者模式" class="headerlink" title="观察者模式"></a>观察者模式</h3><hr>
+<p>​    发布订阅模式，这个在web开发中倒是很常用，比如你要关注此消息，那你就订阅此消息，这样把你放到一个“用户”队列中，这样消息好了，会依次通知每一个用户的。事件驱动也是玩的这招。监听某个事件。</p>
+<h3 id="中介者模式"><a href="#中介者模式" class="headerlink" title="中介者模式"></a>中介者模式</h3><hr>
+<p>​    我只知道电脑的主板，就算是中介者模式，用来解决一组对象之间的相互通信，而它们之间不需要显示的交互，但是我真没用过此模式做开发。</p>
+<h3 id="备忘录模式"><a href="#备忘录模式" class="headerlink" title="备忘录模式"></a>备忘录模式</h3><hr>
+<p>​    这个模式是不是可以理解为每次上线服务都要做个备份？方便能够回滚？我在web开发也没用过，保存和跟踪对象的状态，以便于必要时可以把对象恢复到以前的状态。</p>
+<h3 id="解释器模式"><a href="#解释器模式" class="headerlink" title="解释器模式"></a>解释器模式</h3><hr>
+<p>​    这个估计只有领域型语言设计才会用到吧，解释表达式什么的，web开发估计真不会用到。</p>
+<h3 id="模板方法"><a href="#模板方法" class="headerlink" title="模板方法"></a>模板方法</h3><hr>
+<p>​    定义一个操作的骨架，将步骤延迟到子类中，如果你在写web框架，那么模板模式是一种在常用不过的模式了，比如你在使用tornado的时候，就会重写start()和on_finish()方法，unit库，你会去实现setup和teardown方法。</p>
+<h3 id="责任链模式"><a href="#责任链模式" class="headerlink" title="责任链模式"></a>责任链模式</h3><hr>
+<p>​    你会做一个对象链，而请求就在这个链条上传递，直到链上某个对象解决处理此请求。</p>
+<p>​    其实异常处理就算是一种责任链，而java 中的servlet的filter也算是责任链模式，拦截就处理，不拦截就传递，你可以在web服务中插入多层责任链，验证数据和一些风控，又方便扩展。</p>
+<h3 id="状态模式"><a href="#状态模式" class="headerlink" title="状态模式"></a>状态模式</h3><hr>
+<p>​    状态模式和状态机是两个概念，状态模式实际上为了一个对象在内部状态改变时改变其行为。<br>    也就是说这些状态类实现了统一的操作接口，只不过同一个操作在不同的状态下，结果也不同。这个在游戏开发的时候，精灵类会用到，web开发我没用过，可能只有设计一站式框架才会用到把。</p>
+<h3 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h3><hr>
+<p>​    将算法推迟到子类去实现，而策略代表了一种算法簇，钩子函数就是常见的策略模式，如果这么说来，map，reduce，filter都算是策略模式了，还有sort排序传入的比较函数。</p>
+<h3 id="访问者模式"><a href="#访问者模式" class="headerlink" title="访问者模式"></a>访问者模式</h3><hr>
+<p>​    三个字，“我不会”，这个模式很难，而且基本用不到，类似于多重继承和元类设计这种东西，要么你会用，要么你别用，别你觉得你会你想试着用下，算了吧你。。。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>​    其实看到我想说的是，23种设计模式，以你的工作场景来选择学习使用总结，还要去记住真实的使用场景和例子，不要一股脑全背了。还有在python中实现方式和java中也有很大的不同。如果用python写java代码，那就是你太蠢了。还有你会发现orm中有很多值得去学习的技术。</p>
+
+        <div class="hidden-xs col-xs-12 text-center">
+    <canvas id="geektutu-post-qr"></canvas>
+    <p style="margin-top: -10px;"><small>微信扫一扫，阅读/分享</small></p>
+</div>
+<script src="/js/qrious.min.js"></script>
+<script>
+    (function () {
+        new QRious({
+            element: document.getElementById('geektutu-post-qr'),
+            value: window.location.href,
+            size: 120
+        });
+    })();
+</script>
+        <hr>
+        <div>
+            
+            <p>
+                <span>专题: </span>
+                
+                <a href="/series/#web">
+                    <code key="web" class="post-label">web</code>
+                </a>
+                
+            </p>
+            
+            <p>
+                <span>发表于2019-07-23 00:32:47，最后修改于2019-09-18 15:41:28。</span>
+            </p>
+            <!-- 文章末尾的提示 start -->
+            
+            
+            <!-- 文章末尾的提示 end -->
+        </div>
+        <hr />
+        <p name="pagination" style="font-size: 1.2em">
+    
+    <a class="float-left" href="/post/docker-compose.html">上一篇 « docker-compose及安装</a>
+    
+    
+    <a class="float-right" href="/post/浏览器同源策略与ajax跨域方法汇总.html">下一篇 » 浏览器同源策略与ajax跨域方法汇总</a>
+    
+</p>
+    </article>
+    <!-- 赞赏 -->
+    <!--打赏-->
+
+<style>
+    #reward .reward-btn-wrapper {
+        width: 100px;
+        padding-top: 25px;
+        cursor: pointer;
+        margin: 0 auto;
+    }
+
+    #reward .reward-btn {
+        padding: 2px 15px;
+        color: #fff;
+        background-color: #ea6f5a;
+        border-radius: 20px;
+    }
+
+    #reward .reward-code {
+        position: absolute;
+        top: -230px;
+        left: 50%;
+        display: none;
+        width: 360px;
+        height: 240px;
+        margin-left: -180px;
+        padding: 15px 20px;
+        border: 1px solid #e6e6e6;
+        background: #fff;
+        box-shadow: 0 1px 1px 1px #efefef;
+    }
+
+    #reward .reward-code:after,
+    #reward .reward-code:before {
+        position: absolute;
+        content: '';
+        border: 10px solid transparent
+    }
+
+    #reward .reward-code:after {
+        bottom: -19px;
+        left: 50%;
+        margin-left: -10px;
+        border-top-color: #fff
+    }
+
+    #reward .reward-code:before {
+        bottom: -20px;
+        left: 50%;
+        margin-left: -10px;
+        border-top-color: #e6e6e6
+    }
+
+    #reward .qr-code {
+        width: 50%;
+        float: left;
+        padding: 5px;
+    }
+
+    #reward .qr-code p {
+        margin-top: -6px;
+    }
+
+    #reward img[alt='i'] {
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        margin: 0 auto;
+        z-index: 2;
+        margin-left: 75px;
+        margin-top: 65px;
+    }
+
+    #reward img[alt="ali"] {
+        width: 100%;
+        box-sizing: border-box;
+        border: 5px solid #0f9be0;
+    }
+
+    #reward img[alt="wechat"] {
+        width: 100%;
+        box-sizing: border-box;
+        border: 5px solid #3db034;
+    }
+
+    #reward .reward-tip {
+        font-size: 1.2em;
+        margin-bottom: 0;
+        color: #ea6f5a;
+    }
+</style>
+<div id="reward" class="col-xs-12">
+    <div class="reward-btn-wrapper">
+        <div class="reward-btn text-center">赞赏支持</div>
+    </div>
+    <div class="reward-code text-center">
+        <p class="text-center reward-tip"><strong>请我吃胡萝卜 =^_^= </strong></p>
+        <div class="qr-code">
+            <img src="/img/icon.png" alt="i">
+            <img id="reward-ali" src="" alt="ali">
+            <p><small>支付宝</small></p>
+        </div>
+        <div class="qr-code">
+            <img src="/img/icon.png" alt="i">
+            <img id="reward-wechat" src="" alt="wechat">
+            <p><small>微信</small></p>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window, document) {
+        var aliQr = new QRious({ value: 'HTTPS://QR.ALIPAY.COM/FKX060337TUXBAX9LIFJE8' });
+        var wechatQr = new QRious({ value: 'wxp://f2f0qgGBlfD1nZXjvBjievxB0z0fc0W2sBq5' });
+        document.querySelector('#reward-ali').src = aliQr.toDataURL();
+        document.querySelector('#reward-wechat').src = wechatQr.toDataURL();
+
+        var rewardBtn = document.querySelector('#reward .reward-btn-wrapper');
+        var qrCode = document.querySelector('#reward .reward-code')
+        var activeFunc = function (e) {
+            qrCode.style.display = 'block';
+        }
+        var hideFunc = function (e) {
+            qrCode.style.display = 'none';
+        }
+
+        rewardBtn.addEventListener('mouseenter', activeFunc, false)
+        rewardBtn.addEventListener('mouseover', activeFunc, false)
+        rewardBtn.addEventListener('mouseleave', hideFunc, false)
+        qrCode.addEventListener('mouseenter', activeFunc, false)
+        qrCode.addEventListener('mouseover', activeFunc, false)
+        qrCode.addEventListener('mouseleave', hideFunc, false)
+    })(window, document);
+</script>
+
+    <!-- 推荐阅读三篇文章 -->
+    <div class="col-xs-12">
+        <h3>推荐阅读</h3>
+        
+        <div class="post-preview">
+    <div class="post-img" style="background-image: url('/undefined')"></div>
+    <div class="post-info">
+        <div class="post-info-center">
+            <div class="hidden-xs">
+                
+                
+            </div>
+            <a href="/post/在centos7-6上利用docker-compose统一管理容器和服务.html" class="title">
+                在centos7.6上利用docker-compose统一管理容器和服务
+            </a>
+            <p class="text-gray">
+                <small>
+                    <span>发表于2019-09-03，</span>
+                    <span class="hidden-xs">全文3197字，</span>
+                    <span>阅读约11分钟</span>
+                </small>
+            </p>
+        </div>
+    </div>
+</div>
+        
+        <div class="post-preview">
+    <div class="post-img" style="background-image: url('/undefined')"></div>
+    <div class="post-info">
+        <div class="post-info-center">
+            <div class="hidden-xs">
+                
+                
+                <span>/</span>
+                
+                <a class="text-gray" href="/tags/#机器学习"
+                    title="机器学习">机器学习</a>
+                <span>/</span>
+                
+                
+            </div>
+            <a href="/post/推荐算法的一些理解.html" class="title">
+                推荐算法的一些理解
+            </a>
+            <p class="text-gray">
+                <small>
+                    <span>发表于2019-03-01，</span>
+                    <span class="hidden-xs">全文4661字，</span>
+                    <span>阅读约16分钟</span>
+                </small>
+            </p>
+        </div>
+    </div>
+</div>
+        
+        <div class="post-preview">
+    <div class="post-img" style="background-image: url('/undefined')"></div>
+    <div class="post-info">
+        <div class="post-info-center">
+            <div class="hidden-xs">
+                
+                
+            </div>
+            <a href="/post/线性回归的正则化.html" class="title">
+                线性回归的正则化
+            </a>
+            <p class="text-gray">
+                <small>
+                    <span>发表于2018-11-15，</span>
+                    <span class="hidden-xs">全文4187字，</span>
+                    <span>阅读约14分钟</span>
+                </small>
+            </p>
+        </div>
+    </div>
+</div>
+        
+    </div>
+    <div class="col-xs-12">
+        <!-- 标签列表 -->
+        <!-- Featured Tags -->
+<style>
+    #featured-tag .post-tag-item {
+        font-size: 12px;
+        line-height: 30px;
+        display: inline-block;
+        height: 30px;
+        margin: 5px 0px;
+        padding: 0 7px;
+        color: #333;
+        border-radius: 15px;
+        background: #f6f6f6;
+    }
+
+    #featured-tag .post-tag-item:hover {
+        color: #337ab7;
+    }
+</style>
+<div id="featured-tag">
+    
+    <a class="post-tag-item" href="/tags/#机器学习" title="机器学习"
+        rel="4">#机器学习 (4) </a>
+    
+    <a class="post-tag-item" href="/tags/#Python" title="Python"
+        rel="6">#Python (6) </a>
+    
+    <a class="post-tag-item" href="/tags/#协议" title="协议"
+        rel="1">#协议 (1) </a>
+    
+    <a class="post-tag-item" href="/tags/#数据库" title="数据库"
+        rel="2">#数据库 (2) </a>
+    
+    <a class="post-tag-item" href="/tags/#Linux" title="Linux"
+        rel="2">#Linux (2) </a>
+    
+    <a class="post-tag-item" href="/tags/#Django" title="Django"
+        rel="1">#Django (1) </a>
+    
+    <a class="post-tag-item" href="/tags/#爬虫" title="爬虫"
+        rel="2">#爬虫 (2) </a>
+    
+    <a class="post-tag-item" href="/tags/#Docker" title="Docker"
+        rel="3">#Docker (3) </a>
+    
+    <a class="post-tag-item" href="/tags/#Redis" title="Redis"
+        rel="1">#Redis (1) </a>
+    
+    <a class="post-tag-item" href="/tags/#nginx" title="nginx"
+        rel="2">#nginx (2) </a>
+    
+    <a class="post-tag-item" href="/tags/#Vue" title="Vue"
+        rel="1">#Vue (1) </a>
+    
+    <a class="post-tag-item" href="/tags/#cookie" title="cookie"
+        rel="1">#cookie (1) </a>
+    
+    <a class="post-tag-item" href="/tags/#第三方支付" title="第三方支付"
+        rel="2">#第三方支付 (2) </a>
+    
+    <a class="post-tag-item" href="/tags/#web" title="web"
+        rel="4">#web (4) </a>
+    
+    <a class="post-tag-item" href="/tags/#第三方" title="第三方"
+        rel="1">#第三方 (1) </a>
+    
+    <a class="post-tag-item" href="/tags/#Tornado" title="Tornado"
+        rel="1">#Tornado (1) </a>
+    
+    <a class="post-tag-item" href="/tags/#mysql" title="mysql"
+        rel="1">#mysql (1) </a>
+    
+</div>
+    </div>
+    <!-- 评论 -->
+    <div class="col-xs-12">
+        
+<div id="gitalk-container"></div>
+<div id="gitalk-related"></div>
+<link rel="stylesheet" href="/css/gitalk.css">
+<script src="/js/gitalk.min.js"></script>
+<script>
+    window.addEventListener('load', function () {
+        const gitalk = new Gitalk({
+            clientID: 'c1fdd456a4caae5f7df0',
+            clientSecret: 'b2674451e21feae50520f99337ec15d2aebe7879',
+            repo: 'hexo-theme-geektutu',
+            owner: 'geektutu',
+            admin: ['geektutu'],
+            id: window.location.pathname,
+            distractionFreeMode: false
+        });
+        gitalk.render('gitalk-container');
+        document.querySelector('#gitalk-container').addEventListener('click', function (e) {
+            e && e.stopPropagation && e.stopPropagation();
+        });
+    })
+</script>
+<script>
+    window.addEventListener('load', function () {
+        function render(comments) {
+            var template = '<a href="${comment.url}?utm_source=gitalk" class="dis-item-url"><h3 class="dis-item-title">${comment.title}</h3>' +
+                '<p class="dis-item-des">${comment.count} 评论 ● ${comment.date}</p>' +
+                '<div class="dis-item-content"><img class="dis-item-img" src="${comment.icon}" alt="icon"><p><b><span class="dis-item-user">${comment.user}</span></b>&nbsp;——&nbsp;${comment.body}</p></div>' +
+                '</a>'
+
+            var wrapper = get('#gitalk-related');
+            comments = shuffle(comments);
+            comments.slice(0, 4).forEach(function (c) {
+                var div = document.createElement('div');
+                div.classList.add('dis-item');
+                div.innerHTML = template.replace("${comment.url}", c.url)
+                    .replace("${comment.title}", c.title)
+                    .replace("${comment.count}", c.count)
+                    .replace("${comment.date}", c.date)
+                    .replace("${comment.icon}", c.icon)
+                    .replace("${comment.user}", c.user)
+                    .replace("${comment.body}", c.body)
+                wrapper.appendChild(div)
+            })
+            var p = document.createElement('p')
+            p.innerHTML = '<a href="https://geektutu.com/post/blog-experience-7.html">Gitalk Plus</a>';
+            p.classList.add('dis-divide');
+            wrapper.appendChild(p);
+            wrapper.classList.add('dis-wrapper')
+        }
+        function shuffle(a) {
+            for (var i = a.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                [a[i], a[j]] = [a[j], a[i]];
+            }
+            return a;
+        }
+        function get(str) { return document.querySelector(str) }
+        fetch('/tool/comments.json').then(function (r) { return r.json() }).then(render).catch(function (e) { })
+    })
+</script>
+
+    </div>
+</div>
+<aside class="float-left gkt-sidebar hidden-xs hidden-sm">
+    <div style="clear: both"></div>
+    <div class="gkt-sidebar-wrapper">
+        <section class="box-shadow"><style>
+    .gkt-summary {
+        border: 1px solid #DDDDDD;
+        border-radius: 3px;
+        padding: 5px;
+        width: 100%;
+    }
+
+
+    .gkt-summary nav {
+        overflow: hidden;
+    }
+
+    .gkt-summary nav a {
+        display: inline-block;
+        text-align: center;
+        color: #333;
+        font-size: 12px;
+    }
+
+    .gkt-summary nav span {
+        display: block;
+    }
+
+    .gkt-summary nav .middle {
+        border-left: 1px solid #eaecef;
+        border-right: 1px solid #eaecef;
+    }
+
+    .gkt-summary .number {
+        font-weight: bold;
+    }
+
+    .gkt-summary .link-list {
+        margin-top: 5px;
+        margin-bottom: -5px;
+        padding-top: 7px;
+        border-top: 1px dashed #999;
+        display: flex;
+    }
+
+    .gkt-summary .link-list a {
+        flex: 1;
+    }
+
+    .gkt-summary .link-list img {
+        width: 25px;
+        height: 25px;
+    }
+</style>
+
+<div class="gkt-summary">
+    <nav>
+        <a href="/" class="col-xs-4">
+            <number class="number">46</number><span>文章</span>
+        </a>
+        <a href="/series" class="col-xs-4 middle">
+            <number class="number">16</number><span>专题</span>
+        </a>
+        <a href="/tags" class="col-xs-4">
+            <number class="number">17</number><span>标签</span>
+        </a>
+    </nav>
+
+    
+</div></section>
+        
+        
+        <section class="gkt-sidebar-content box-shadow">
+            <strong>web</strong>
+            <ul>
+                
+                <li>
+                    <a href="/post/Nginx-uwsgi安装配置.html"
+                        class="">Nginx+uwsgi安装配置</a>
+                    
+                </li>
+                
+                <li>
+                    <a href="/post/JWT.html"
+                        class="">JWT</a>
+                    
+                </li>
+                
+                <li>
+                    <a href="/post/简单了解一下Python的web设计模式.html"
+                        class="gkt-sidebar-active">简单了解一下Python的web设计模式</a>
+                    
+                    <!-- Table of Contents -->
+<div id="sidebar-toc">
+  <!-- TOC  -->
+  
+  <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#创建型模式"><span class="toc-nav-text">创建型模式</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#结构型模式"><span class="toc-nav-text">结构型模式</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#总结"><span class="toc-nav-text">总结</span></a></li></ol>
+  
+</div>
+
+<script>
+  (function () {
+    var h2 = document.querySelectorAll('article h2');
+    var h3 = document.querySelectorAll('article h3');
+    var linkList = document.querySelectorAll('#sidebar-toc a');
+
+    function findLinkElement(name) {
+      for (var i = 0; i < linkList.length; i++) {
+        var items = linkList[i].href.split('#');
+        if (items && items[items.length - 1] === encodeURIComponent(name)) {
+          return i;
+        }
+      }
+      return -1;
+    }
+
+    function activeLink(titleList) {
+      var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+      for (var i = titleList.length - 1; i >= 0; i--) {
+        if (scrollTop - titleList[i].offsetTop > 0) {
+          var index = findLinkElement(titleList[i].id);
+          index != -1 && linkList[index].classList.add('gkt-sidebar-active');
+          break;
+        }
+      }
+    }
+
+    window.addEventListener("scroll", function (e) {
+      [].slice.call(linkList).forEach(function (link) {
+        link.classList.remove('gkt-sidebar-active');
+      })
+      activeLink(h2);
+    })
+  })();
+</script>
+                    
+                </li>
+                
+                <li>
+                    <a href="/post/Thrift重构HTTP接口.html"
+                        class="">Thrift重构HTTP接口</a>
+                    
+                </li>
+                
+            </ul>
+        </section>
+        
+        
+        <section class="box-shadow">
+            <strong>最近的文章</strong>
+            <ul>
+                
+                <li>
+                    <a href="/post/在centos7-6上利用docker-compose统一管理容器和服务.html">在centos7.6上利用docker-compose统一管理容器和服务</a>
+                </li>
+                
+                <li>
+                    <a href="/post/在Centos7-6上部署Docker环境以及安装docker-compose.html">在Centos7.6上部署Docker环境以及安装docker-compose</a>
+                </li>
+                
+                <li>
+                    <a href="/post/个人简历.html">个人简历</a>
+                </li>
+                
+            </ul>
+        </section>
+        <section class="box-shadow text-center">
+            
+
+<!-- 侧边栏ad 250 * 90 -->
+<ins class="adsbygoogle" style="display:inline-block;width:250px;height:90px"
+    data-ad-client="ca-pub-939225546" data-ad-slot="3708583719"></ins>
+
+
+
+
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+            
+
+<!-- 侧边栏ad 250 * 90 -->
+<ins class="adsbygoogle" style="display:inline-block;width:250px;height:90px"
+    data-ad-client="ca-pub-939225546" data-ad-slot="3708583719"></ins>
+
+
+
+
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+        </section>
+    </div>
+</aside>
+
+<script>
+    (function () {
+        var ele = getDom('.gkt-sidebar-content')
+        var wrapper = getDom('.gkt-sidebar-wrapper')
+        var last = 0
+        window.addEventListener("scroll", function (e) {
+            var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            var isDown = scrollTop > last;
+            var pos = getPosition(ele).y - scrollTop;
+            var downLimit = 50;
+            var upLimit = -100;
+            // uarrow.style.marginTop = scrollTop + 'px';
+            isDown && pos <= downLimit && wrapper.classList.add("gkt-sidebar-fixed");
+            !isDown && pos > upLimit && wrapper.classList.remove("gkt-sidebar-fixed");
+            last = scrollTop
+        })
+    })();
+    (function () {
+        function resizeUArrow() {
+            var s = getDom('.u-arrow-wrapper').style
+            var pc = getDom('.post-container')
+            s.left = getPosition(pc).x + 'px';
+            s.width = pc.clientWidth + 'px';
+        }
+        resizeUArrow()
+        window.addEventListener('resize', resizeUArrow);
+    })();
+</script>
+    
+</main>
+    </div>
+    <style>
+    img#go-top {
+        position: fixed;
+        bottom: 100px;
+        width: 50px;
+        cursor: pointer;
+        z-index: 9999;
+    }
+</style>
+<img id="go-top" src="/icon/top.png" class="hidden-xs" style="display: none" />
+<script>
+    (function () {
+        var goTop = document.getElementById('go-top');
+        var mainContainer = document.querySelector('.main-container');
+        
+        goTop.addEventListener('click', function () {
+            window.scroll(0, 0);
+        }, false);
+        window.addEventListener('scroll', function () {
+            var right = document.body.offsetWidth - mainContainer.getBoundingClientRect().right;
+            var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            goTop.style.right = right + 10 + 'px'
+            scrollTop > 700 && (goTop.style.display = "block");
+            scrollTop <= 700 && (goTop.style.display = "none");
+        });
+    })();
+</script>
+    <style>
+    #geektutu-click-img-container {
+        position: fixed;
+        left: 0;
+        top: 0;
+        text-align: center;
+        width: 100%;
+        display: none;
+        z-index: 9999;
+    }
+
+    #geektutu-click-img-container img {
+        object-fit: contain;
+        background: #eaecef;
+        padding: 15px;
+        border-radius: 10px;
+        height: auto;
+        width: auto;
+        vertical-align: middle;
+    }
+</style>
+
+
+<div id="geektutu-click-img-container">
+    <img src="" alt="Big Image">
+</div>
+
+<script>
+    (function () {
+        var container = document.querySelector('#geektutu-click-img-container')
+        var targetImg = container.querySelector('img')
+        var imgs = document.querySelectorAll('article img');
+        targetImg.addEventListener('click', function (e) {
+            container.style.display = 'none';
+            e && e.stopPropagation && e.stopPropagation();
+        }, false);
+
+        for (var i = 0; i < imgs.length; ++i) {
+            var img = imgs[i];
+            img.addEventListener('click', (function (src, rate) {
+                return function (e) {
+                    e && e.stopPropagation && e.stopPropagation();
+                    if (window.innerWidth < 980) {
+                        return
+                    }
+                    targetImg.style.height = targetImg.style.width = 'auto';
+                    if (window.innerWidth / window.innerHeight > rate) {
+                        targetImg.style.height = (window.innerHeight - 20) + 'px';
+                    } else {
+                        targetImg.style.width = (window.innerWidth - 20) + 'px';
+                    }
+                    container.style.height = window.innerHeight + 'px'
+                    container.style.lineHeight = window.innerHeight + 'px'
+                    container.style.display = 'block';
+                    targetImg.src = src;
+                };
+            }(img.src, img.width / img.height)), false)
+        }
+    })();
+</script>
+    <!-- Footer -->
+    <!-- Footer -->
+<style>
+    footer {
+        width: 100%;
+        line-height: 1.5;
+        padding: 20px;
+    }
+
+    footer a {
+        color: #333;
+        text-decoration: none;
+    }
+
+    .footer-hexo img {
+        height: 20px;
+        margin-bottom: -5px;
+    }
+
+    .footer-hexo a {
+        color: #337ab7;
+    }
+</style>
+<footer class="text-center col-xs-12">
+    <p>
+        <small>© 2019 - Xingya - </small>
+        <small>
+            <a target="_blank" rel="nofollow noopener" href="http://www.miitbeian.gov.cn/">沪ICP备18001798号-1</a>
+        </small>
+    </p>
+    <p class="footer-hexo">
+        <!-- 但若直接使用或修改主题，请务必保留这段声明 -->
+        <small>Powered by <a target="_blank" href="https://hexo.io">Hexo</a> | Theme
+            <a target="_blank" href="https://geektutu.com">Geektutu</a>
+            <a href="https://github.com/geektutu/hexo-theme-geektutu">
+                <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAYGBgYHBgcICAcKCwoLCg8ODAwODxYQERAREBYiFRkVFRkVIh4kHhweJB42KiYmKjY+NDI0PkxERExfWl98fKcBBgYGBgcGBwgIBwoLCgsKDw4MDA4PFhAREBEQFiIVGRUVGRUiHiQeHB4kHjYqJiYqNj40MjQ+TERETF9aX3x8p//CABEIACIAUAMBIgACEQEDEQH/xAAcAAABBAMBAAAAAAAAAAAAAAAAAQQFBwIDBgj/2gAIAQEAAAAA9KrHSgAYL5/z6zZGuJd12uugbhq3uKtmuRtix20IS7lTLAfAAAn/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/9oACAECEAAAAAAB/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/aAAgBAxAAAAAAAf/EADEQAAICAQIEBQEGBwAAAAAAAAECAwQFAAYREhORBxQhUlQxQVFic5KxJDJCYYGC0f/aAAgBAQABPwCFHnjWUzuvN6hV4cANSRLGjO9yRVUcSzMoA7jVXJYe5N0a2dhmk9kc0bN2GvLN8mbuNeWb5M3ca8s3yZu415Y/Jm7jXlm+TN3H/NeVPyZu40vOk3TZywK8wJ+v3EHVM/wsI/Dq2lrxN3Nnca16eti8chSAIoMbzByhMwP14kHVfwIiSaF5c96J6kwwCOTnHsYk8uvCrdmQy1TI4rJuz3cZLyGR/wCd4+YoOf8AEpUjXitubLYPG4paFsUxcuiGe7yc5gTW3LW44szXmobsi3Dhmic2+Z4+vCVH9CpraPiQ+QvbgTJrPFBWd5YpWrmNIIEXiRO32Pqt4p7cnfHk18lFBdmEVW1LVdIZGOrniTt6plrWKaO69yCykDRxwF+LMAewB0Txtr+Sf31VI8tEPw62fZt7N3Humtbpzz13ucX6CGSWMSuzpLyD1eNgeUka3PuvHbaxq3biTMHfkiSNCS78CwU+3Xg7Vu3MhuTcU6cq3Zemn3Eh2dv8Lzcut+29x1atKbHYqLJUhLwyNMwiZ3j9yDWOxUOV3tgb+3No5LDx1pi9+aeIwRlNY6bc+Jv+IFGrhLxtXJZ7VKcw81diiAAEn0JOrkWZyNfbEr0tz27UGQgkuGzXdIIvyowq99bRxk9ffO/L81SZBPZgEEroQroIxxMZOgeNsfkn99QypHGqO4Vl9CDrN4LDZkwyzyyQ2IgRHZrzGCZVP1XnQglT9oOtw4LC7iqV6uRkZoYpxKFSQpzFRw4EjVRMfSrQ1qqwxQxKFjjTgFUD7BoWYR6iVe+mtxt9Zwf9teaj4AdccPu5tedX5A/VrzUR+sy/q1CwksF19VEfDj/cnQRW+qg66cfsXtrpx+xe2unH7F7a6cfsXtrpx+xe2unH7F7a6cfsXtoxx+xe2gAAOA1//8QAFBEBAAAAAAAAAAAAAAAAAAAAMP/aAAgBAgEBPwB//8QAFBEBAAAAAAAAAAAAAAAAAAAAMP/aAAgBAwEBPwB//9k="
+                    alt="Github Star">
+            </a>
+        </small>
+    </p>
+    
+    <p>
+        <small>
+            <span id="busuanzi_container_site_pv">👁<span id="busuanzi_value_site_pv"></span></span> &nbsp;
+            <span id="busuanzi_container_page_pv">📚<span id="busuanzi_value_page_pv"></span></span>
+        </small>
+    </p>
+    
+    
+    <p><small><span id="cnzz_stat_icon_123649"></span></small></p>
+    
+
+</footer>
+
+
+<script>
+    window.addEventListener('load', function () {
+        globalAddScript('//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js');
+    })
+</script>
+
+<!-- Baidu Tongji -->
+
+<script>
+    window.addEventListener('load', function () {
+        var _hmt = _hmt || [];
+        globalAddScript('//hm.baidu.com/hm.js?1a0ec33b1aa')
+    })
+</script>
+
+
+<script>
+    window.addEventListener('load', function () {
+        globalAddScript('//s23.cnzz.com/z_stat.php?id=123649&online=2');
+    })
+</script>
+
+
+<!-- baidu auto push for seo -->
+<script>
+    window.addEventListener('load', function () {
+        var src = 'http://push.zhanzhang.baidu.com/push.js'
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        globalAddScript(src);
+    })
+</script>
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'UA-141425-1');
+
+    window.addEventListener('load', function () {
+        globalAddScript('https://www.googletagmanager.com/gtag/js?id=UA-141425-1');
+    });
+</script>
+
+
+    <script>
+        // 非本站网址，新开tab页签
+        (function () {
+            var stopBubble = function (e) {
+                e && e.stopPropagation && e.stopPropagation();
+            }
+            var links = document.querySelectorAll('a');
+            [].slice.call(links).forEach(function (item) {
+                if (item.href && item.href.indexOf(window.location.host) === -1) {
+                    item.target = '_blank'
+                }
+                // 阻止冒泡，不触发彩蛋。
+                item.addEventListener('click', stopBubble, false);
+            });
+            var article = document.querySelector('article');
+            article && article.addEventListener('click', stopBubble, false)
+        })();
+    </script>
+    
+<script>
+    (function (window, document, undefined) {
+        var hearts = [];
+        var keywords = ["点个赞", "留个言", "赞赏一下", "张兴亚的技术博客", "zxyyee.cn"];
+        function randomInt(max) {
+            return Math.floor(Math.random() * Math.floor(max));
+        }
+        window.addEventListener('click', createWord)
+
+        function createWord(e) {
+            var d = document.createElement("span");
+            d.style.position = 'fixed';
+            d.style.zIndex = 9999;
+            d.style.color = 'rgb(' + [randomInt(255), randomInt(255), randomInt(255)].join(',') + ')';
+            d.innerHTML = keywords[randomInt(keywords.length)];
+            d.onselectstart = function () { return false; }
+
+            hearts.push({ el: d, x: e.clientX - 5, y: e.clientY - 5, alpha: 1, scale: 1 });
+            document.body.appendChild(d);
+        }
+        (function gameloop() {
+            for (var i = 0; i < hearts.length; i++) {
+                heart = hearts[i];
+                if (heart.alpha <= 0) {
+                    document.body.removeChild(heart.el);
+                    hearts.splice(i, 1);
+                    continue;
+                }
+                heart.y -= heart.alpha < 0.5 ? 2 : 1;
+                heart.scale += 0.002;
+                heart.alpha -= 0.013;
+                heart.el.style.transform = 'scale(' + heart.scale + ')';
+                heart.el.style.left = heart.x + 'px';
+                heart.el.style.top = heart.y + 'px';
+            }
+            setTimeout(gameloop, 10)
+        })();
+    })(window, document);
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
+  <meta name="baidu-site-verification" content="p7Pz3jlx4t">
+  <meta name="google-site-verification" content="19ixTFj-X-rXuvZFvR1PMkqSHMXZ5GjN7nhYdYYFm-c">
+  <meta name="msvalidate.01" content="7E2AEE3378AC93764DEAB411177A21A1">
+  <meta name="360-site-verification" content="5c7e8a1fdbf35ed6003c48733208f705">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- if page has tags, then add tags to keyword -->
+  
+  
+  <meta name="keywords" content="张兴亚的博客,张兴亚的小站,">
+  <!-- page.description has higher priority -->
+  <meta name="description" content="张兴亚的小站，致力于分享一些技术教程和有趣的技术实践。">
+  <link rel="shortcut icon" href="/img/icon.png">
+  <title>
+    
+    浏览器同源策略与ajax跨域方法汇总 | XQ
+    
+  </title>
+
+  <link rel="canonical" href="/post/浏览器同源策略与ajax跨域方法汇总.html">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/markdown.css">
+  <!-- Pygments Highlight CSS -->
+  <link rel="stylesheet" href="/css/highlight.css">
+  <link rel="stylesheet" href="/css/geektutu.css">
+  <!-- global function -->
+  <script>
+    window.globalAddScript = function (url, onload, onerror) {
+      var s = document.createElement('script');
+      s.src = url;
+      onload && (s.onload = onload);
+      onerror && (s.onerror = onerror);
+      document.body.appendChild(s);
+    }
+    window.globalAddCss = function (url) {
+      var s = document.createElement('link');
+      s.rel = 'stylesheet';
+      s.href = url;
+      document.body.appendChild(s);
+    }
+    window.getPosition = function (ele) {
+      var x = 0, y = 0;
+      while (ele) {
+        x += (ele.offsetLeft - ele.scrollLeft + ele.clientLeft);
+        y += (ele.offsetTop - ele.scrollTop + ele.clientTop);
+        ele = ele.offsetParent;
+      }
+      return { x: x, y: y };
+    }
+    window.getDom = function (str) { return document.querySelector(str) }
+  </script>
+  <!-- google ad -->
+  
+  <script>
+    window.addEventListener('load', function () {
+      globalAddScript("https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js", "", function (e) {
+        if (window.localStorage.getItem('gkt_marker')) {
+          var rec = document.querySelector('.gkt-rec-links');
+          rec && (rec.style.display = 'none');
+        }
+      });
+    });
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-939225546",
+      enable_page_level_ads: true
+    });
+  </script>
+  
+</head>
+
+<body>
+    <header class="gkt-header col-xs-12 padding-0">
+    <div id="gkt-nav" class="gkt-header-container">
+        <a href="/" class="gkt-header-title float-left">
+            <img class="float-left" src="/img/icon.png" alt="">
+            <span>张兴亚的技术博客</span>
+        </a>
+        <nav class="gkt-header-nav text-right">
+            <ul>
+                <li><a class="hidden-xs" href="/">主页</a></li>
+                <li><a href="/series/">专题</a></li>
+                <li><a href="/archives/">归档</a></li>
+                <li><a href="/post/link.html">友链</a></li>
+                <li><a href="/post/about.html">留言</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div id="gkt-cate-nav" class="gkt-header-container hidden-xs">
+        
+        <nav class="gkt-header-nav float-left">
+            <ul>
+                
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/Linux775权限.html">Linux</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/Nginx-uwsgi安装配置.html">web</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/FTP和SFTP.html">传输协议</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/部署分布式爬虫.html">爬虫</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/Redis-0.html">数据库</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/装饰器.html">Python</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/numpy方法.html">机器学习</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/docker与windows挂载失效.html">Docker</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/支付宝退款.html">第三方支付</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/django自定义过滤器.html">Django</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/session,cookie,Storage.html">cookie</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/nginx反向代理tornado遇到的小问题.html">nginx</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/Redisearch.html">Redis</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/关于Tornado-真实的异步和虚假的异步.html">Tornado</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/vue打包cookie失效.html">Vue</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/个人简历.html">个人简历</a>
+                    
+                </li>
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+<div style="height: 44px"></div>
+<div class="hidden-xs" style="height: 44px"></div>
+<script>
+    (function () {
+        window.addEventListener('scroll', function () {
+            if (window.innerWidth < 768) {
+                return;
+            }
+            var nav = document.querySelector('#gkt-nav');
+            var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            scrollTop > 50 && (nav.classList.add('hide'));
+            scrollTop <= 50 && (nav.classList.remove('hide'));
+        });
+        var cateNavs = document.querySelectorAll('#gkt-cate-nav>nav>ul>li');
+        [].slice.call(cateNavs).forEach(function (item) {
+            var sub = item.querySelector('.gkt-sub-cate');
+            if (!sub) return;
+            item.addEventListener('mouseenter', function (e) { sub.style.display = 'block'; }, false);
+            item.addEventListener('mouseleave', function (e) { sub.style.display = 'none'; }, false);
+        })
+    })();
+</script>
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Main Content -->
+<main class="col-xs-12 padding-0 markdown-it">
+    <!-- Post Container -->
+    
+    <!-- Post Content -->
+<div class="float-left post-container box-shadow">
+    <div class="u-arrow-wrapper hidden-xs">
+        
+        <a class="float-left" href="/post/简单了解一下Python的web设计模式.html"><i class="u-arrow-left"></i></a>
+        
+        
+        <a class="float-right" href="/post/使用基于mpvue的框架开发微信小程序（搭建环境）.html"><i class="u-arrow-right"></i></a>
+        
+    </div>
+    <article class="col-xs-12">
+        <h1> 浏览器同源策略与ajax跨域方法汇总 </h1>
+
+        
+
+        
+        
+        
+        <blockquote>
+<p>本文先简要介绍前端开发中的浏览器同源政策；然后在跨域问题中，具体介绍跨域ajax请求的应用场景与实现方案。</p>
+</blockquote>
+<h2 id="什么是同源策略"><a href="#什么是同源策略" class="headerlink" title="什么是同源策略"></a>什么是同源策略</h2><p>如果你进行过前端开发，肯定或多或少会听说过、接触过所谓的同源策略。那么什么是同源策略呢？</p>
+<p>要了解同源策略，首先得理解“源”。在这个语境下，源(origin)其实就是指的URL。所以，我们需要先理解URL的组成。看看这个URL：<br><a href="https://www.jianshu.com/p/bc7b8d542dcd" target="_blank" rel="noopener">http://www.jianshu.com/p/bc7b8d542dcd</a></p>
+<p>我们可以将它拆解为下面几个部分协议、域名和路径：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http       :// www.jianshu.com    /p/bc7b8d542dcd</span><br><span class="line">$&#123;protocol&#125;:// $&#123;hostname&#125;         $&#123;pathname&#125;</span><br></pre></td></tr></table></figure>
+
+<p>而对于一个更为完整的URL<code>http://www.jianshu.com:80/p/bc7b8d542dcd#sample?query=text</code></p>
+<table>
+<thead>
+<tr>
+<th>protocol</th>
+<th>host</th>
+<th>port</th>
+<th>pathname</th>
+<th>hash</th>
+<th>query string</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>http</td>
+<td><a href="https://www.jianshu.com/" target="_blank" rel="noopener">www.jianshu.com</a></td>
+<td>80</td>
+<td>/p/bc7b8d542dcd</td>
+<td>sample</td>
+<td>query=text</td>
+</tr>
+<tr>
+<td><code>location.protocol</code></td>
+<td><code>location.host</code></td>
+<td><code>location.port</code></td>
+<td><code>location.pathname</code></td>
+<td><code>location.hash</code></td>
+<td><code>location.search</code></td>
+</tr>
+</tbody></table>
+<p>而同源就是指URL中<code>protocol</code>协议、<code>host</code>域名、<code>port</code>端口这三个部分相同。</p>
+<p>下表是各个URL相对于<a href="https://www.jianshu.com/p/bc7b8d542dcd" target="_blank" rel="noopener">http://www.jianshu.com/p/bc7b8d542dcd</a>的同源检测结果</p>
+<table>
+<thead>
+<tr>
+<th>URL</th>
+<th>是否同源</th>
+<th>非同源原因</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>http://www.jianshu.com/p/0b2acb50f321</code></td>
+<td>是</td>
+<td></td>
+</tr>
+<tr>
+<td><code>https://www.jianshu.com/p/0b2acb50f321</code></td>
+<td>否</td>
+<td>不同协议</td>
+</tr>
+<tr>
+<td><code>http://www.jianshu.com:8080/p/0b2acb50f321</code></td>
+<td>否</td>
+<td>不同端口</td>
+</tr>
+<tr>
+<td><code>http://www.jianshu2.com/p/0b2acb50f321</code></td>
+<td>否</td>
+<td>不同域名</td>
+</tr>
+</tbody></table>
+<p>因此，简单来说，同源策略就是浏览器出于网站安全性的考虑，限制不同源之间的资源相互访问的一种政策。以下操作具有同源策略的限制：</p>
+<ul>
+<li>AJAX 请求不能发送。</li>
+<li>无法获取DOM元素并进行操作。</li>
+<li>无法读取Cookie、LocalStorage 和 IndexDB 。</li>
+</ul>
+<p>而本文就会针对<strong>跨域AJAX</strong>场景及其各种常见解决方案进行相关介绍。</p>
+<p>值得一提的是，有些请求是不受到跨域限制。例如：WebSocket，script、img、iframe、video、audio标签的<code>src</code>属性等。</p>
+<h2 id="为什么实际开发中会有跨域ajax请求"><a href="#为什么实际开发中会有跨域ajax请求" class="headerlink" title="为什么实际开发中会有跨域ajax请求"></a>为什么实际开发中会有跨域ajax请求</h2><p>根据上文的内容我们可以知道，由于浏览器同源政策的影响，跨域的ajax请求是不被允许。那么在实际的开发、应用中，是否有跨域ajax的场景呢？</p>
+<p>答案是肯定的。</p>
+<p>那么有哪些场景会有跨域ajax的需求呢？</p>
+<ol>
+<li>当你调用一个现有的API或公开API：想象一下，你接到了一个新需求，需要在当前开发的新闻详细页<code>http://www.yournews.com/p/123</code>展示该新闻的相关推荐。令人欣慰的是，推荐的接口已经在你们公司的其他产品线里实现了，你只需要给该接口一个<code>query</code>即可：<code>http://www.mynews.com/recommend?query=123</code>。然而问题来了——你发起了一个跨域请求。</li>
+<li>前后端分离的开发模式下，在本地进行接口联调时：也许在你的项目里，你想尝试前后端分离的开发模式。你在本地开发时，mock了一些假数据来帮助自己本地开发。而有一天，你希望在本地和后端同学进行联调。此时，后端rd的接口地址和你发生了跨域问题。这阻止了你们的联调，你只能继续使用你mock的假数据。</li>
+</ol>
+<p>上面只是列举了存在跨域的两个最为常见的场景，这足以说明跨域请求在实际开发中确实经常出现。</p>
+<h2 id="跨域的一些方案"><a href="#跨域的一些方案" class="headerlink" title="跨域的一些方案"></a>跨域的一些方案</h2><p>了解了上面的内容后，下面就来介绍一下在实践中常用的三种ajax跨域方案。这部分的实例代码可以在这里看到：<a href="https://link.jianshu.com/?t=https://github.com/alienzhou/cross-domain-demo" target="_blank" rel="noopener">cross-domain-demo</a></p>
+<p>假设这样一个跨域场景：目前有两个项目</p>
+<ul>
+<li><strong>myweb</strong>，这个就是我们目前开发的项目，是一个独立的站点。</li>
+<li><strong>thirdparty</strong>，表示我们需要调用到的第三方（third-party）后端服务，myweb项目就是需要调用它的接口。</li>
+</ul>
+<p>为了简化不必要的代码编写过程，示例使用<code>express-generator</code>来快速生成myweb与thirdparty这两个应用，其中thirdparty我们只需要用到后端接口部分。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install express-generator -g</span><br><span class="line">express --view=pug myweb</span><br><span class="line">express --view=pug thirdparty</span><br></pre></td></tr></table></figure>
+
+<p>在myweb中，index页面 <code>http://127.0.0.1:8085</code>需要跨域访问server中的<code>http://127.0.0.1:3000/info/normal</code>这个接口的信息。前端操作是：当点击<code>button</code>时就会去获取info，并alert出来。<br>跨域访问的接口<code>http://127.0.0.1:3000/info/normal</code>代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">const express = require(&apos;express&apos;);</span><br><span class="line">const router = express.Router();</span><br><span class="line"></span><br><span class="line">const data = &#123;</span><br><span class="line">    name: &apos;alienzhou&apos;,</span><br><span class="line">    desc: &apos;a developer&apos;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">router.get(&apos;/normal&apos;, (req, res, next) =&gt; &#123;</span><br><span class="line">    res.json(data);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>然后是<code>http://127.0.0.1:8085</code>index页面的部分的javascript</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// http://127.0.0.1:8085  -- index.js</span><br><span class="line">document.getElementById(&apos;btn-1&apos;).addEventListener(&apos;click&apos;, function() &#123;</span><br><span class="line">    var xhr = new XMLHttpRequest();</span><br><span class="line">    xhr.onreadystatechange = function() &#123;</span><br><span class="line">        if (xhr.readyState === 4 &amp;&amp; xhr.status === 200) &#123;</span><br><span class="line">            alert(xhr.responseText);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    xhr.open(&apos;get&apos;, &apos;http://127.0.0.1:3000/info/normal&apos;);</span><br><span class="line">    xhr.send(null);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>点击<code>btn-1</code>，在控制台中就会出现如下错误，这个跨域ajax请求受到了同源策略的限制。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[Error] Origin http://127.0.0.1:8085 is not allowed by Access-Control-Allow-Origin.</span><br><span class="line">[Error] Failed to load resource: Origin http://127.0.0.1:8085 is not allowed by Access-Control-Allow-Origin. (normal, line 0)</span><br><span class="line">[Error] XMLHttpRequest cannot load http://127.0.0.1:3000/info/normal due to access control checks.</span><br></pre></td></tr></table></figure>
+
+<p>下面来讲具体的三种解决方案：</p>
+<h3 id="使用代理（proxy）"><a href="#使用代理（proxy）" class="headerlink" title="使用代理（proxy）"></a>使用代理（proxy）</h3><p>这种方法本质上仍然遵循了同源政策，只是换了一个请求的思路，将请求移至了后端。</p>
+<p>我们知道，同源政策是浏览器层面的限制。那么，如果我们不在前端跨域，而将“跨域”的任务交给后端服务，是否就规避了同源政策呢？是的。</p>
+<p>这就是“代理”。这个代理可以将我们的请求转发，而后端并不会有所谓的同源政策限制。这个“代理”也可以理解为一个同域的后端服务。</p>
+<p>由于我们的myweb是一个完整的web项目（包括前端部分和后端服务部分），因此，我们可以在myweb项目的后端添加一个<code>proxy</code>接口，专门处理跨域ajax请求的转发。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">const express = require(&apos;express&apos;);</span><br><span class="line">const router = express.Router();</span><br><span class="line">const request = require(&apos;request&apos;);</span><br><span class="line"></span><br><span class="line">router.get(&apos;*&apos;, (req, res, next) =&gt; &#123;</span><br><span class="line">    let path = req.path.replace(/^\/proxy/, &apos;&apos;);</span><br><span class="line">    request.get(`http://127.0.0.1:3000$&#123;path&#125;`, (err, response) =&gt; &#123;</span><br><span class="line">        res.json(JSON.parse(response.body));</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">module.exports = router;</span><br></pre></td></tr></table></figure>
+
+<p>这样，我们在前端访问<code>/proxy/info/normal</code>后，就会自动转发到<code>http://127.0.0.1:3000/proxy/info/normal</code>。</p>
+<p>前端ajax部分如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">document.getElementById(&apos;btn-1&apos;).addEventListener(&apos;click&apos;, function() &#123;</span><br><span class="line">    var xhr = new XMLHttpRequest();</span><br><span class="line">    xhr.onreadystatechange = function() &#123;</span><br><span class="line">        if (xhr.readyState === 4 &amp;&amp; xhr.status === 200) &#123;</span><br><span class="line">            alert(xhr.responseText);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    xhr.open(&apos;get&apos;, &apos;/proxy/info/normal&apos;);</span><br><span class="line">    xhr.send(null);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>该方法的优点很明显：不需要第三方服务<code>http://127.0.0.1:3000/info/normal</code>进行任何改造。</p>
+<p>当然，该方法也有一些缺点：</p>
+<ul>
+<li>首先，需要你有一个自己的后端服务能够接收并转发请求。如果你进行本地的纯静态页面开发，则需要一些浏览器插件或自动化工具中集成的本地服务器来实现。</li>
+<li>此外，如果请求包含一些特殊的请求头（例如cookie等等），需要在转发时特殊处理。</li>
+</ul>
+<p>下面两种方法则需要第三方服务端或多或少进行配合改造。</p>
+<h3 id="CORS"><a href="#CORS" class="headerlink" title="CORS"></a>CORS</h3><p>同源策略往往过于严格了，为了解决浏览器的这个问题，w3c提出了CORS（Cross-Origin Resource Sharing）标准。CORS通过相应的请求头与响应头来实现跨域资源访问。</p>
+<p>如果我们打开控制台，可以在请求头中发现一个叫<code>origin</code>的头信息，它表明了请求的来源。这是浏览器自动添加的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Referer: http://127.0.0.1:8085/</span><br><span class="line">Origin: http://127.0.0.1:8085   &lt;============   origin</span><br><span class="line">Accept: */*</span><br><span class="line">Cache-Control: no-cache</span><br><span class="line">User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/603.3.8 (KHTML, like Gecko) Version/10.1.2 Safari/603.3.8</span><br><span class="line">Pragma: no-cache</span><br></pre></td></tr></table></figure>
+
+<p>与之对应的，服务器端的响应头中一个头信息为<code>Access-Control-Allow-Origin</code>，表明接受的跨域请求来源。显而易见，这两个信息如果一致，则这个请求就会被接受。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">router.get(&apos;/cors&apos;, (req, res, next) =&gt; &#123;</span><br><span class="line">    res.setHeader(&apos;Access-Control-Allow-Origin&apos;, &apos;http://127.0.0.1:8085&apos;);</span><br><span class="line">    res.json(data);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>如果将<code>Access-Control-Allow-Origin</code>的值设置为<code>*</code>，则会接受所有域的请求。这时的客户端不需要任何配置即可进行跨域访问。</p>
+<p>然而，还有一个问题，CORS默认是不会发送cookie，但是如果我希望这次的请求也能够带上对方服务所需的cookie怎么办？那就需要再进行一定的改造。</p>
+<p>与<code>Access-Control-Allow-Origin</code>相配套的，还有一个叫<code>Access-Control-Allow-Credentials</code>的响应头，如果设置为<code>true</code>则表明服务器允许该请求内包含cookie信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">router.get(&apos;/cors&apos;, (req, res, next) =&gt; &#123;</span><br><span class="line">    res.setHeader(&apos;Access-Control-Allow-Origin&apos;, &apos;http://127.0.0.1:8085&apos;);</span><br><span class="line">    res.setHeader(&apos;Access-Control-Allow-Credentials&apos;, true);</span><br><span class="line">    res.json(data);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>同时，在客户端，还需要在ajax请求中设置<code>withCredentials</code>属性为<code>true</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">document.getElementById(&apos;btn-1&apos;).addEventListener(&apos;click&apos;, function() &#123;</span><br><span class="line">    var xhr = new XMLHttpRequest();</span><br><span class="line">    xhr.withCredentials = true;  // 设置withCredentials以便发送cookie</span><br><span class="line">    xhr.onreadystatechange = function() &#123;</span><br><span class="line">        if (xhr.readyState === 4 &amp;&amp; xhr.status === 200) &#123;</span><br><span class="line">            alert(xhr.responseText);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    xhr.open(&apos;get&apos;, &apos;http://127.0.0.1:3000/info/cors&apos;);  // 跨域请求</span><br><span class="line">    xhr.send(null);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，CORS方法有如下优点：</p>
+<ul>
+<li>简单，几乎不需要什么开发量，只需要简单配置相应的请求与响应头信息即可。</li>
+<li>支持各种类型的请求（<code>get</code>, <code>post</code>, <code>put</code>等等）。</li>
+</ul>
+<p>但缺点是：</p>
+<ul>
+<li>需要对跨域的服务接口进行一定的改造。如果该服务因为某些原因无法改造，则无法实现。但这种改造还是相对较小的。</li>
+<li>不兼容一些“古董”浏览器。</li>
+</ul>
+<h3 id="jsonp"><a href="#jsonp" class="headerlink" title="jsonp"></a>jsonp</h3><p>jsonp是跨域领域中历史非常传统的一种方法。如果你还记得第一部分中我们提到过的内容，一些跨域请求是不会受到同源政策的限制的。其中，<code>script</code>标签就是一个。</p>
+<p>在<code>script</code>标签中我们可以引用其他服务上的脚本，最常见的场景就是CDN。因此，有人想到，当有跨域请求到来时，如果我们可以把客户端需要的数据写到javascript脚本文件中并返回给客户端，那么客户端就可以拿到这些数据并使用了。具体是怎样一个流程呢？</p>
+<ol>
+<li>首先，在myweb端，我们可以预先定义一个处理函数，叫它<code>callback</code>；</li>
+<li>然后，在myweb端，我们动态创建一个script标签，并将该标签的<code>src</code>属性指向跨域的接口，并将<code>callback</code>函数名作为请求的参数；</li>
+<li>跨域的thirdparty端接受到该请求后，返回一个javascript脚本文件，用<code>callback</code>函数包裹住数据；</li>
+<li>这时候，前端收到响应数据会自动执行该脚本，这样便会自动执行预先定义的<code>callback</code>函数。</li>
+</ol>
+<p>将上面这个方法具体成下面的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// myweb 部分</span><br><span class="line">// 1. 创建回调函数callback</span><br><span class="line">function myCallback(res) &#123;</span><br><span class="line">    alert(JSON.stringify(res, null , 2));</span><br><span class="line">&#125;</span><br><span class="line">document.getElementById(&apos;btn-4&apos;).addEventListener(&apos;click&apos;, function() &#123;</span><br><span class="line">    // 2. 动态创建script标签，并设置src属性，注意参数cb=myCallback</span><br><span class="line">    var script = document.createElement(&apos;script&apos;);</span><br><span class="line">    script.src = &apos;http://127.0.0.1:3000/info/jsonp?cb=myCallback&apos;;</span><br><span class="line">    document.getElementsByTagName(&apos;head&apos;)[0].appendChild(script);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// thirdparty</span><br><span class="line">router.get(&apos;/jsonp&apos;, (req, res, next) =&gt; &#123;</span><br><span class="line">    var str = JSON.stringify(data);</span><br><span class="line">    // 3. 创建script脚本内容，用`callback`函数包裹住数据</span><br><span class="line">    // 形式：callback(data)</span><br><span class="line">    var script = `$&#123;req.query.cb&#125;($&#123;str&#125;)`;</span><br><span class="line">    res.send(script);</span><br><span class="line">&#125;);</span><br><span class="line">// 4. 前端收到响应数据会自动执行该脚本</span><br></pre></td></tr></table></figure>
+
+<p>当然，如果你是用类似jquery这样的库，其中的<code>$.ajax</code>本身是封装了JSONP方式的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line">    url: &apos;http://127.0.0.1:3000/info/jsonp?cb=myCallback&apos;,</span><br><span class="line">    dataType: &apos;jsonp&apos;, // 注意，此处dataType的值表示请求使用JSONP</span><br><span class="line">    jsonp: &apos;cb&apos;, // 请求query中callback函数的键名</span><br><span class="line">&#125;).done(function (res) &#123;</span><br><span class="line">    alert(JSON.stringify(res, null , 2));</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>JSONP作为一个久远的方法，其最大的优点就是兼容性非常好。</p>
+<p>但是其缺点也很明显，由于是通过<code>script</code>标签发起的请求，因此只支持<code>get</code>请求。同时可以看到，较之CORS，其前后端改造开发量要稍高一些。如果跨域服务端不支持改造，那么也无法使用该方法。</p>
+<hr>
+<p>上面三个方案的实例代码可以在这里（<a href="https://link.jianshu.com/?t=https://github.com/alienzhou/cross-domain-demo" target="_blank" rel="noopener">cross-domain-demo</a>）clone到本地并运行。<code>git clone git@github.com:alienzhou/cross-domain-demo.git</code></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>同源策略作为浏览器的安全策略之一，在保证请求的安全性之外，也对我们的一些合理与期望的请求进行了控制。幸好，在面对跨域ajax请求时，我们还有一些方法可以应对它，包括使用代理、CORS和JSONP。在不同场景下合理运用各种方法，可以帮助我们有效解决ajax跨域问题。</p>
+
+        <div class="hidden-xs col-xs-12 text-center">
+    <canvas id="geektutu-post-qr"></canvas>
+    <p style="margin-top: -10px;"><small>微信扫一扫，阅读/分享</small></p>
+</div>
+<script src="/js/qrious.min.js"></script>
+<script>
+    (function () {
+        new QRious({
+            element: document.getElementById('geektutu-post-qr'),
+            value: window.location.href,
+            size: 120
+        });
+    })();
+</script>
+        <hr>
+        <div>
+            
+            <p>
+                <span>发表于2019-07-25 22:25:08，最后修改于2019-09-09 14:28:11。</span>
+            </p>
+            <!-- 文章末尾的提示 start -->
+            
+            
+            <!-- 文章末尾的提示 end -->
+        </div>
+        <hr />
+        <p name="pagination" style="font-size: 1.2em">
+    
+    <a class="float-left" href="/post/简单了解一下Python的web设计模式.html">上一篇 « 简单了解一下Python的web设计模式</a>
+    
+    
+    <a class="float-right" href="/post/使用基于mpvue的框架开发微信小程序（搭建环境）.html">下一篇 » 使用基于mpvue的框架开发微信小程序（搭建环境）</a>
+    
+</p>
+    </article>
+    <!-- 赞赏 -->
+    <!--打赏-->
+
+<style>
+    #reward .reward-btn-wrapper {
+        width: 100px;
+        padding-top: 25px;
+        cursor: pointer;
+        margin: 0 auto;
+    }
+
+    #reward .reward-btn {
+        padding: 2px 15px;
+        color: #fff;
+        background-color: #ea6f5a;
+        border-radius: 20px;
+    }
+
+    #reward .reward-code {
+        position: absolute;
+        top: -230px;
+        left: 50%;
+        display: none;
+        width: 360px;
+        height: 240px;
+        margin-left: -180px;
+        padding: 15px 20px;
+        border: 1px solid #e6e6e6;
+        background: #fff;
+        box-shadow: 0 1px 1px 1px #efefef;
+    }
+
+    #reward .reward-code:after,
+    #reward .reward-code:before {
+        position: absolute;
+        content: '';
+        border: 10px solid transparent
+    }
+
+    #reward .reward-code:after {
+        bottom: -19px;
+        left: 50%;
+        margin-left: -10px;
+        border-top-color: #fff
+    }
+
+    #reward .reward-code:before {
+        bottom: -20px;
+        left: 50%;
+        margin-left: -10px;
+        border-top-color: #e6e6e6
+    }
+
+    #reward .qr-code {
+        width: 50%;
+        float: left;
+        padding: 5px;
+    }
+
+    #reward .qr-code p {
+        margin-top: -6px;
+    }
+
+    #reward img[alt='i'] {
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        margin: 0 auto;
+        z-index: 2;
+        margin-left: 75px;
+        margin-top: 65px;
+    }
+
+    #reward img[alt="ali"] {
+        width: 100%;
+        box-sizing: border-box;
+        border: 5px solid #0f9be0;
+    }
+
+    #reward img[alt="wechat"] {
+        width: 100%;
+        box-sizing: border-box;
+        border: 5px solid #3db034;
+    }
+
+    #reward .reward-tip {
+        font-size: 1.2em;
+        margin-bottom: 0;
+        color: #ea6f5a;
+    }
+</style>
+<div id="reward" class="col-xs-12">
+    <div class="reward-btn-wrapper">
+        <div class="reward-btn text-center">赞赏支持</div>
+    </div>
+    <div class="reward-code text-center">
+        <p class="text-center reward-tip"><strong>请我吃胡萝卜 =^_^= </strong></p>
+        <div class="qr-code">
+            <img src="/img/icon.png" alt="i">
+            <img id="reward-ali" src="" alt="ali">
+            <p><small>支付宝</small></p>
+        </div>
+        <div class="qr-code">
+            <img src="/img/icon.png" alt="i">
+            <img id="reward-wechat" src="" alt="wechat">
+            <p><small>微信</small></p>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window, document) {
+        var aliQr = new QRious({ value: 'HTTPS://QR.ALIPAY.COM/FKX060337TUXBAX9LIFJE8' });
+        var wechatQr = new QRious({ value: 'wxp://f2f0qgGBlfD1nZXjvBjievxB0z0fc0W2sBq5' });
+        document.querySelector('#reward-ali').src = aliQr.toDataURL();
+        document.querySelector('#reward-wechat').src = wechatQr.toDataURL();
+
+        var rewardBtn = document.querySelector('#reward .reward-btn-wrapper');
+        var qrCode = document.querySelector('#reward .reward-code')
+        var activeFunc = function (e) {
+            qrCode.style.display = 'block';
+        }
+        var hideFunc = function (e) {
+            qrCode.style.display = 'none';
+        }
+
+        rewardBtn.addEventListener('mouseenter', activeFunc, false)
+        rewardBtn.addEventListener('mouseover', activeFunc, false)
+        rewardBtn.addEventListener('mouseleave', hideFunc, false)
+        qrCode.addEventListener('mouseenter', activeFunc, false)
+        qrCode.addEventListener('mouseover', activeFunc, false)
+        qrCode.addEventListener('mouseleave', hideFunc, false)
+    })(window, document);
+</script>
+
+    <!-- 推荐阅读三篇文章 -->
+    <div class="col-xs-12">
+        <h3>推荐阅读</h3>
+        
+        <div class="post-preview">
+    <div class="post-img" style="background-image: url('/undefined')"></div>
+    <div class="post-info">
+        <div class="post-info-center">
+            <div class="hidden-xs">
+                
+                
+                <span>/</span>
+                
+                <a class="text-gray" href="/tags/#nginx"
+                    title="nginx">nginx</a>
+                <span>/</span>
+                
+                
+            </div>
+            <a href="/post/nginx反向代理tornado遇到的小问题.html" class="title">
+                nginx反向代理tornado遇到的小问题
+            </a>
+            <p class="text-gray">
+                <small>
+                    <span>发表于2019-02-28，</span>
+                    <span class="hidden-xs">全文286字，</span>
+                    <span>阅读约1分钟</span>
+                </small>
+            </p>
+        </div>
+    </div>
+</div>
+        
+        <div class="post-preview">
+    <div class="post-img" style="background-image: url('/undefined')"></div>
+    <div class="post-info">
+        <div class="post-info-center">
+            <div class="hidden-xs">
+                
+                
+            </div>
+            <a href="/post/线性回归的正则化.html" class="title">
+                线性回归的正则化
+            </a>
+            <p class="text-gray">
+                <small>
+                    <span>发表于2018-11-15，</span>
+                    <span class="hidden-xs">全文4187字，</span>
+                    <span>阅读约14分钟</span>
+                </small>
+            </p>
+        </div>
+    </div>
+</div>
+        
+        <div class="post-preview">
+    <div class="post-img" style="background-image: url('/undefined')"></div>
+    <div class="post-info">
+        <div class="post-info-center">
+            <div class="hidden-xs">
+                
+                
+                <span>/</span>
+                
+                <a class="text-gray" href="/tags/#第三方"
+                    title="第三方">第三方</a>
+                <span>/</span>
+                
+                
+            </div>
+            <a href="/post/分享一个QQ第三方登录详解.html" class="title">
+                分享一个QQ第三方登录详解
+            </a>
+            <p class="text-gray">
+                <small>
+                    <span>发表于2018-09-09，</span>
+                    <span class="hidden-xs">全文3678字，</span>
+                    <span>阅读约13分钟</span>
+                </small>
+            </p>
+        </div>
+    </div>
+</div>
+        
+    </div>
+    <div class="col-xs-12">
+        <!-- 标签列表 -->
+        <!-- Featured Tags -->
+<style>
+    #featured-tag .post-tag-item {
+        font-size: 12px;
+        line-height: 30px;
+        display: inline-block;
+        height: 30px;
+        margin: 5px 0px;
+        padding: 0 7px;
+        color: #333;
+        border-radius: 15px;
+        background: #f6f6f6;
+    }
+
+    #featured-tag .post-tag-item:hover {
+        color: #337ab7;
+    }
+</style>
+<div id="featured-tag">
+    
+    <a class="post-tag-item" href="/tags/#机器学习" title="机器学习"
+        rel="4">#机器学习 (4) </a>
+    
+    <a class="post-tag-item" href="/tags/#Python" title="Python"
+        rel="6">#Python (6) </a>
+    
+    <a class="post-tag-item" href="/tags/#协议" title="协议"
+        rel="1">#协议 (1) </a>
+    
+    <a class="post-tag-item" href="/tags/#数据库" title="数据库"
+        rel="2">#数据库 (2) </a>
+    
+    <a class="post-tag-item" href="/tags/#Linux" title="Linux"
+        rel="2">#Linux (2) </a>
+    
+    <a class="post-tag-item" href="/tags/#Django" title="Django"
+        rel="1">#Django (1) </a>
+    
+    <a class="post-tag-item" href="/tags/#爬虫" title="爬虫"
+        rel="2">#爬虫 (2) </a>
+    
+    <a class="post-tag-item" href="/tags/#Docker" title="Docker"
+        rel="3">#Docker (3) </a>
+    
+    <a class="post-tag-item" href="/tags/#Redis" title="Redis"
+        rel="1">#Redis (1) </a>
+    
+    <a class="post-tag-item" href="/tags/#nginx" title="nginx"
+        rel="2">#nginx (2) </a>
+    
+    <a class="post-tag-item" href="/tags/#Vue" title="Vue"
+        rel="1">#Vue (1) </a>
+    
+    <a class="post-tag-item" href="/tags/#cookie" title="cookie"
+        rel="1">#cookie (1) </a>
+    
+    <a class="post-tag-item" href="/tags/#第三方支付" title="第三方支付"
+        rel="2">#第三方支付 (2) </a>
+    
+    <a class="post-tag-item" href="/tags/#web" title="web"
+        rel="4">#web (4) </a>
+    
+    <a class="post-tag-item" href="/tags/#第三方" title="第三方"
+        rel="1">#第三方 (1) </a>
+    
+    <a class="post-tag-item" href="/tags/#Tornado" title="Tornado"
+        rel="1">#Tornado (1) </a>
+    
+    <a class="post-tag-item" href="/tags/#mysql" title="mysql"
+        rel="1">#mysql (1) </a>
+    
+</div>
+    </div>
+    <!-- 评论 -->
+    <div class="col-xs-12">
+        
+<div id="gitalk-container"></div>
+<div id="gitalk-related"></div>
+<link rel="stylesheet" href="/css/gitalk.css">
+<script src="/js/gitalk.min.js"></script>
+<script>
+    window.addEventListener('load', function () {
+        const gitalk = new Gitalk({
+            clientID: 'c1fdd456a4caae5f7df0',
+            clientSecret: 'b2674451e21feae50520f99337ec15d2aebe7879',
+            repo: 'hexo-theme-geektutu',
+            owner: 'geektutu',
+            admin: ['geektutu'],
+            id: window.location.pathname,
+            distractionFreeMode: false
+        });
+        gitalk.render('gitalk-container');
+        document.querySelector('#gitalk-container').addEventListener('click', function (e) {
+            e && e.stopPropagation && e.stopPropagation();
+        });
+    })
+</script>
+<script>
+    window.addEventListener('load', function () {
+        function render(comments) {
+            var template = '<a href="${comment.url}?utm_source=gitalk" class="dis-item-url"><h3 class="dis-item-title">${comment.title}</h3>' +
+                '<p class="dis-item-des">${comment.count} 评论 ● ${comment.date}</p>' +
+                '<div class="dis-item-content"><img class="dis-item-img" src="${comment.icon}" alt="icon"><p><b><span class="dis-item-user">${comment.user}</span></b>&nbsp;——&nbsp;${comment.body}</p></div>' +
+                '</a>'
+
+            var wrapper = get('#gitalk-related');
+            comments = shuffle(comments);
+            comments.slice(0, 4).forEach(function (c) {
+                var div = document.createElement('div');
+                div.classList.add('dis-item');
+                div.innerHTML = template.replace("${comment.url}", c.url)
+                    .replace("${comment.title}", c.title)
+                    .replace("${comment.count}", c.count)
+                    .replace("${comment.date}", c.date)
+                    .replace("${comment.icon}", c.icon)
+                    .replace("${comment.user}", c.user)
+                    .replace("${comment.body}", c.body)
+                wrapper.appendChild(div)
+            })
+            var p = document.createElement('p')
+            p.innerHTML = '<a href="https://geektutu.com/post/blog-experience-7.html">Gitalk Plus</a>';
+            p.classList.add('dis-divide');
+            wrapper.appendChild(p);
+            wrapper.classList.add('dis-wrapper')
+        }
+        function shuffle(a) {
+            for (var i = a.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                [a[i], a[j]] = [a[j], a[i]];
+            }
+            return a;
+        }
+        function get(str) { return document.querySelector(str) }
+        fetch('/tool/comments.json').then(function (r) { return r.json() }).then(render).catch(function (e) { })
+    })
+</script>
+
+    </div>
+</div>
+<aside class="float-left gkt-sidebar hidden-xs hidden-sm">
+    <div style="clear: both"></div>
+    <div class="gkt-sidebar-wrapper">
+        <section class="box-shadow"><style>
+    .gkt-summary {
+        border: 1px solid #DDDDDD;
+        border-radius: 3px;
+        padding: 5px;
+        width: 100%;
+    }
+
+
+    .gkt-summary nav {
+        overflow: hidden;
+    }
+
+    .gkt-summary nav a {
+        display: inline-block;
+        text-align: center;
+        color: #333;
+        font-size: 12px;
+    }
+
+    .gkt-summary nav span {
+        display: block;
+    }
+
+    .gkt-summary nav .middle {
+        border-left: 1px solid #eaecef;
+        border-right: 1px solid #eaecef;
+    }
+
+    .gkt-summary .number {
+        font-weight: bold;
+    }
+
+    .gkt-summary .link-list {
+        margin-top: 5px;
+        margin-bottom: -5px;
+        padding-top: 7px;
+        border-top: 1px dashed #999;
+        display: flex;
+    }
+
+    .gkt-summary .link-list a {
+        flex: 1;
+    }
+
+    .gkt-summary .link-list img {
+        width: 25px;
+        height: 25px;
+    }
+</style>
+
+<div class="gkt-summary">
+    <nav>
+        <a href="/" class="col-xs-4">
+            <number class="number">46</number><span>文章</span>
+        </a>
+        <a href="/series" class="col-xs-4 middle">
+            <number class="number">16</number><span>专题</span>
+        </a>
+        <a href="/tags" class="col-xs-4">
+            <number class="number">17</number><span>标签</span>
+        </a>
+    </nav>
+
+    
+</div></section>
+        
+        
+        
+        <section class="box-shadow">
+            <strong>最近的文章</strong>
+            <ul>
+                
+                <li>
+                    <a href="/post/在centos7-6上利用docker-compose统一管理容器和服务.html">在centos7.6上利用docker-compose统一管理容器和服务</a>
+                </li>
+                
+                <li>
+                    <a href="/post/在Centos7-6上部署Docker环境以及安装docker-compose.html">在Centos7.6上部署Docker环境以及安装docker-compose</a>
+                </li>
+                
+                <li>
+                    <a href="/post/个人简历.html">个人简历</a>
+                </li>
+                
+                <li>
+                    <a href="/post/使用python3和高性能全文检索引擎Redisearch进行交互.html">使用python3和高性能全文检索引擎Redisearch进行交互</a>
+                </li>
+                
+                <li>
+                    <a href="/post/使用Redisearch实现的全文检索功能服务.html">使用Redisearch实现的全文检索功能服务</a>
+                </li>
+                
+                <li>
+                    <a href="/post/vue打包cookie失效.html">vue打包cookie失效</a>
+                </li>
+                
+                <li>
+                    <a href="/post/MySQL主从分离.html">MySQL主从分离</a>
+                </li>
+                
+                <li>
+                    <a href="/post/使用flex弹性布局来为微信小程序写自适应页面.html">使用flex弹性布局来为微信小程序写自适应页面</a>
+                </li>
+                
+                <li>
+                    <a href="/post/Thrift重构HTTP接口.html">Thrift重构HTTP接口</a>
+                </li>
+                
+                <li>
+                    <a href="/post/使用基于mpvue的框架开发微信小程序（搭建环境）.html">使用基于mpvue的框架开发微信小程序（搭建环境）</a>
+                </li>
+                
+            </ul>
+        </section>
+        <section class="box-shadow text-center">
+            
+
+<!-- 侧边栏ad 250 * 90 -->
+<ins class="adsbygoogle" style="display:inline-block;width:250px;height:90px"
+    data-ad-client="ca-pub-939225546" data-ad-slot="3708583719"></ins>
+
+
+
+
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+            
+
+<!-- 侧边栏ad 250 * 90 -->
+<ins class="adsbygoogle" style="display:inline-block;width:250px;height:90px"
+    data-ad-client="ca-pub-939225546" data-ad-slot="3708583719"></ins>
+
+
+
+
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+        </section>
+    </div>
+</aside>
+
+<script>
+    (function () {
+        var ele = getDom('.gkt-sidebar-content')
+        var wrapper = getDom('.gkt-sidebar-wrapper')
+        var last = 0
+        window.addEventListener("scroll", function (e) {
+            var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            var isDown = scrollTop > last;
+            var pos = getPosition(ele).y - scrollTop;
+            var downLimit = 50;
+            var upLimit = -100;
+            // uarrow.style.marginTop = scrollTop + 'px';
+            isDown && pos <= downLimit && wrapper.classList.add("gkt-sidebar-fixed");
+            !isDown && pos > upLimit && wrapper.classList.remove("gkt-sidebar-fixed");
+            last = scrollTop
+        })
+    })();
+    (function () {
+        function resizeUArrow() {
+            var s = getDom('.u-arrow-wrapper').style
+            var pc = getDom('.post-container')
+            s.left = getPosition(pc).x + 'px';
+            s.width = pc.clientWidth + 'px';
+        }
+        resizeUArrow()
+        window.addEventListener('resize', resizeUArrow);
+    })();
+</script>
+    
+</main>
+    </div>
+    <style>
+    img#go-top {
+        position: fixed;
+        bottom: 100px;
+        width: 50px;
+        cursor: pointer;
+        z-index: 9999;
+    }
+</style>
+<img id="go-top" src="/icon/top.png" class="hidden-xs" style="display: none" />
+<script>
+    (function () {
+        var goTop = document.getElementById('go-top');
+        var mainContainer = document.querySelector('.main-container');
+        
+        goTop.addEventListener('click', function () {
+            window.scroll(0, 0);
+        }, false);
+        window.addEventListener('scroll', function () {
+            var right = document.body.offsetWidth - mainContainer.getBoundingClientRect().right;
+            var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            goTop.style.right = right + 10 + 'px'
+            scrollTop > 700 && (goTop.style.display = "block");
+            scrollTop <= 700 && (goTop.style.display = "none");
+        });
+    })();
+</script>
+    <style>
+    #geektutu-click-img-container {
+        position: fixed;
+        left: 0;
+        top: 0;
+        text-align: center;
+        width: 100%;
+        display: none;
+        z-index: 9999;
+    }
+
+    #geektutu-click-img-container img {
+        object-fit: contain;
+        background: #eaecef;
+        padding: 15px;
+        border-radius: 10px;
+        height: auto;
+        width: auto;
+        vertical-align: middle;
+    }
+</style>
+
+
+<div id="geektutu-click-img-container">
+    <img src="" alt="Big Image">
+</div>
+
+<script>
+    (function () {
+        var container = document.querySelector('#geektutu-click-img-container')
+        var targetImg = container.querySelector('img')
+        var imgs = document.querySelectorAll('article img');
+        targetImg.addEventListener('click', function (e) {
+            container.style.display = 'none';
+            e && e.stopPropagation && e.stopPropagation();
+        }, false);
+
+        for (var i = 0; i < imgs.length; ++i) {
+            var img = imgs[i];
+            img.addEventListener('click', (function (src, rate) {
+                return function (e) {
+                    e && e.stopPropagation && e.stopPropagation();
+                    if (window.innerWidth < 980) {
+                        return
+                    }
+                    targetImg.style.height = targetImg.style.width = 'auto';
+                    if (window.innerWidth / window.innerHeight > rate) {
+                        targetImg.style.height = (window.innerHeight - 20) + 'px';
+                    } else {
+                        targetImg.style.width = (window.innerWidth - 20) + 'px';
+                    }
+                    container.style.height = window.innerHeight + 'px'
+                    container.style.lineHeight = window.innerHeight + 'px'
+                    container.style.display = 'block';
+                    targetImg.src = src;
+                };
+            }(img.src, img.width / img.height)), false)
+        }
+    })();
+</script>
+    <!-- Footer -->
+    <!-- Footer -->
+<style>
+    footer {
+        width: 100%;
+        line-height: 1.5;
+        padding: 20px;
+    }
+
+    footer a {
+        color: #333;
+        text-decoration: none;
+    }
+
+    .footer-hexo img {
+        height: 20px;
+        margin-bottom: -5px;
+    }
+
+    .footer-hexo a {
+        color: #337ab7;
+    }
+</style>
+<footer class="text-center col-xs-12">
+    <p>
+        <small>© 2019 - Xingya - </small>
+        <small>
+            <a target="_blank" rel="nofollow noopener" href="http://www.miitbeian.gov.cn/">沪ICP备18001798号-1</a>
+        </small>
+    </p>
+    <p class="footer-hexo">
+        <!-- 但若直接使用或修改主题，请务必保留这段声明 -->
+        <small>Powered by <a target="_blank" href="https://hexo.io">Hexo</a> | Theme
+            <a target="_blank" href="https://geektutu.com">Geektutu</a>
+            <a href="https://github.com/geektutu/hexo-theme-geektutu">
+                <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAYGBgYHBgcICAcKCwoLCg8ODAwODxYQERAREBYiFRkVFRkVIh4kHhweJB42KiYmKjY+NDI0PkxERExfWl98fKcBBgYGBgcGBwgIBwoLCgsKDw4MDA4PFhAREBEQFiIVGRUVGRUiHiQeHB4kHjYqJiYqNj40MjQ+TERETF9aX3x8p//CABEIACIAUAMBIgACEQEDEQH/xAAcAAABBAMBAAAAAAAAAAAAAAAAAQQFBwIDBgj/2gAIAQEAAAAA9KrHSgAYL5/z6zZGuJd12uugbhq3uKtmuRtix20IS7lTLAfAAAn/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/9oACAECEAAAAAAB/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/aAAgBAxAAAAAAAf/EADEQAAICAQIEBQEGBwAAAAAAAAECAwQFAAYREhORBxQhUlQxQVFic5KxJDJCYYGC0f/aAAgBAQABPwCFHnjWUzuvN6hV4cANSRLGjO9yRVUcSzMoA7jVXJYe5N0a2dhmk9kc0bN2GvLN8mbuNeWb5M3ca8s3yZu415Y/Jm7jXlm+TN3H/NeVPyZu40vOk3TZywK8wJ+v3EHVM/wsI/Dq2lrxN3Nnca16eti8chSAIoMbzByhMwP14kHVfwIiSaF5c96J6kwwCOTnHsYk8uvCrdmQy1TI4rJuz3cZLyGR/wCd4+YoOf8AEpUjXitubLYPG4paFsUxcuiGe7yc5gTW3LW44szXmobsi3Dhmic2+Z4+vCVH9CpraPiQ+QvbgTJrPFBWd5YpWrmNIIEXiRO32Pqt4p7cnfHk18lFBdmEVW1LVdIZGOrniTt6plrWKaO69yCykDRxwF+LMAewB0Txtr+Sf31VI8tEPw62fZt7N3Humtbpzz13ucX6CGSWMSuzpLyD1eNgeUka3PuvHbaxq3biTMHfkiSNCS78CwU+3Xg7Vu3MhuTcU6cq3Zemn3Eh2dv8Lzcut+29x1atKbHYqLJUhLwyNMwiZ3j9yDWOxUOV3tgb+3No5LDx1pi9+aeIwRlNY6bc+Jv+IFGrhLxtXJZ7VKcw81diiAAEn0JOrkWZyNfbEr0tz27UGQgkuGzXdIIvyowq99bRxk9ffO/L81SZBPZgEEroQroIxxMZOgeNsfkn99QypHGqO4Vl9CDrN4LDZkwyzyyQ2IgRHZrzGCZVP1XnQglT9oOtw4LC7iqV6uRkZoYpxKFSQpzFRw4EjVRMfSrQ1qqwxQxKFjjTgFUD7BoWYR6iVe+mtxt9Zwf9teaj4AdccPu5tedX5A/VrzUR+sy/q1CwksF19VEfDj/cnQRW+qg66cfsXtrpx+xe2unH7F7a6cfsXtrpx+xe2unH7F7a6cfsXtoxx+xe2gAAOA1//8QAFBEBAAAAAAAAAAAAAAAAAAAAMP/aAAgBAgEBPwB//8QAFBEBAAAAAAAAAAAAAAAAAAAAMP/aAAgBAwEBPwB//9k="
+                    alt="Github Star">
+            </a>
+        </small>
+    </p>
+    
+    <p>
+        <small>
+            <span id="busuanzi_container_site_pv">👁<span id="busuanzi_value_site_pv"></span></span> &nbsp;
+            <span id="busuanzi_container_page_pv">📚<span id="busuanzi_value_page_pv"></span></span>
+        </small>
+    </p>
+    
+    
+    <p><small><span id="cnzz_stat_icon_123649"></span></small></p>
+    
+
+</footer>
+
+
+<script>
+    window.addEventListener('load', function () {
+        globalAddScript('//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js');
+    })
+</script>
+
+<!-- Baidu Tongji -->
+
+<script>
+    window.addEventListener('load', function () {
+        var _hmt = _hmt || [];
+        globalAddScript('//hm.baidu.com/hm.js?1a0ec33b1aa')
+    })
+</script>
+
+
+<script>
+    window.addEventListener('load', function () {
+        globalAddScript('//s23.cnzz.com/z_stat.php?id=123649&online=2');
+    })
+</script>
+
+
+<!-- baidu auto push for seo -->
+<script>
+    window.addEventListener('load', function () {
+        var src = 'http://push.zhanzhang.baidu.com/push.js'
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        globalAddScript(src);
+    })
+</script>
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'UA-141425-1');
+
+    window.addEventListener('load', function () {
+        globalAddScript('https://www.googletagmanager.com/gtag/js?id=UA-141425-1');
+    });
+</script>
+
+
+    <script>
+        // 非本站网址，新开tab页签
+        (function () {
+            var stopBubble = function (e) {
+                e && e.stopPropagation && e.stopPropagation();
+            }
+            var links = document.querySelectorAll('a');
+            [].slice.call(links).forEach(function (item) {
+                if (item.href && item.href.indexOf(window.location.host) === -1) {
+                    item.target = '_blank'
+                }
+                // 阻止冒泡，不触发彩蛋。
+                item.addEventListener('click', stopBubble, false);
+            });
+            var article = document.querySelector('article');
+            article && article.addEventListener('click', stopBubble, false)
+        })();
+    </script>
+    
+<script>
+    (function (window, document, undefined) {
+        var hearts = [];
+        var keywords = ["点个赞", "留个言", "赞赏一下", "张兴亚的技术博客", "zxyyee.cn"];
+        function randomInt(max) {
+            return Math.floor(Math.random() * Math.floor(max));
+        }
+        window.addEventListener('click', createWord)
+
+        function createWord(e) {
+            var d = document.createElement("span");
+            d.style.position = 'fixed';
+            d.style.zIndex = 9999;
+            d.style.color = 'rgb(' + [randomInt(255), randomInt(255), randomInt(255)].join(',') + ')';
+            d.innerHTML = keywords[randomInt(keywords.length)];
+            d.onselectstart = function () { return false; }
+
+            hearts.push({ el: d, x: e.clientX - 5, y: e.clientY - 5, alpha: 1, scale: 1 });
+            document.body.appendChild(d);
+        }
+        (function gameloop() {
+            for (var i = 0; i < hearts.length; i++) {
+                heart = hearts[i];
+                if (heart.alpha <= 0) {
+                    document.body.removeChild(heart.el);
+                    hearts.splice(i, 1);
+                    continue;
+                }
+                heart.y -= heart.alpha < 0.5 ? 2 : 1;
+                heart.scale += 0.002;
+                heart.alpha -= 0.013;
+                heart.el.style.transform = 'scale(' + heart.scale + ')';
+                heart.el.style.left = heart.x + 'px';
+                heart.el.style.top = heart.y + 'px';
+            }
+            setTimeout(gameloop, 10)
+        })();
+    })(window, document);
+</script>
+
+</body>
+
+</html>

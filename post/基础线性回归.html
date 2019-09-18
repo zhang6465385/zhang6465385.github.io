@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
+  <meta name="baidu-site-verification" content="p7Pz3jlx4t">
+  <meta name="google-site-verification" content="19ixTFj-X-rXuvZFvR1PMkqSHMXZ5GjN7nhYdYYFm-c">
+  <meta name="msvalidate.01" content="7E2AEE3378AC93764DEAB411177A21A1">
+  <meta name="360-site-verification" content="5c7e8a1fdbf35ed6003c48733208f705">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- if page has tags, then add tags to keyword -->
+  
+  
+  <meta name="keywords" content="张兴亚的博客,张兴亚的小站,机器学习,">
+  <!-- page.description has higher priority -->
+  <meta name="description" content="张兴亚的小站，致力于分享一些技术教程和有趣的技术实践。">
+  <link rel="shortcut icon" href="/img/icon.png">
+  <title>
+    
+    基础线性回归 | XQ
+    
+  </title>
+
+  <link rel="canonical" href="/post/基础线性回归.html">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/markdown.css">
+  <!-- Pygments Highlight CSS -->
+  <link rel="stylesheet" href="/css/highlight.css">
+  <link rel="stylesheet" href="/css/geektutu.css">
+  <!-- global function -->
+  <script>
+    window.globalAddScript = function (url, onload, onerror) {
+      var s = document.createElement('script');
+      s.src = url;
+      onload && (s.onload = onload);
+      onerror && (s.onerror = onerror);
+      document.body.appendChild(s);
+    }
+    window.globalAddCss = function (url) {
+      var s = document.createElement('link');
+      s.rel = 'stylesheet';
+      s.href = url;
+      document.body.appendChild(s);
+    }
+    window.getPosition = function (ele) {
+      var x = 0, y = 0;
+      while (ele) {
+        x += (ele.offsetLeft - ele.scrollLeft + ele.clientLeft);
+        y += (ele.offsetTop - ele.scrollTop + ele.clientTop);
+        ele = ele.offsetParent;
+      }
+      return { x: x, y: y };
+    }
+    window.getDom = function (str) { return document.querySelector(str) }
+  </script>
+  <!-- google ad -->
+  
+  <script>
+    window.addEventListener('load', function () {
+      globalAddScript("https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js", "", function (e) {
+        if (window.localStorage.getItem('gkt_marker')) {
+          var rec = document.querySelector('.gkt-rec-links');
+          rec && (rec.style.display = 'none');
+        }
+      });
+    });
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-939225546",
+      enable_page_level_ads: true
+    });
+  </script>
+  
+</head>
+
+<body>
+    <header class="gkt-header col-xs-12 padding-0">
+    <div id="gkt-nav" class="gkt-header-container">
+        <a href="/" class="gkt-header-title float-left">
+            <img class="float-left" src="/img/icon.png" alt="">
+            <span>张兴亚的技术博客</span>
+        </a>
+        <nav class="gkt-header-nav text-right">
+            <ul>
+                <li><a class="hidden-xs" href="/">主页</a></li>
+                <li><a href="/series/">专题</a></li>
+                <li><a href="/archives/">归档</a></li>
+                <li><a href="/post/link.html">友链</a></li>
+                <li><a href="/post/about.html">留言</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div id="gkt-cate-nav" class="gkt-header-container hidden-xs">
+        
+        <nav class="gkt-header-nav float-left">
+            <ul>
+                
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/Linux775权限.html">Linux</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/Nginx-uwsgi安装配置.html">web</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/FTP和SFTP.html">传输协议</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/部署分布式爬虫.html">爬虫</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/Redis-0.html">数据库</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/装饰器.html">Python</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left active">
+                    <a class="float-left" href="/post/numpy方法.html">机器学习</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/docker与windows挂载失效.html">Docker</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/支付宝退款.html">第三方支付</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/django自定义过滤器.html">Django</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/session,cookie,Storage.html">cookie</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/nginx反向代理tornado遇到的小问题.html">nginx</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/Redisearch.html">Redis</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/关于Tornado-真实的异步和虚假的异步.html">Tornado</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/vue打包cookie失效.html">Vue</a>
+                    
+                </li>
+                
+                <li class="gkt-cate-name float-left ">
+                    <a class="float-left" href="/post/个人简历.html">个人简历</a>
+                    
+                </li>
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+<div style="height: 44px"></div>
+<div class="hidden-xs" style="height: 44px"></div>
+<script>
+    (function () {
+        window.addEventListener('scroll', function () {
+            if (window.innerWidth < 768) {
+                return;
+            }
+            var nav = document.querySelector('#gkt-nav');
+            var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            scrollTop > 50 && (nav.classList.add('hide'));
+            scrollTop <= 50 && (nav.classList.remove('hide'));
+        });
+        var cateNavs = document.querySelectorAll('#gkt-cate-nav>nav>ul>li');
+        [].slice.call(cateNavs).forEach(function (item) {
+            var sub = item.querySelector('.gkt-sub-cate');
+            if (!sub) return;
+            item.addEventListener('mouseenter', function (e) { sub.style.display = 'block'; }, false);
+            item.addEventListener('mouseleave', function (e) { sub.style.display = 'none'; }, false);
+        })
+    })();
+</script>
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Main Content -->
+<main class="col-xs-12 padding-0 markdown-it">
+    <!-- Post Container -->
+    
+    <!-- Post Content -->
+<div class="float-left post-container box-shadow">
+    <div class="u-arrow-wrapper hidden-xs">
+        
+        <a class="float-left" href="/post/分享一个QQ第三方登录详解.html"><i class="u-arrow-left"></i></a>
+        
+        
+        <a class="float-right" href="/post/线性回归的正则化.html"><i class="u-arrow-right"></i></a>
+        
+    </div>
+    <article class="col-xs-12">
+        <h1> 基础线性回归 </h1>
+
+        
+
+        
+        <div class="hidden-lg hidden-md series_links">
+            <p> <strong> 机器学习系列文章链接：</strong></p>
+            <ul>
+                
+                <li>
+                    <a href="/post/numpy方法.html">numpy方法</a>
+                    <span class="post-item-date">(Feb 28, 2017)</span>
+                </li>
+                
+                <li>
+                    <a href="/post/pandas方法.html">pandas方法</a>
+                    <span class="post-item-date">(Mar 28, 2017)</span>
+                </li>
+                
+                <li>
+                    <a href="/post/基础线性回归.html">基础线性回归</a>
+                    <span class="post-item-date">(Sep 27, 2018)</span>
+                </li>
+                
+                <li>
+                    <a href="/post/推荐算法的一些理解.html">推荐算法的一些理解</a>
+                    <span class="post-item-date">(Mar 1, 2019)</span>
+                </li>
+                
+            </ul>
+        </div>
+        
+        
+        
+        <p>​    这次我们换个角度，来看看<strong>最小二乘法的几何意义</strong>。之前，线性回归的数学表达式被写成 $f({\bf x}) = {\bf w} ^ T {\bf x} = \sum_{i = 0}^{n} w_i \cdot x_i$。但在讨论几何意义时，这个表达式要被改写成</p>
+<p>f(x)=1⋅β0+∑j=1nxj⋅βj=xTβ</p>
+<p>可别小看这个简单的写法变化，从列向量 $\bf x$ 到行向量 ${\bf x} ^ T$ 的改变就像矩阵的左乘和右乘一样具有不同的意义。</p>
+<p>​    当输出被写成 ${\bf w} ^ T {\bf x}$ 时，其背后的寓意是每个包含若干输入属性和一个输出结果的样本都被视为一个整体，误差分散在不同的样本点上；而当输出被写成 ${\bf x} ^ T {\boldsymbol \beta}$ 时，其背后的寓意是<strong>每个单独属性在所有样本点上的取值被视为一个整体，误差分散在每个不同的属性上</strong>。但横看成岭侧成峰，观察角度的变化不会给观察对象本身造成改变，数据本身是没有变化的。</p>
+<p>​    假设数据集中共有 $N$ 个样本，那么 ${\bf x} ^ T$ 就变成了 $N \times (n + 1)$ 维的数据矩阵 ${\bf X}$，它的每一行表示的都是同一个样本的不同属性，每一列则表示不同样本中的相同属性。如果待拟合数据的特性完美到任意两个属性都线性无关的话，${\bf X}$ 就可以看成一个由它的所有列向量所张成的空间。</p>
+<p>​    一般来说，属性的数目 $n$ 会远远小于数据的数目 $N$，因此 ${\bf X}$ 张成的是 $N$ 维空间之内的<strong>n 维生成子空间</strong>，或者叫<strong>n 维超平面</strong>。这个超平面的每一个维度都对应着数据集的一个列向量。理想条件下，输出 ${\bf y}$ 作为属性的线性组合，也应该出现在由数据属性构成的超平面上。但受噪声的影响，真正的 ${\bf y}$ 是超平面之外的一个点，这时就要退而求其次，在超平面上找到离 ${\bf y}$ 最近的点作为最佳的近似。</p>
+<p>​    根据几何知识不难得出，要找的最佳近似 $\hat {\bf y}$ 就是 ${\bf y}$ 在超平面上的投影，而最佳近似所对应的系数 $\hat {\boldsymbol \beta}$ 就是线性回归的解，点 $\hat {\bf y} = {\bf X}{\boldsymbol \beta}$ 和 ${\bf y}$ 之间的距离就是估计误差，也叫<strong>残差</strong>（residual），它就是最小二乘法最小化的对象，其表达式是 $|| {\bf y} - {\bf X}{\boldsymbol \beta}|| ^ 2$。对参数 $\boldsymbol \beta$ 求导不难得到，能够使均方误差最小化的参数 $\hat {\boldsymbol \beta}$ 应该满足</p>
+<p>(y−Xβ^)TX=0</p>
+<p>​    这个式子说明了最小二乘法的几何意义：<strong>计算高维空间上的输出结果在由所有属性共同定义的低维空间上的正交投影</strong>（orthogonal projection）。投影操作意味着残差不会在数据维度上遗留任何分量，这种基于误差和数据正交性的最优解也经常出现在信号处理当中。</p>
+<p>在实际应用中，如何解释线性回归的结果呢？下面这个例子可以说明。</p>
+<p>​    如果爱好足球，你一定不会对数据网站 WhoScored 感到陌生，它的一大特色是会在每场比赛结束后根据球员表现给出评分，0 分最低，10 分最高。虽然这个评分系统能够直观体现谁踢得好谁踢得差，但关于其专业性的质疑却从未停止。那么 WhoScored 的评分到底准不准呢？我们不妨用线性回归做个测试。</p>
+<p>​    如果 WhoScored 的评分足够合理，那球员的评分就应该和球队的成绩呈现出正相关，而线性又是正相关最直接的描述。为了验证球队赛季积分 $y$ 和所有球员的赛季平均评分 $x$ 之间是否存在线性关系，我从网站上复制了 2017~18 赛季英超联赛的相关数据，这个包含 20 个样本的小数据集就是训练集。在拟合数据时，我使用的第三方库是 StatsModels，之所以选择这个库是因为它能够给出更多统计意义上的结论，这些结论对于理解线性回归模型大有裨益。</p>
+<p>​    在模型拟合之前有必要对输入数据做一点处理，那就是将因变量从球队的赛季总积分转换成场均积分。在足球联赛中，一场比赛的胜 / 平 / 负分别对应 3/1/0 分，因此计算场均积分可以看成是某种意义上的归一化，使数据在 [0, 3] 这个一致的较小尺度上得到更加直观的比较。</p>
+<p>在使用 StatsModels 拟合模型时，首先要用 add_constant 函数在每个输入数据的后面添加一个 1，借此把常数项纳入模型之中；接下来就可以调用 OLS，也就是普通最小二乘法（ordinary least squares）作为拟合对象，计算线性模型的参数；最后使用 fit 函数获取拟合结果。要查看拟合模型的统计特性，只需打印出模型的 summary。下图就是对英超数据集的拟合结果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">                            OLS Regression Results                            </span><br><span class="line">==============================================================================</span><br><span class="line">Dep. Variable:                 Points   R-squared:                       0.905</span><br><span class="line">Model:                            OLS   Adj. R-squared:                  0.900</span><br><span class="line">Method:                 Least Squares   F-statistic:                     172.2</span><br><span class="line">Date:                Sun, 28 Jul 2019   Prob (F-statistic):           1.18e-10</span><br><span class="line">Time:                        22:49:02   Log-Likelihood:                 9.3960</span><br><span class="line">No. Observations:                  20   AIC:                            -14.79</span><br><span class="line">Df Residuals:                      18   BIC:                            -12.80</span><br><span class="line">Df Model:                           1                                         </span><br><span class="line">Covariance Type:            nonrobust                                         </span><br><span class="line">==============================================================================</span><br><span class="line">                 coef    std err          t      P&gt;|t|      [0.025      0.975]</span><br><span class="line">------------------------------------------------------------------------------</span><br><span class="line">const        -19.4345      1.586    -12.256      0.000     -22.766     -16.103</span><br><span class="line">Ratings        3.0685      0.234     13.123      0.000       2.577       3.560</span><br><span class="line">==============================================================================</span><br><span class="line">Omnibus:                        3.586   Durbin-Watson:                   2.238</span><br><span class="line">Prob(Omnibus):                  0.166   Jarque-Bera (JB):                1.886</span><br><span class="line">Skew:                          -0.713   Prob(JB):                        0.389</span><br><span class="line">Kurtosis:                       3.481   Cond. No.                         308.</span><br><span class="line">==============================================================================</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，模型拟合最核心的结果显示在第二排：coef 表示的是参数的<strong>估计值</strong>，也就是通过最小二乘计算出的权重系数。拟合结果告诉我们，球队场均积分 $y$ 和球员平均评分 $x$ 之间的关系可以近似表示为回归式 $y = 3.0685x - 19.4345$，这说明如果所有球员共同努力将平均评分拉高 0.1 的话，球队在每场比赛中就能平均多得 0.306 分。</p>
+<p>右侧 std err 表示的是参数估计的<strong>标准误</strong>（standard error），虽然最小二乘得到的是无偏估计量，意味着估计结果中不存在系统误差，但每一个特定的估计值结果依然会在真实值的附近波动，标准误度量的就是估计值偏离真实值的平均程度。</p>
+<p>最后两列 [0.025 0.975] 给出了 95% 置信区间：每个参数真实值落在这个区间内的可能性是 95%。对于线性回归而言，置信下界和上界分别是估计值减去和加上二倍的标准误，也就是 coef$\pm 2 \times$std err。</p>
+<p>置信区间告诉我们，平均评分拉高 0.1 并不意味着球队每场一定能多得 0.306 分，但多得的分数基本在 0.258 到 0.356 之间。如果用 2016-17 赛季的数据作为训练数据的话，这个数据的计算结果就变成了 0.33——也落在置信区间之内，这也验证的估计结果的波动性。</p>
+<p>中间两列中的 t 和 P&gt;|t|都是统计学中的关键指标，它们评估的是拟合结果的统计学意义。t 代表 $t$ 统计量（$t$-statistic），表示了参数的估计值和原始假设值之间的偏离程度。在线性回归中通常会假设待拟合的参数值为 0，此时的 $t$ 统计量就等于估计值除以标准误。当数据中的噪声满足正态分布时，$t$ 统计量就满足 $t$ 分布，其绝对值越大意味着参数等于 0 的可能性越小，拟合的结果也就越可信。</p>
+<p>P&gt;|t|表示的则是统计学中争议最大的指标——<strong>$p$ 值</strong>。$p$ 值（$p$-value）是在当原假设为真时，数据等于观测值或比观测值更为极端的概率。简单地说，$p$ 值表示的是数据与一个给定模型不匹配的程度，$p$ 值越小，说明数据和原假设的模型越不匹配，也就和计算出的模型越匹配。在这个例子里，原假设认为待估计的参数等于 0，而接近于 0 的 $p$ 值就意味着计算出的参数值得信任。</p>
+<p>看完第二排再来看第一排，也就是对模型拟合数据的程度的评价，重要的指标在右侧一列。R-squared 表示的是 $R ^ 2$ 统计量，也叫作<strong>决定系数</strong>（coefficient of determination），这个取值在 [0, 1] 之间的数量表示的是输出的变化中能被输入的变化所解释的部分所占的比例。在这个例子里，$R ^ 2 = 0.905$ 意味着回归模型能够通过 $x$ 的变化解释大约 91% 的 $y$ 的变化，这表明回归模型具有良好的准确性，回归后依然不能解释的 9% 就来源于噪声。</p>
+<p>$R ^ 2$ 统计量具有单调递增的特性，即使在模型中再添加一些和输出无关的属性，计算出来的 $R ^ 2$ 也不会下降。Adj. R-squared 就是校正版的 $R ^ 2$ 统计量。当模型中增加的变量没有统计学意义时，多余的不相关属性会使校正决定系数下降。校正决定系数体现出的是正则化的思想，它在数值上小于未校正的 $R ^ 2$ 统计量。</p>
+<p><img src="https://alvinqy.github.io/2017/08/10/mysecond/1564279682625.png" alt="1564279682625"></p>
+<p>上图给出了英超数据集上简单线性回归和多元线性回归的拟合结果，其中蓝点为数据点，红点为预测点。在简单回归中，大部分数据点集中在拟合直线附近，一个明显的异常点是中游球队水晶宫（Crystal Palace）。</p>
+<p>回到英超数据集的例子，图形结果和数值指标都表明线性回归能够较好地拟合两者之间的关系，这说明 WhoScored 的评分系统是值得信任的。但这个例子只是线性回归的一个特例，它特殊在输出的因变量只与单个的输入自变量存在线性关系，这种模型被称为<strong>简单线性回归</strong>（simple linear regression）。更一般的情况是因变量由多个自变量共同决定，对这些自变量同时建模就是<strong>多元线性回归</strong>（multivariate linear regression）。</p>
+<p>与简单线性回归一样，多元线性回归中的参数也要用最小二乘法来估计。还是以积分和评分的关系为例，在简单线性回归中，自变量是所有球员在所有比赛中评分的均值，但是球场上不同位置的球员发挥的作用也不一样。为了进一步分析不同位置球员对球队表现的影响，就要将单个自变量替换成不同位置球员（门将 / 后卫 / 中场 / 前锋）在整个赛季中的平均评分，再使用多元回归进行拟合。</p>
+<p>在这个实例中，多元回归的属性，也就是自变量被设置为每队每个位置上出场时间较多的球员的赛季平均评分的均值，所有选中球员的出场时间都在 1000 分钟以上。</p>
+<p>利用 OLS 模型可以得到多元回归的结果，可如果对结果加以分析，就会发现一个有趣的现象：一方面，多元模型的校正决定系数是 0.876，意味着所有位置评分共同解释了输出结果的大部分变化，这也可以从预测值与真实值的散点图上观察出来；可另一方面，只有后卫评分和前锋评分的 $p$ 值低于 0.05，似乎球队的战绩只取决于这两个位置的表现。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">                            OLS Regression Results                            </span><br><span class="line">==============================================================================</span><br><span class="line">Dep. Variable:                 Points   R-squared:                       0.902</span><br><span class="line">Model:                            OLS   Adj. R-squared:                  0.876</span><br><span class="line">Method:                 Least Squares   F-statistic:                     34.57</span><br><span class="line">Date:                Sun, 28 Jul 2019   Prob (F-statistic):           2.09e-07</span><br><span class="line">Time:                        22:49:02   Log-Likelihood:                 9.0610</span><br><span class="line">No. Observations:                  20   AIC:                            -8.122</span><br><span class="line">Df Residuals:                      15   BIC:                            -3.143</span><br><span class="line">Df Model:                           4                                         </span><br><span class="line">Covariance Type:            nonrobust                                         </span><br><span class="line">==============================================================================</span><br><span class="line">                 coef    std err          t      P&gt;|t|      [0.025      0.975]</span><br><span class="line">------------------------------------------------------------------------------</span><br><span class="line">const        -15.5306      2.366     -6.563      0.000     -20.574     -10.487</span><br><span class="line">GK            -0.2112      0.454     -0.466      0.648      -1.178       0.756</span><br><span class="line">DF             1.5722      0.545      2.885      0.011       0.411       2.734</span><br><span class="line">MF             0.5510      0.354      1.556      0.141      -0.204       1.306</span><br><span class="line">FW             0.5337      0.237      2.249      0.040       0.028       1.040</span><br><span class="line">==============================================================================</span><br><span class="line">Omnibus:                        3.397   Durbin-Watson:                   1.989</span><br><span class="line">Prob(Omnibus):                  0.183   Jarque-Bera (JB):                2.804</span><br><span class="line">Skew:                          -0.861   Prob(JB):                        0.246</span><br><span class="line">Kurtosis:                       2.369   Cond. No.                         823.</span><br><span class="line">==============================================================================</span><br></pre></td></tr></table></figure>
+
+<p>看起来校正决定系数和 $p$ 值给出了自相矛盾的解释，这时就需要观察另外一个重要的指标：<strong>$F$ 统计量</strong>。</p>
+<p>$F$ 统计量（$F$-statistic）主要应用在多元回归中，它检验的原假设是所有待估计的参数都等于 0，这意味着只要有一个参数不等于 0，原假设就被推翻。$F$ 统计量越大意味着原假设成立的概率越低，理想的 $F$ 值应该在百千量级。可在上面的多元回归中，$F$ 统计量仅为 34.57，这就支持了 $p$ 值的结论：估计出的参数的统计学意义并不明显。</p>
+<p>英超数据集在统计上的非显著性可能源自过小的样本数导致的过拟合，也可能源自不同属性之间的共线性（collinearity）。可在更广泛的意义上，它揭示的却是多元线性回归无法回避的一个本质问题：<strong>模型虽然具有足够的精确性，却缺乏关于精确性的合理解释</strong>。</p>
+<p>假定数据共有 10 个属性，如果只保留 10 个属性中的 5 个用于拟合的话，肯定会有不止一个 5 元属性组能够得到彼此接近的优良性能，可对不同 5 元组的解读方式却会大相径庭。</p>
+<p>本例的代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> linear_model</span><br><span class="line"><span class="keyword">import</span> statsmodels.api <span class="keyword">as</span> sm</span><br><span class="line"></span><br><span class="line">os.getcwd()</span><br><span class="line">stats = pd.read_csv(<span class="string">'../mlin40-master/regression.csv'</span>,sep=<span class="string">'\t'</span>)</span><br><span class="line">point = stats.iloc[:,<span class="number">4</span>] / <span class="number">38</span></span><br><span class="line"></span><br><span class="line">rating = stats.iloc[:,<span class="number">5</span>]</span><br><span class="line">positional_rating = stats.iloc[:,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]]</span><br><span class="line"></span><br><span class="line">rating_add = sm.add_constant(rating)</span><br><span class="line">est_simple = sm.OLS(point,rating_add).fit()</span><br><span class="line">print(est_simple.summary())</span><br><span class="line"><span class="comment">#</span></span><br><span class="line">positional_rating_add = sm.add_constant(positional_rating)</span><br><span class="line">est_multi = sm.OLS(point,positional_rating_add).fit()</span><br><span class="line">print(est_multi.summary())</span><br><span class="line"><span class="comment">#</span></span><br><span class="line">fig = plt.figure()</span><br><span class="line"><span class="comment">#</span></span><br><span class="line">ax1 = fig.add_subplot(<span class="number">121</span>)</span><br><span class="line">plt.plot(rating, est_simple.fittedvalues, c=<span class="string">"r"</span>, linewidth=<span class="number">4</span>)</span><br><span class="line">plt.scatter(rating, point, c=<span class="string">"b"</span>, s=<span class="number">5</span>)</span><br><span class="line">plt.xlabel(<span class="string">"average rating"</span>)</span><br><span class="line">plt.ylabel(<span class="string">"average point per game"</span>)</span><br><span class="line">plt.title(<span class="string">"Simple Linear Regression"</span>)</span><br><span class="line"><span class="comment">#</span></span><br><span class="line">ax2 = fig.add_subplot(<span class="number">122</span>)</span><br><span class="line">plt.scatter(range(len(point)), est_multi.model.endog, c=<span class="string">"b"</span>, s=<span class="number">5</span>)</span><br><span class="line">plt.scatter(range(len(point)), est_multi.fittedvalues, c=<span class="string">"r"</span>, s=<span class="number">5</span>)</span><br><span class="line">plt.title(<span class="string">"Multivariate Linear Regression"</span>)</span><br><span class="line"><span class="comment">#</span></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+        <div class="hidden-xs col-xs-12 text-center">
+    <canvas id="geektutu-post-qr"></canvas>
+    <p style="margin-top: -10px;"><small>微信扫一扫，阅读/分享</small></p>
+</div>
+<script src="/js/qrious.min.js"></script>
+<script>
+    (function () {
+        new QRious({
+            element: document.getElementById('geektutu-post-qr'),
+            value: window.location.href,
+            size: 120
+        });
+    })();
+</script>
+        <hr>
+        <div>
+            
+            <p>
+                <span>专题: </span>
+                
+                <a href="/series/#机器学习">
+                    <code key="机器学习" class="post-label">机器学习</code>
+                </a>
+                
+            </p>
+            
+            <p>
+                <span>发表于2018-09-27 08:30:10，最后修改于2019-09-18 15:40:53。</span>
+            </p>
+            <!-- 文章末尾的提示 start -->
+            
+            
+            <!-- 文章末尾的提示 end -->
+        </div>
+        <hr />
+        <p name="pagination" style="font-size: 1.2em">
+    
+    <a class="float-left" href="/post/分享一个QQ第三方登录详解.html">上一篇 « 分享一个QQ第三方登录详解</a>
+    
+    
+    <a class="float-right" href="/post/线性回归的正则化.html">下一篇 » 线性回归的正则化</a>
+    
+</p>
+    </article>
+    <!-- 赞赏 -->
+    <!--打赏-->
+
+<style>
+    #reward .reward-btn-wrapper {
+        width: 100px;
+        padding-top: 25px;
+        cursor: pointer;
+        margin: 0 auto;
+    }
+
+    #reward .reward-btn {
+        padding: 2px 15px;
+        color: #fff;
+        background-color: #ea6f5a;
+        border-radius: 20px;
+    }
+
+    #reward .reward-code {
+        position: absolute;
+        top: -230px;
+        left: 50%;
+        display: none;
+        width: 360px;
+        height: 240px;
+        margin-left: -180px;
+        padding: 15px 20px;
+        border: 1px solid #e6e6e6;
+        background: #fff;
+        box-shadow: 0 1px 1px 1px #efefef;
+    }
+
+    #reward .reward-code:after,
+    #reward .reward-code:before {
+        position: absolute;
+        content: '';
+        border: 10px solid transparent
+    }
+
+    #reward .reward-code:after {
+        bottom: -19px;
+        left: 50%;
+        margin-left: -10px;
+        border-top-color: #fff
+    }
+
+    #reward .reward-code:before {
+        bottom: -20px;
+        left: 50%;
+        margin-left: -10px;
+        border-top-color: #e6e6e6
+    }
+
+    #reward .qr-code {
+        width: 50%;
+        float: left;
+        padding: 5px;
+    }
+
+    #reward .qr-code p {
+        margin-top: -6px;
+    }
+
+    #reward img[alt='i'] {
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        margin: 0 auto;
+        z-index: 2;
+        margin-left: 75px;
+        margin-top: 65px;
+    }
+
+    #reward img[alt="ali"] {
+        width: 100%;
+        box-sizing: border-box;
+        border: 5px solid #0f9be0;
+    }
+
+    #reward img[alt="wechat"] {
+        width: 100%;
+        box-sizing: border-box;
+        border: 5px solid #3db034;
+    }
+
+    #reward .reward-tip {
+        font-size: 1.2em;
+        margin-bottom: 0;
+        color: #ea6f5a;
+    }
+</style>
+<div id="reward" class="col-xs-12">
+    <div class="reward-btn-wrapper">
+        <div class="reward-btn text-center">赞赏支持</div>
+    </div>
+    <div class="reward-code text-center">
+        <p class="text-center reward-tip"><strong>请我吃胡萝卜 =^_^= </strong></p>
+        <div class="qr-code">
+            <img src="/img/icon.png" alt="i">
+            <img id="reward-ali" src="" alt="ali">
+            <p><small>支付宝</small></p>
+        </div>
+        <div class="qr-code">
+            <img src="/img/icon.png" alt="i">
+            <img id="reward-wechat" src="" alt="wechat">
+            <p><small>微信</small></p>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window, document) {
+        var aliQr = new QRious({ value: 'HTTPS://QR.ALIPAY.COM/FKX060337TUXBAX9LIFJE8' });
+        var wechatQr = new QRious({ value: 'wxp://f2f0qgGBlfD1nZXjvBjievxB0z0fc0W2sBq5' });
+        document.querySelector('#reward-ali').src = aliQr.toDataURL();
+        document.querySelector('#reward-wechat').src = wechatQr.toDataURL();
+
+        var rewardBtn = document.querySelector('#reward .reward-btn-wrapper');
+        var qrCode = document.querySelector('#reward .reward-code')
+        var activeFunc = function (e) {
+            qrCode.style.display = 'block';
+        }
+        var hideFunc = function (e) {
+            qrCode.style.display = 'none';
+        }
+
+        rewardBtn.addEventListener('mouseenter', activeFunc, false)
+        rewardBtn.addEventListener('mouseover', activeFunc, false)
+        rewardBtn.addEventListener('mouseleave', hideFunc, false)
+        qrCode.addEventListener('mouseenter', activeFunc, false)
+        qrCode.addEventListener('mouseover', activeFunc, false)
+        qrCode.addEventListener('mouseleave', hideFunc, false)
+    })(window, document);
+</script>
+
+    <!-- 推荐阅读三篇文章 -->
+    <div class="col-xs-12">
+        <h3>推荐阅读</h3>
+        
+        <div class="post-preview">
+    <div class="post-img" style="background-image: url('/undefined')"></div>
+    <div class="post-info">
+        <div class="post-info-center">
+            <div class="hidden-xs">
+                
+                
+                <span>/</span>
+                
+                <a class="text-gray" href="/tags/#Python"
+                    title="Python">Python</a>
+                <span>/</span>
+                
+                
+            </div>
+            <a href="/post/利用Python进行数据可视化（1）.html" class="title">
+                利用Python进行数据可视化（1）
+            </a>
+            <p class="text-gray">
+                <small>
+                    <span>发表于2018-12-27，</span>
+                    <span class="hidden-xs">全文3484字，</span>
+                    <span>阅读约12分钟</span>
+                </small>
+            </p>
+        </div>
+    </div>
+</div>
+        
+        <div class="post-preview">
+    <div class="post-img" style="background-image: url('/undefined')"></div>
+    <div class="post-info">
+        <div class="post-info-center">
+            <div class="hidden-xs">
+                
+                
+                <span>/</span>
+                
+                <a class="text-gray" href="/tags/#Docker"
+                    title="Docker">Docker</a>
+                <span>/</span>
+                
+                
+            </div>
+            <a href="/post/docker与windows挂载失效.html" class="title">
+                docker与windows挂载失败
+            </a>
+            <p class="text-gray">
+                <small>
+                    <span>发表于2018-01-28，</span>
+                    <span class="hidden-xs">全文1132字，</span>
+                    <span>阅读约4分钟</span>
+                </small>
+            </p>
+        </div>
+    </div>
+</div>
+        
+        <div class="post-preview">
+    <div class="post-img" style="background-image: url('/undefined')"></div>
+    <div class="post-info">
+        <div class="post-info-center">
+            <div class="hidden-xs">
+                
+                
+                <span>/</span>
+                
+                <a class="text-gray" href="/tags/#Python"
+                    title="Python">Python</a>
+                <span>/</span>
+                
+                
+            </div>
+            <a href="/post/跨域问题.html" class="title">
+                跨域问题
+            </a>
+            <p class="text-gray">
+                <small>
+                    <span>发表于2017-02-28，</span>
+                    <span class="hidden-xs">全文1709字，</span>
+                    <span>阅读约6分钟</span>
+                </small>
+            </p>
+        </div>
+    </div>
+</div>
+        
+    </div>
+    <div class="col-xs-12">
+        <!-- 标签列表 -->
+        <!-- Featured Tags -->
+<style>
+    #featured-tag .post-tag-item {
+        font-size: 12px;
+        line-height: 30px;
+        display: inline-block;
+        height: 30px;
+        margin: 5px 0px;
+        padding: 0 7px;
+        color: #333;
+        border-radius: 15px;
+        background: #f6f6f6;
+    }
+
+    #featured-tag .post-tag-item:hover {
+        color: #337ab7;
+    }
+</style>
+<div id="featured-tag">
+    
+    <a class="post-tag-item" href="/tags/#机器学习" title="机器学习"
+        rel="4">#机器学习 (4) </a>
+    
+    <a class="post-tag-item" href="/tags/#Python" title="Python"
+        rel="6">#Python (6) </a>
+    
+    <a class="post-tag-item" href="/tags/#协议" title="协议"
+        rel="1">#协议 (1) </a>
+    
+    <a class="post-tag-item" href="/tags/#数据库" title="数据库"
+        rel="2">#数据库 (2) </a>
+    
+    <a class="post-tag-item" href="/tags/#Linux" title="Linux"
+        rel="2">#Linux (2) </a>
+    
+    <a class="post-tag-item" href="/tags/#Django" title="Django"
+        rel="1">#Django (1) </a>
+    
+    <a class="post-tag-item" href="/tags/#爬虫" title="爬虫"
+        rel="2">#爬虫 (2) </a>
+    
+    <a class="post-tag-item" href="/tags/#Docker" title="Docker"
+        rel="3">#Docker (3) </a>
+    
+    <a class="post-tag-item" href="/tags/#Redis" title="Redis"
+        rel="1">#Redis (1) </a>
+    
+    <a class="post-tag-item" href="/tags/#nginx" title="nginx"
+        rel="2">#nginx (2) </a>
+    
+    <a class="post-tag-item" href="/tags/#Vue" title="Vue"
+        rel="1">#Vue (1) </a>
+    
+    <a class="post-tag-item" href="/tags/#cookie" title="cookie"
+        rel="1">#cookie (1) </a>
+    
+    <a class="post-tag-item" href="/tags/#第三方支付" title="第三方支付"
+        rel="2">#第三方支付 (2) </a>
+    
+    <a class="post-tag-item" href="/tags/#web" title="web"
+        rel="4">#web (4) </a>
+    
+    <a class="post-tag-item" href="/tags/#第三方" title="第三方"
+        rel="1">#第三方 (1) </a>
+    
+    <a class="post-tag-item" href="/tags/#Tornado" title="Tornado"
+        rel="1">#Tornado (1) </a>
+    
+    <a class="post-tag-item" href="/tags/#mysql" title="mysql"
+        rel="1">#mysql (1) </a>
+    
+</div>
+    </div>
+    <!-- 评论 -->
+    <div class="col-xs-12">
+        
+<div id="gitalk-container"></div>
+<div id="gitalk-related"></div>
+<link rel="stylesheet" href="/css/gitalk.css">
+<script src="/js/gitalk.min.js"></script>
+<script>
+    window.addEventListener('load', function () {
+        const gitalk = new Gitalk({
+            clientID: 'c1fdd456a4caae5f7df0',
+            clientSecret: 'b2674451e21feae50520f99337ec15d2aebe7879',
+            repo: 'hexo-theme-geektutu',
+            owner: 'geektutu',
+            admin: ['geektutu'],
+            id: window.location.pathname,
+            distractionFreeMode: false
+        });
+        gitalk.render('gitalk-container');
+        document.querySelector('#gitalk-container').addEventListener('click', function (e) {
+            e && e.stopPropagation && e.stopPropagation();
+        });
+    })
+</script>
+<script>
+    window.addEventListener('load', function () {
+        function render(comments) {
+            var template = '<a href="${comment.url}?utm_source=gitalk" class="dis-item-url"><h3 class="dis-item-title">${comment.title}</h3>' +
+                '<p class="dis-item-des">${comment.count} 评论 ● ${comment.date}</p>' +
+                '<div class="dis-item-content"><img class="dis-item-img" src="${comment.icon}" alt="icon"><p><b><span class="dis-item-user">${comment.user}</span></b>&nbsp;——&nbsp;${comment.body}</p></div>' +
+                '</a>'
+
+            var wrapper = get('#gitalk-related');
+            comments = shuffle(comments);
+            comments.slice(0, 4).forEach(function (c) {
+                var div = document.createElement('div');
+                div.classList.add('dis-item');
+                div.innerHTML = template.replace("${comment.url}", c.url)
+                    .replace("${comment.title}", c.title)
+                    .replace("${comment.count}", c.count)
+                    .replace("${comment.date}", c.date)
+                    .replace("${comment.icon}", c.icon)
+                    .replace("${comment.user}", c.user)
+                    .replace("${comment.body}", c.body)
+                wrapper.appendChild(div)
+            })
+            var p = document.createElement('p')
+            p.innerHTML = '<a href="https://geektutu.com/post/blog-experience-7.html">Gitalk Plus</a>';
+            p.classList.add('dis-divide');
+            wrapper.appendChild(p);
+            wrapper.classList.add('dis-wrapper')
+        }
+        function shuffle(a) {
+            for (var i = a.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                [a[i], a[j]] = [a[j], a[i]];
+            }
+            return a;
+        }
+        function get(str) { return document.querySelector(str) }
+        fetch('/tool/comments.json').then(function (r) { return r.json() }).then(render).catch(function (e) { })
+    })
+</script>
+
+    </div>
+</div>
+<aside class="float-left gkt-sidebar hidden-xs hidden-sm">
+    <div style="clear: both"></div>
+    <div class="gkt-sidebar-wrapper">
+        <section class="box-shadow"><style>
+    .gkt-summary {
+        border: 1px solid #DDDDDD;
+        border-radius: 3px;
+        padding: 5px;
+        width: 100%;
+    }
+
+
+    .gkt-summary nav {
+        overflow: hidden;
+    }
+
+    .gkt-summary nav a {
+        display: inline-block;
+        text-align: center;
+        color: #333;
+        font-size: 12px;
+    }
+
+    .gkt-summary nav span {
+        display: block;
+    }
+
+    .gkt-summary nav .middle {
+        border-left: 1px solid #eaecef;
+        border-right: 1px solid #eaecef;
+    }
+
+    .gkt-summary .number {
+        font-weight: bold;
+    }
+
+    .gkt-summary .link-list {
+        margin-top: 5px;
+        margin-bottom: -5px;
+        padding-top: 7px;
+        border-top: 1px dashed #999;
+        display: flex;
+    }
+
+    .gkt-summary .link-list a {
+        flex: 1;
+    }
+
+    .gkt-summary .link-list img {
+        width: 25px;
+        height: 25px;
+    }
+</style>
+
+<div class="gkt-summary">
+    <nav>
+        <a href="/" class="col-xs-4">
+            <number class="number">46</number><span>文章</span>
+        </a>
+        <a href="/series" class="col-xs-4 middle">
+            <number class="number">16</number><span>专题</span>
+        </a>
+        <a href="/tags" class="col-xs-4">
+            <number class="number">17</number><span>标签</span>
+        </a>
+    </nav>
+
+    
+</div></section>
+        
+        
+        <section class="gkt-sidebar-content box-shadow">
+            <strong>机器学习</strong>
+            <ul>
+                
+                <li>
+                    <a href="/post/numpy方法.html"
+                        class="">numpy方法</a>
+                    
+                </li>
+                
+                <li>
+                    <a href="/post/pandas方法.html"
+                        class="">pandas方法</a>
+                    
+                </li>
+                
+                <li>
+                    <a href="/post/基础线性回归.html"
+                        class="gkt-sidebar-active">基础线性回归</a>
+                    
+                    <!-- Table of Contents -->
+<div id="sidebar-toc">
+  <!-- TOC  -->
+  
+</div>
+
+<script>
+  (function () {
+    var h2 = document.querySelectorAll('article h2');
+    var h3 = document.querySelectorAll('article h3');
+    var linkList = document.querySelectorAll('#sidebar-toc a');
+
+    function findLinkElement(name) {
+      for (var i = 0; i < linkList.length; i++) {
+        var items = linkList[i].href.split('#');
+        if (items && items[items.length - 1] === encodeURIComponent(name)) {
+          return i;
+        }
+      }
+      return -1;
+    }
+
+    function activeLink(titleList) {
+      var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+      for (var i = titleList.length - 1; i >= 0; i--) {
+        if (scrollTop - titleList[i].offsetTop > 0) {
+          var index = findLinkElement(titleList[i].id);
+          index != -1 && linkList[index].classList.add('gkt-sidebar-active');
+          break;
+        }
+      }
+    }
+
+    window.addEventListener("scroll", function (e) {
+      [].slice.call(linkList).forEach(function (link) {
+        link.classList.remove('gkt-sidebar-active');
+      })
+      activeLink(h2);
+    })
+  })();
+</script>
+                    
+                </li>
+                
+                <li>
+                    <a href="/post/推荐算法的一些理解.html"
+                        class="">推荐算法的一些理解</a>
+                    
+                </li>
+                
+            </ul>
+        </section>
+        
+        
+        <section class="box-shadow">
+            <strong>最近的文章</strong>
+            <ul>
+                
+                <li>
+                    <a href="/post/在centos7-6上利用docker-compose统一管理容器和服务.html">在centos7.6上利用docker-compose统一管理容器和服务</a>
+                </li>
+                
+                <li>
+                    <a href="/post/在Centos7-6上部署Docker环境以及安装docker-compose.html">在Centos7.6上部署Docker环境以及安装docker-compose</a>
+                </li>
+                
+                <li>
+                    <a href="/post/个人简历.html">个人简历</a>
+                </li>
+                
+            </ul>
+        </section>
+        <section class="box-shadow text-center">
+            
+
+<!-- 侧边栏ad 250 * 90 -->
+<ins class="adsbygoogle" style="display:inline-block;width:250px;height:90px"
+    data-ad-client="ca-pub-939225546" data-ad-slot="3708583719"></ins>
+
+
+
+
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+            
+
+<!-- 侧边栏ad 250 * 90 -->
+<ins class="adsbygoogle" style="display:inline-block;width:250px;height:90px"
+    data-ad-client="ca-pub-939225546" data-ad-slot="3708583719"></ins>
+
+
+
+
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+        </section>
+    </div>
+</aside>
+
+<script>
+    (function () {
+        var ele = getDom('.gkt-sidebar-content')
+        var wrapper = getDom('.gkt-sidebar-wrapper')
+        var last = 0
+        window.addEventListener("scroll", function (e) {
+            var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            var isDown = scrollTop > last;
+            var pos = getPosition(ele).y - scrollTop;
+            var downLimit = 50;
+            var upLimit = -100;
+            // uarrow.style.marginTop = scrollTop + 'px';
+            isDown && pos <= downLimit && wrapper.classList.add("gkt-sidebar-fixed");
+            !isDown && pos > upLimit && wrapper.classList.remove("gkt-sidebar-fixed");
+            last = scrollTop
+        })
+    })();
+    (function () {
+        function resizeUArrow() {
+            var s = getDom('.u-arrow-wrapper').style
+            var pc = getDom('.post-container')
+            s.left = getPosition(pc).x + 'px';
+            s.width = pc.clientWidth + 'px';
+        }
+        resizeUArrow()
+        window.addEventListener('resize', resizeUArrow);
+    })();
+</script>
+    
+</main>
+    </div>
+    <style>
+    img#go-top {
+        position: fixed;
+        bottom: 100px;
+        width: 50px;
+        cursor: pointer;
+        z-index: 9999;
+    }
+</style>
+<img id="go-top" src="/icon/top.png" class="hidden-xs" style="display: none" />
+<script>
+    (function () {
+        var goTop = document.getElementById('go-top');
+        var mainContainer = document.querySelector('.main-container');
+        
+        goTop.addEventListener('click', function () {
+            window.scroll(0, 0);
+        }, false);
+        window.addEventListener('scroll', function () {
+            var right = document.body.offsetWidth - mainContainer.getBoundingClientRect().right;
+            var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            goTop.style.right = right + 10 + 'px'
+            scrollTop > 700 && (goTop.style.display = "block");
+            scrollTop <= 700 && (goTop.style.display = "none");
+        });
+    })();
+</script>
+    <style>
+    #geektutu-click-img-container {
+        position: fixed;
+        left: 0;
+        top: 0;
+        text-align: center;
+        width: 100%;
+        display: none;
+        z-index: 9999;
+    }
+
+    #geektutu-click-img-container img {
+        object-fit: contain;
+        background: #eaecef;
+        padding: 15px;
+        border-radius: 10px;
+        height: auto;
+        width: auto;
+        vertical-align: middle;
+    }
+</style>
+
+
+<div id="geektutu-click-img-container">
+    <img src="" alt="Big Image">
+</div>
+
+<script>
+    (function () {
+        var container = document.querySelector('#geektutu-click-img-container')
+        var targetImg = container.querySelector('img')
+        var imgs = document.querySelectorAll('article img');
+        targetImg.addEventListener('click', function (e) {
+            container.style.display = 'none';
+            e && e.stopPropagation && e.stopPropagation();
+        }, false);
+
+        for (var i = 0; i < imgs.length; ++i) {
+            var img = imgs[i];
+            img.addEventListener('click', (function (src, rate) {
+                return function (e) {
+                    e && e.stopPropagation && e.stopPropagation();
+                    if (window.innerWidth < 980) {
+                        return
+                    }
+                    targetImg.style.height = targetImg.style.width = 'auto';
+                    if (window.innerWidth / window.innerHeight > rate) {
+                        targetImg.style.height = (window.innerHeight - 20) + 'px';
+                    } else {
+                        targetImg.style.width = (window.innerWidth - 20) + 'px';
+                    }
+                    container.style.height = window.innerHeight + 'px'
+                    container.style.lineHeight = window.innerHeight + 'px'
+                    container.style.display = 'block';
+                    targetImg.src = src;
+                };
+            }(img.src, img.width / img.height)), false)
+        }
+    })();
+</script>
+    <!-- Footer -->
+    <!-- Footer -->
+<style>
+    footer {
+        width: 100%;
+        line-height: 1.5;
+        padding: 20px;
+    }
+
+    footer a {
+        color: #333;
+        text-decoration: none;
+    }
+
+    .footer-hexo img {
+        height: 20px;
+        margin-bottom: -5px;
+    }
+
+    .footer-hexo a {
+        color: #337ab7;
+    }
+</style>
+<footer class="text-center col-xs-12">
+    <p>
+        <small>© 2019 - Xingya - </small>
+        <small>
+            <a target="_blank" rel="nofollow noopener" href="http://www.miitbeian.gov.cn/">沪ICP备18001798号-1</a>
+        </small>
+    </p>
+    <p class="footer-hexo">
+        <!-- 但若直接使用或修改主题，请务必保留这段声明 -->
+        <small>Powered by <a target="_blank" href="https://hexo.io">Hexo</a> | Theme
+            <a target="_blank" href="https://geektutu.com">Geektutu</a>
+            <a href="https://github.com/geektutu/hexo-theme-geektutu">
+                <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAYGBgYHBgcICAcKCwoLCg8ODAwODxYQERAREBYiFRkVFRkVIh4kHhweJB42KiYmKjY+NDI0PkxERExfWl98fKcBBgYGBgcGBwgIBwoLCgsKDw4MDA4PFhAREBEQFiIVGRUVGRUiHiQeHB4kHjYqJiYqNj40MjQ+TERETF9aX3x8p//CABEIACIAUAMBIgACEQEDEQH/xAAcAAABBAMBAAAAAAAAAAAAAAAAAQQFBwIDBgj/2gAIAQEAAAAA9KrHSgAYL5/z6zZGuJd12uugbhq3uKtmuRtix20IS7lTLAfAAAn/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/9oACAECEAAAAAAB/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/aAAgBAxAAAAAAAf/EADEQAAICAQIEBQEGBwAAAAAAAAECAwQFAAYREhORBxQhUlQxQVFic5KxJDJCYYGC0f/aAAgBAQABPwCFHnjWUzuvN6hV4cANSRLGjO9yRVUcSzMoA7jVXJYe5N0a2dhmk9kc0bN2GvLN8mbuNeWb5M3ca8s3yZu415Y/Jm7jXlm+TN3H/NeVPyZu40vOk3TZywK8wJ+v3EHVM/wsI/Dq2lrxN3Nnca16eti8chSAIoMbzByhMwP14kHVfwIiSaF5c96J6kwwCOTnHsYk8uvCrdmQy1TI4rJuz3cZLyGR/wCd4+YoOf8AEpUjXitubLYPG4paFsUxcuiGe7yc5gTW3LW44szXmobsi3Dhmic2+Z4+vCVH9CpraPiQ+QvbgTJrPFBWd5YpWrmNIIEXiRO32Pqt4p7cnfHk18lFBdmEVW1LVdIZGOrniTt6plrWKaO69yCykDRxwF+LMAewB0Txtr+Sf31VI8tEPw62fZt7N3Humtbpzz13ucX6CGSWMSuzpLyD1eNgeUka3PuvHbaxq3biTMHfkiSNCS78CwU+3Xg7Vu3MhuTcU6cq3Zemn3Eh2dv8Lzcut+29x1atKbHYqLJUhLwyNMwiZ3j9yDWOxUOV3tgb+3No5LDx1pi9+aeIwRlNY6bc+Jv+IFGrhLxtXJZ7VKcw81diiAAEn0JOrkWZyNfbEr0tz27UGQgkuGzXdIIvyowq99bRxk9ffO/L81SZBPZgEEroQroIxxMZOgeNsfkn99QypHGqO4Vl9CDrN4LDZkwyzyyQ2IgRHZrzGCZVP1XnQglT9oOtw4LC7iqV6uRkZoYpxKFSQpzFRw4EjVRMfSrQ1qqwxQxKFjjTgFUD7BoWYR6iVe+mtxt9Zwf9teaj4AdccPu5tedX5A/VrzUR+sy/q1CwksF19VEfDj/cnQRW+qg66cfsXtrpx+xe2unH7F7a6cfsXtrpx+xe2unH7F7a6cfsXtoxx+xe2gAAOA1//8QAFBEBAAAAAAAAAAAAAAAAAAAAMP/aAAgBAgEBPwB//8QAFBEBAAAAAAAAAAAAAAAAAAAAMP/aAAgBAwEBPwB//9k="
+                    alt="Github Star">
+            </a>
+        </small>
+    </p>
+    
+    <p>
+        <small>
+            <span id="busuanzi_container_site_pv">👁<span id="busuanzi_value_site_pv"></span></span> &nbsp;
+            <span id="busuanzi_container_page_pv">📚<span id="busuanzi_value_page_pv"></span></span>
+        </small>
+    </p>
+    
+    
+    <p><small><span id="cnzz_stat_icon_123649"></span></small></p>
+    
+
+</footer>
+
+
+<script>
+    window.addEventListener('load', function () {
+        globalAddScript('//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js');
+    })
+</script>
+
+<!-- Baidu Tongji -->
+
+<script>
+    window.addEventListener('load', function () {
+        var _hmt = _hmt || [];
+        globalAddScript('//hm.baidu.com/hm.js?1a0ec33b1aa')
+    })
+</script>
+
+
+<script>
+    window.addEventListener('load', function () {
+        globalAddScript('//s23.cnzz.com/z_stat.php?id=123649&online=2');
+    })
+</script>
+
+
+<!-- baidu auto push for seo -->
+<script>
+    window.addEventListener('load', function () {
+        var src = 'http://push.zhanzhang.baidu.com/push.js'
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        globalAddScript(src);
+    })
+</script>
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'UA-141425-1');
+
+    window.addEventListener('load', function () {
+        globalAddScript('https://www.googletagmanager.com/gtag/js?id=UA-141425-1');
+    });
+</script>
+
+
+    <script>
+        // 非本站网址，新开tab页签
+        (function () {
+            var stopBubble = function (e) {
+                e && e.stopPropagation && e.stopPropagation();
+            }
+            var links = document.querySelectorAll('a');
+            [].slice.call(links).forEach(function (item) {
+                if (item.href && item.href.indexOf(window.location.host) === -1) {
+                    item.target = '_blank'
+                }
+                // 阻止冒泡，不触发彩蛋。
+                item.addEventListener('click', stopBubble, false);
+            });
+            var article = document.querySelector('article');
+            article && article.addEventListener('click', stopBubble, false)
+        })();
+    </script>
+    
+<script>
+    (function (window, document, undefined) {
+        var hearts = [];
+        var keywords = ["点个赞", "留个言", "赞赏一下", "张兴亚的技术博客", "zxyyee.cn"];
+        function randomInt(max) {
+            return Math.floor(Math.random() * Math.floor(max));
+        }
+        window.addEventListener('click', createWord)
+
+        function createWord(e) {
+            var d = document.createElement("span");
+            d.style.position = 'fixed';
+            d.style.zIndex = 9999;
+            d.style.color = 'rgb(' + [randomInt(255), randomInt(255), randomInt(255)].join(',') + ')';
+            d.innerHTML = keywords[randomInt(keywords.length)];
+            d.onselectstart = function () { return false; }
+
+            hearts.push({ el: d, x: e.clientX - 5, y: e.clientY - 5, alpha: 1, scale: 1 });
+            document.body.appendChild(d);
+        }
+        (function gameloop() {
+            for (var i = 0; i < hearts.length; i++) {
+                heart = hearts[i];
+                if (heart.alpha <= 0) {
+                    document.body.removeChild(heart.el);
+                    hearts.splice(i, 1);
+                    continue;
+                }
+                heart.y -= heart.alpha < 0.5 ? 2 : 1;
+                heart.scale += 0.002;
+                heart.alpha -= 0.013;
+                heart.el.style.transform = 'scale(' + heart.scale + ')';
+                heart.el.style.left = heart.x + 'px';
+                heart.el.style.top = heart.y + 'px';
+            }
+            setTimeout(gameloop, 10)
+        })();
+    })(window, document);
+</script>
+
+</body>
+
+</html>
